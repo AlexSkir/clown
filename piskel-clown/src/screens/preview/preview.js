@@ -3,8 +3,8 @@ import store from '../../store/store';
 
 let fps;
 store.subscribe(() => {
-  fps = store.getState().fps || 3
-})
+  fps = store.getState().fps || 3;
+});
 let count = 0;
 let anim;
 function animate() {
@@ -50,9 +50,15 @@ function makeImage(n) {
   }
 }
 
+let newWindow;
+let id = 0;
 // open new window to watch animation in full-size mode
 function fullSizePreview() {
-  const newWindow = window.open('about:blank', 'preview', 'width=300,height=300');
+  if (newWindow) {
+    id += 1;
+    newWindow.close();
+  }
+  newWindow = window.open('about:blank', `window${id}`, 'width=300,height=300');
 
   // cloning animation box with images to new window
   const newPreview = $('.preview')
@@ -64,9 +70,13 @@ function fullSizePreview() {
     'justify-content': 'center',
     'align-items': 'center'
   });
+
+  const newFps = fps;
   let newCount = 0;
+
   function newAnimate() {
-    const time = 1000 / fps;
+    // clearTimeout(newAnim);
+    const time = 1000 / newFps;
     newPreview.children().css({ display: 'none' });
     if (newPreview.children()[newCount]) {
       newPreview.children()[newCount].style.display = 'block';
@@ -75,15 +85,10 @@ function fullSizePreview() {
     if (newCount === newPreview.children().length) {
       newCount = 0;
     }
-    const newAnim = setTimeout(newAnimate, time);
-    if (newWindow.closed) {
-      clearTimeout(newAnim);
-    }
+    setTimeout(newAnimate, time);
   }
   // when new window loaded should start animation
-  $(newWindow.document).ready(() => {
-    newAnimate();
-  });
+  $(newWindow).ready(newAnimate);
 }
 
 export { makeImage, animate, fullSizePreview };

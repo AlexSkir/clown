@@ -7,40 +7,41 @@ import penOnClick from './pen';
 import eraserOnClick from './eraser';
 import store from '../../store/store';
 
-let toolState, currentColorState, prevColorState;
+let toolState;
+let currentColorState;
+let prevColorState;
 store.subscribe(() => {
   toolState = store.getState().currentTool;
   currentColorState = store.getState().currentColor;
   prevColorState = store.getState().prevColor;
-})
+});
 
 class Tools extends React.Component {
   constructor() {
     super();
     this.state = {
-      tool: ''
-    }
-  }
-  paintBucketHandler = paintBucketOnClick;
-  colorPickerHandler = colorPickerOnClick;
-  penHandler = penOnClick;
-  eraserHandler = eraserOnClick;
-  customedColorHandler = customedColorOnChange;
-
-  buttonOnHoverIn = e => {
-    $(e.target)
-      .children()
-      .addClass('fas-hovered');
+      tool: '',
+      active: ''
+    };
   }
 
-  buttonOnHoverOut = e => {
-    $(e.target)
-      .children()
-      .removeClass('fas-hovered');
+  componentWillMount() {
+    $(document).click(e => this.handleClick(e));
   }
 
-  handleClick = e => {
-    if (toolState === 'colorPickerTool') {
+  componentDidMount() {
+    const currentColor = $('#currentColor').css('background-color');
+    const prevColor = $('#prevColor').css('background-color');
+    store.dispatch({ type: 'currentColor', value: currentColor });
+    store.dispatch({ type: 'prevColor', value: prevColor });
+  }
+
+  componentWillUnmount() {
+    $(document).off(this.handleClick);
+  }
+
+  handleClick(e) {
+    if (this.state.tool === 'colorPickerTool') {
       if ($(e.target).is('.radiobutton')) {
         if ($(e.target).css('background-color') !== currentColorState) {
           store.dispatch({ type: 'prevColor', value: currentColorState });
@@ -51,19 +52,16 @@ class Tools extends React.Component {
     }
   }
 
-  componentWillMount = () => {
-    $(document).click(this.handleClick);
+  buttonOnHoverIn(e) {
+    const id = $(e.target).attr('id');
+    this.setState({ active: id });
   }
 
-  componentWillUnmount = () => {
-    $(document).off(this.handleClick);
-  }
-
-  componentDidMount = () => {
-    const currentColor = $('#currentColor').css('background-color');
-    const prevColor = $('#prevColor').css('background-color');
-    store.dispatch({ type: 'currentColor', value: currentColor });
-    store.dispatch({ type: 'prevColor', value: prevColor });
+  buttonOnHoverOut(e) {
+    $(e.target)
+      .children()
+      .removeClass('fas-hovered');
+    this.setState({ active: 'false' });
   }
 
   render() {
@@ -74,61 +72,77 @@ class Tools extends React.Component {
             <button
               id="paint-bucket"
               className="palette-button"
-              onMouseEnter={this.buttonOnHoverIn}
-              onMouseLeave={this.buttonOnHoverOut}
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
-                this.paintBucketHandler();
+                paintBucketOnClick();
                 this.setState({ tool: toolState });
               }}
             >
-              <i className="fas fa-fill-drip" />
+              <i
+                className={`fas fa-fill-drip ${
+                  this.state.active === 'paint-bucket' ? 'fas-hovered' : ''
+                }`}
+              />
             </button>
           </div>
           <div className="palette-block">
             <button
               id="color-picker"
               className="palette-button"
-              onMouseEnter={this.buttonOnHoverIn}
-              onMouseLeave={this.buttonOnHoverOut}
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
-                this.colorPickerHandler();
+                colorPickerOnClick();
                 this.setState({ tool: toolState });
               }}
             >
-              <i className="fas fa-eye-dropper" />
+              <i
+                className={`fas fa-eye-dropper ${
+                  this.state.active === 'color-picker' ? 'fas-hovered' : ''
+                }`}
+              />
             </button>
           </div>
           <div className="palette-block">
             <button
               id="pen"
               className="palette-button"
-              onMouseEnter={this.buttonOnHoverIn}
-              onMouseLeave={this.buttonOnHoverOut}
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
-                this.penHandler();
+                penOnClick();
                 this.setState({ tool: toolState });
               }}
             >
-              <i className="fas fa-pencil-alt" />
+              <i
+                className={`fas fa-pencil-alt ${this.state.active === 'pen' ? 'fas-hovered' : ''}`}
+              />
             </button>
           </div>
           <div className="palette-block">
             <button
               id="eraser"
               className="palette-button"
-              onMouseEnter={this.buttonOnHoverIn}
-              onMouseLeave={this.buttonOnHoverOut}
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
-                this.eraserHandler();
+                eraserOnClick();
                 this.setState({ tool: toolState });
               }}
             >
-              <i className="fas fa-eraser" />
+              <i
+                className={`fas fa-eraser ${this.state.active === 'eraser' ? 'fas-hovered' : ''}`}
+              />
             </button>
           </div>
         </div>
 
-        <div className={`color ${this.state.tool === 'colorPickerTool' ? '' : 'hidden'}`} >
+        <div className={`color ${this.state.tool === 'colorPickerTool' ? '' : 'hidden'}`}>
           <div className="color-block">
             <div className="radiobutton white" id="currentColor" />
             <span className="color-name">Current color</span>
@@ -151,7 +165,10 @@ class Tools extends React.Component {
               name="colors"
               id="customed"
               value="#161030"
-              onChange={() => { this.customedColorHandler() }} />
+              onChange={() => {
+                customedColorOnChange();
+              }}
+            />
             <span className="color-name">Custom color</span>
           </div>
         </div>

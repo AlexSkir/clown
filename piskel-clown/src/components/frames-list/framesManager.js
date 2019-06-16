@@ -52,9 +52,12 @@ function removeFrame() {
   $(`#frame${+num - 1}`).click(); // make previous frame active
 }
 
-function copyFrame(e) {
+function copyFrame() {
   // calculating target's ID
-  const num = $(this).parent().find('.number').text();
+  const num = $(this)
+    .parent()
+    .find('.number')
+    .text();
   // cloning target frame
   $(`#frame${num}`)
     .clone()

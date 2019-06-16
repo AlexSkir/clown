@@ -4,9 +4,13 @@ import store from '../../store/store';
 
 // chose color from pop out panel of colors and bind it to current color box
 function customedColorOnChange() {
-  const customedColor = "rgb(" + $('#customed').val().match(/[A-Za-z0-9]{2}/g).map(function (v) {
-    return parseInt(v, 16)
-  }).join(", ") + ")";
+  const customedColor = `rgb(${$('#customed')
+    .val()
+    .match(/[A-Za-z0-9]{2}/g)
+    .map(v => {
+      return parseInt(v, 16);
+    })
+    .join(', ')})`;
   store.dispatch({ type: 'prevColor', value: store.getState().currentColor });
   store.dispatch({ type: 'currentColor', value: customedColor });
   $('#prevColor').css({ 'background-color': $('#currentColor').css('background-color') });
@@ -15,15 +19,17 @@ function customedColorOnChange() {
 
 // change style of tool button
 function colorPickerOnClick() {
-  const a = store.getState().currentTool
+  const a = store.getState().currentTool;
   if (a !== 'colorPickerTool') {
-    $('#palette-tool-area').find('button').removeClass('hovered');
+    $('#palette-tool-area')
+      .find('button')
+      .removeClass('hovered');
     $('#color-picker').addClass('hovered');
-    store.dispatch({ type: 'currentTool', value: 'colorPickerTool' })
+    store.dispatch({ type: 'currentTool', value: 'colorPickerTool' });
     $('#color-picker').focus();
     $(document.body).css({ cursor: `url(${colorPicker}) 4 12, auto` });
   } else if (a === 'colorPickerTool') {
-    store.dispatch({ type: 'currentTool', value: 'none' })
+    store.dispatch({ type: 'currentTool', value: 'none' });
     $('#color-picker').removeClass('hovered');
     $('.color').addClass('hidden');
     $('#color-picker').blur();
