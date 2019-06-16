@@ -1,0 +1,33 @@
+.container {
+  display: grid;
+	grid-template-columns: 50px 150px 2fr 220px;
+  grid-template-rows: auto;
+  width: 97vw;
+  height: 85vh;
+  justify-content: center;
+  align-items: start;
+  margin-top: 40px;
+  padding-left: 20px;
+}
+.tool-pannel {
+  grid-column: 1 / 1;
+}
+.canvas-area {
+	display: flex;
+	justify-content: center;
+	grid-column: 3 / 3;
+	width: 100%;
+}
+
+.frame-area {
+	grid-area: 1 / 2 / span 1 / span 1;
+}
+
+.preview-area {
+  grid-area: 1 / 4 / span 1 / span 1;
+}
+
+.options-area {
+  grid-area: 1 / 4 / span 1 / span 1;
+	margin-top: 200px;
+}

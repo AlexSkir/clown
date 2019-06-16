@@ -1,0 +1,66 @@
+.frame-box {
+	width: 100%;
+	height: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.frame-list {
+	list-style: none;
+}
+.frame {
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin-left: -40px;
+	margin-bottom: 10px;
+	border: 3px solid black;
+	background: url('./background.png');
+	background-repeat: repeat;
+}
+.frame:hover {
+	cursor: pointer;
+}
+.preview-box {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.number {
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: -97px;
+	left: 3px;
+	background: rgb(41, 154, 206);
+	font-size: 15px;
+	color: rgb(188, 231, 29);
+  text-align: center;
+  z-index: 5;
+}
+.copyFrame {
+	position: relative;
+	top: -43px;
+  left: 78px;
+  z-index: 5;
+}
+.fa-copy, .fa-trash-alt {
+	color: rgb(41, 154, 206);
+}
+.removeFrame {
+	position: relative;
+	top: -112px;
+  left: 60px;
+  z-index: 5;
+}
+.addNewFrame {
+	width: 90px;
+}
+
+.activeFrame {
+	border: 3px solid blue;
+}
