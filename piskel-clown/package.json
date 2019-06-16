@@ -1,6 +1,6 @@
 {
-  "name": "piskel-clone",
-  "homepage": "http://AlexSkir.github.io/piskel-clown",
+  "name": "piskel-clown",
+  "homepage": "http://AlexSkir.github.io/clown/piskel-clown/build/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
