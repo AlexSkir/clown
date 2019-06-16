@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import './resizeWindow';
 import './canvas.css';
-import store from '../../store/store'
+import store from '../../store/store';
 import { start } from './drawing';
 import { makeImage } from '../preview/preview';
 
@@ -11,29 +11,42 @@ store.subscribe(() => {
   currentCanvas = store.getState().currentCanvas;
 });
 
-
 class Canvas extends React.Component {
   constructor() {
     super();
     this.state = {
       size: '',
-      tool: '',
-      currentCanvas: ''
-    }
+      curCanvas: ''
+    };
   }
-  handleClick = () => {
+
+  componentWillMount() {
+    const canvasWidth =
+      window.innerWidth - 450 < window.innerHeight - 155
+        ? window.innerWidth - 450
+        : window.innerHeight - 155;
+    this.setState({ size: canvasWidth });
+    $(document).click(() => this.handleClick());
+  }
+
+  componentDidMount() {
+    this.setState({ curCanvas: currentCanvas });
+  }
+
+  handleClick() {
+    this.setState({ curCanvas: currentCanvas });
     // remove old events
-    $(`#canvas${currentCanvas}`)
+    $(`#canvas${this.state.curCanvas}`)
       .unbind('mousedown')
       .unbind('mouseup');
     // initialize new events
-    $(`#canvas${currentCanvas}`).mousedown(start);
-    $(`#canvas${currentCanvas}`).mouseup(() => {
-      $(`#canvas${currentCanvas}`).off('mousemove');
+    $(`#canvas${this.state.curCanvas}`).mousedown(start);
+    $(`#canvas${this.state.curCanvas}`).mouseup(() => {
+      $(`#canvas${this.state.curCanvas}`).off('mousemove');
       // create canvas-image url
-      const dataURL = $(`#canvas${currentCanvas}`)[0].toDataURL('image/png');
+      const dataURL = $(`#canvas${this.state.curCanvas}`)[0].toDataURL('image/png');
       // put canvas image in preview-box
-      $(`#frame${currentCanvas}`)
+      $(`#frame${this.state.curCanvas}`)
         .find('.preview-box')
         .css({
           background: `url(${dataURL})`,
@@ -41,17 +54,9 @@ class Canvas extends React.Component {
         });
       // create image for animation preview
       setTimeout(() => {
-        makeImage(currentCanvas);
+        makeImage(this.state.curCanvas);
       }, 500);
     });
-  }
-  componentWillMount() {
-    const canvasWidth =
-      window.innerWidth - 450 < window.innerHeight - 155
-        ? window.innerWidth - 450
-        : window.innerHeight - 155;
-    this.setState({ size: canvasWidth });
-    $(document).click(this.handleClick);
   }
 
   render() {
@@ -61,9 +66,8 @@ class Canvas extends React.Component {
         className="canvas hidden"
         width={this.state.size}
         height={this.state.size}
-      >
-      </canvas >
-    )
+      />
+    );
   }
 }
 

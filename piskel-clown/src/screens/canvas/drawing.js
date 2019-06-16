@@ -1,12 +1,14 @@
 import $ from 'jquery';
-import store from '../../store/store'
+import store from '../../store/store';
 
-let currentCanvas, customWidth, tool;
+let currentCanvas;
+let customWidth;
+let tool;
 store.subscribe(() => {
   currentCanvas = store.getState().currentCanvas;
   customWidth = store.getState().customWidth || 33;
   tool = store.getState().currentTool;
-})
+});
 
 let endX;
 let endY;
@@ -24,9 +26,7 @@ function end(e) {
   ctx.strokeStyle = $('#currentColor').css('background-color');
 
   // calc pen size according to chosen canvas width
-  const canvasSize = Math.ceil(
-    $(`#canvas${currentCanvas}`).width() / customWidth
-  );
+  const canvasSize = Math.ceil($(`#canvas${currentCanvas}`).width() / customWidth);
   // calc position and size of canvas rectangles according to pen size
   const mouseMoveX = Math.floor(e.offsetX / canvasSize) * canvasSize;
   const mouseMoveY = Math.floor(e.offsetY / canvasSize) * canvasSize;
@@ -40,7 +40,9 @@ function end(e) {
 // drawing on mouse click
 function start(e) {
   if (tool === 'penTool') {
-    const ctx = $(`#canvas${currentCanvas}`).get(0).getContext('2d');
+    const ctx = $(`#canvas${currentCanvas}`)
+      .get(0)
+      .getContext('2d');
     const canvasSize = Math.ceil($(`#canvas${currentCanvas}`).width() / customWidth);
     ctx.fillStyle = $('#currentColor').css('background-color');
     ctx.strokeStyle = $('#currentColor').css('background-color');

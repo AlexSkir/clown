@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { makeImage } from '../../screens/preview/preview';
-import store from '../../store/store'
+import store from '../../store/store';
 
 // show canvas according to active frame, hide other canvas
 function openCanvas() {

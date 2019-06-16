@@ -19,36 +19,35 @@ class Menu extends React.Component {
   }
 
   render() {
+    const active = this.state.active;
     return (
       <header className="header">
         <div className="header-menu">
           <span className="menu-list">
             <i
-              className={`fas fa-bars ${this.state.active === 'list' ? 'active' : ''}`}
+              className={`fas fa-bars ${active === 'list' ? 'active' : ''}`}
               id="list"
               onMouseOver={e => {
                 this.addActiveClass(e);
               }}
+              onFocus={() => undefined}
             />
           </span>
           <ul className="dropdown">
-            <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
               <span id="export" className="menu-item">
-
                 Export animation
-</span>
+              </span>
             </li>
-            <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
               <span id="save" className="menu-item">
-
                 Save progress
-</span>
+              </span>
             </li>
-            <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
               <span id="load" className="menu-item">
-
                 Load animation
-</span>
+              </span>
             </li>
           </ul>
 
@@ -57,10 +56,10 @@ class Menu extends React.Component {
             onMouseOver={e => {
               this.addActiveClass(e);
             }}
+            onFocus={() => undefined}
           >
-
             CodeJam - Animation Player
-</span>
+          </span>
         </div>
       </header>
     );

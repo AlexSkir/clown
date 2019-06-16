@@ -1,6 +1,6 @@
 {
-  "name": "piskel-clown",
-  "homepage": "https://alexskir.github.io/clown/piskel-clown/build/",
+  "name": "piskel-clone",
+  "homepage": "http://AlexSkir.github.io/piskel-clown",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "redux": "^4.0.1"
   },
   "scripts": {
+    "lint": "eslint ./src/**/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

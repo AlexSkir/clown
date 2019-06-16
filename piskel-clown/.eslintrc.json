@@ -12,6 +12,22 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/jsx-one-expression-per-line": "error",
+    "react/destructuring-assignment": [
+      "error",
+      "never"
+    ],
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": false,
+        "array": false
+      }
+    ],
+    "enforceForRenamedProperties": false,
+    "AssignmentExpression": {
+      "array": false,
+      "object": true
+    },
     "react/jsx-indent": [
       "error",
       2

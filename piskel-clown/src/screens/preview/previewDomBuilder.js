@@ -1,37 +1,44 @@
 import React from 'react';
-import $ from 'jquery';
 import './preview.css';
 import { fullSizePreview } from './preview';
 
-// show/hide animation preview buttons
-function hoverIn() {
-  if ($('#preview-open').hasClass('hidden')) {
-    $('#preview-open').removeClass('hidden');
-  }
-}
-function hoverOut() {
-  if (!$('#preview-open').hasClass('hidden')) {
-    $('#preview-open').addClass('hidden');
-  }
-}
-
 class Preview extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: ''
+    };
+  }
+
+  hoverIn() {
+    this.setState({ active: true });
+  }
+
+  hoverOut() {
+    this.setState({ active: false });
+  }
+
   render() {
     return (
       <div
         id="preview-area"
         className="preview-area"
-        onMouseEnter={hoverIn}
-        onMouseLeave={hoverOut}
+        onMouseEnter={() => this.hoverIn()}
+        onMouseLeave={() => this.hoverOut()}
       >
         <div
-          className="preview-open hidden"
+          className={`preview-open ${this.state.active ? '' : 'hidden'}`}
           id="preview-open"
+          role="button"
+          tabIndex="-1"
+          onKeyPress={undefined}
           onClick={fullSizePreview} // open animation in full size mode
-        ><i className="fas fa-external-link-alt"></i></div>
-        <div className="preview"></div>
+        >
+          <i className="fas fa-external-link-alt" />
+        </div>
+        <div className="preview" />
       </div>
-    )
+    );
   }
 }
 
