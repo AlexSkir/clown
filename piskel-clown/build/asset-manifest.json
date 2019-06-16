@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/clown/piskel-clown/public/static/css/main.b4b04f11.chunk.css",
+    "main.js": "/clown/piskel-clown/public/static/js/main.2af3f885.chunk.js",
+    "main.js.map": "/clown/piskel-clown/public/static/js/main.2af3f885.chunk.js.map",
+    "runtime~main.js": "/clown/piskel-clown/public/static/js/runtime~main.2d4258b5.js",
+    "runtime~main.js.map": "/clown/piskel-clown/public/static/js/runtime~main.2d4258b5.js.map",
+    "static/js/2.dfdaf191.chunk.js": "/clown/piskel-clown/public/static/js/2.dfdaf191.chunk.js",
+    "static/js/2.dfdaf191.chunk.js.map": "/clown/piskel-clown/public/static/js/2.dfdaf191.chunk.js.map",
+    "index.html": "/clown/piskel-clown/public/index.html",
+    "precache-manifest.1d2f724d73d45a76e76c526cf32c7a83.js": "/clown/piskel-clown/public/precache-manifest.1d2f724d73d45a76e76c526cf32c7a83.js",
+    "service-worker.js": "/clown/piskel-clown/public/service-worker.js",
+    "static/css/main.b4b04f11.chunk.css.map": "/clown/piskel-clown/public/static/css/main.b4b04f11.chunk.css.map"
+  }
+}
