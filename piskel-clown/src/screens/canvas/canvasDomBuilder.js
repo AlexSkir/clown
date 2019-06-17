@@ -26,14 +26,14 @@ class Canvas extends React.Component {
         ? window.innerWidth - 450
         : window.innerHeight - 155;
     this.setState({ size: canvasWidth });
-    $(document).click(() => this.handleClick());
+    $(document).click(() => this.penHandleClick());
   }
 
   componentDidMount() {
     this.setState({ curCanvas: currentCanvas });
   }
 
-  handleClick() {
+  penHandleClick() {
     this.setState({ curCanvas: currentCanvas });
     // remove old events
     $(`#canvas${this.state.curCanvas}`)

@@ -26,7 +26,7 @@ class Tools extends React.Component {
   }
 
   componentWillMount() {
-    $(document).click(e => this.handleClick(e));
+    $(document).click(e => this.colorPickerHandleClick(e));
   }
 
   componentDidMount() {
@@ -37,10 +37,10 @@ class Tools extends React.Component {
   }
 
   componentWillUnmount() {
-    $(document).off(this.handleClick);
+    $(document).off(this.colorPickerHandleClick);
   }
 
-  handleClick(e) {
+  colorPickerHandleClick(e) {
     if (this.state.tool === 'colorPickerTool') {
       if ($(e.target).is('.radiobutton')) {
         if ($(e.target).css('background-color') !== currentColorState) {

@@ -16,7 +16,6 @@ export default function penOnClick() {
   } else if (store.getState().currentTool === 'penTool') {
     store.dispatch({ type: 'currentTool', value: '' });
     $('#pen').removeClass('hovered');
-
     $('#pen').blur();
     $(document.body).css({ cursor: 'default' });
   }
