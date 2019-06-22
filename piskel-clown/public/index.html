@@ -6,14 +6,47 @@
   <link rel="shortcut icon" href="./short-cut.jpg" type="image/jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
+  <meta name="google-signin-scope" content="ngtmp1@gmail.com">
+  <meta name="google-signin-client_id"
+    content="842905832916-kcnptlm4pbd6ji1lpqbka2p6jpdr5i0q.apps.googleusercontent.com.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <title>Piskel-clone</title>
 </head>
 
 <body>
   <div id="home-page"></div>
+  <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+  <script>
+    function onSignIn(googleUser) {
+      // Useful data for your client-side scripts:
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+
+      // 842905832916-kcnptlm4pbd6ji1lpqbka2p6jpdr5i0q.apps.googleusercontent.com
+      // -rdfchKsisBjAEaE0Z7hsDTE
+    }
+  </script>
+  <a href="#" onclick="signOut();">Sign out</a>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
 </body>
 
 </html>

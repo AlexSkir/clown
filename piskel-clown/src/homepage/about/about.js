@@ -21,7 +21,7 @@ class About extends React.Component {
             <span className="description">Try an example</span>
             {', use '}
             <Link
-              to="/login/"
+              to="/clown/piskel-clown/build/login/"
               className="description"
               onClick={() => store.dispatch({ type: 'currentPage', value: 'login' })}
             >
@@ -29,7 +29,7 @@ class About extends React.Component {
             </Link>
             {' to access your gallery or simply '}
             <Link
-              to="/create-animation/"
+              to="/clown/piskel-clown/build/create-animation/"
               className="description"
               onClick={() => store.dispatch({ type: 'currentPage', value: 'create' })}
             >
@@ -39,7 +39,7 @@ class About extends React.Component {
           <div className="home-buttons">
             <button type="button" className="login-button">
               <Link
-                to="/login/"
+                to="/clown/piskel-clown/build/login/"
                 className="link"
                 onClick={() => store.dispatch({ type: 'currentPage', value: 'login' })}
               >
@@ -48,7 +48,7 @@ class About extends React.Component {
             </button>
             <button type="button" className="create-button">
               <Link
-                to="/create-animation/"
+                to="/clown/piskel-clown/build/create-animation/"
                 className="link"
                 onClick={() => store.dispatch({ type: 'currentPage', value: 'create' })}
               >

@@ -24,7 +24,7 @@ class AppRouter extends React.Component {
             <ul className="menu">
               <li className="homepage">
                 <Link
-                  to="/"
+                  to="/clown/piskel-clown/build/"
                   className="task-name"
                   onClick={() => {
                     store.dispatch({ type: 'currentPage', value: 'about' });
@@ -36,7 +36,7 @@ class AppRouter extends React.Component {
               </li>
               <li className="create menu-item">
                 <Link
-                  to="/create-animation/"
+                  to="/clown/piskel-clown/build/create-animation/"
                   className="create-link"
                   onClick={() => {
                     store.dispatch({ type: 'currentPage', value: 'create' });
@@ -48,7 +48,7 @@ class AppRouter extends React.Component {
               </li>
               <li id="login" className="login menu-item">
                 <Link
-                  to="/login/"
+                  to="/clown/piskel-clown/build/login/"
                   className="login-link"
                   onClick={() => {
                     store.dispatch({ type: 'currentPage', value: 'login' });
@@ -61,9 +61,9 @@ class AppRouter extends React.Component {
             </ul>
           </div>
         </header>
-        <Route path="/" exact component={About} />
-        <Route path="/login/" component={Login} />
-        <Route path="/create-animation/" component={CreateAnimation} />
+        <Route path="/clown/piskel-clown/build/" exact component={About} />
+        <Route path="/clown/piskel-clown/build/login/" component={Login} />
+        <Route path="/clown/piskel-clown/build/create-animation/" component={CreateAnimation} />
       </div>
     );
   }
