@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "98c79dd61714b63ca5a4a51818146832",
+    "revision": "78dea09ae5492cce4b7dcc4e55f9ebee",
     "url": "/clown/piskel-clown/build/index.html"
   },
   {
