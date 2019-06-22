@@ -2,6 +2,10 @@ import { createStore } from 'redux';
 
 function appState(state = {}, action) {
   switch (action.type) {
+    case 'currentPage':
+      return Object.assign({}, state, {
+        currentPage: action.value
+      });
     case 'currentColor':
       return Object.assign({}, state, {
         currentColor: action.value

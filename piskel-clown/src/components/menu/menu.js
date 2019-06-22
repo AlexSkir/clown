@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import './menu.css';
 
 class Menu extends React.Component {
@@ -19,49 +20,52 @@ class Menu extends React.Component {
   }
 
   render() {
-    const active = this.state.active;
     return (
-      <header className="header">
-        <div className="header-menu">
-          <span className="menu-list">
-            <i
-              className={`fas fa-bars ${active === 'list' ? 'active' : ''}`}
-              id="list"
+      <Router>
+        <header className="header">
+          <div className="header-menu">
+            <span className="menu-list">
+              <i
+                className={`fas fa-bars ${this.state.active === 'list' ? 'active' : ''}`}
+                id="list"
+                onMouseOver={e => {
+                  this.addActiveClass(e);
+                }}
+                onFocus={() => undefined}
+              />
+            </span>
+            <ul className="dropdown">
+              <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+                <span id="export" className="menu-item">
+                  Export animation
+                </span>
+              </li>
+              <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+                <span id="save" className="menu-item">
+                  Save progress
+                </span>
+              </li>
+              <li className={`list ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
+                <span id="load" className="menu-item">
+                  Load animation
+                </span>
+              </li>
+            </ul>
+
+            <span
+              className="task-name"
               onMouseOver={e => {
                 this.addActiveClass(e);
               }}
               onFocus={() => undefined}
-            />
-          </span>
-          <ul className="dropdown">
-            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
-              <span id="export" className="menu-item">
-                Export animation
-              </span>
-            </li>
-            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
-              <span id="save" className="menu-item">
-                Save progress
-              </span>
-            </li>
-            <li className={`list ${active === 'list' ? 'active' : 'hidden'}`}>
-              <span id="load" className="menu-item">
-                Load animation
-              </span>
-            </li>
-          </ul>
+            >
+              <Link to="/">CodeJam - Animation Player</Link>
+            </span>
+          </div>
+        </header>
 
-          <span
-            className="task-name"
-            onMouseOver={e => {
-              this.addActiveClass(e);
-            }}
-            onFocus={() => undefined}
-          >
-            CodeJam - Animation Player
-          </span>
-        </div>
-      </header>
+        {/* <Route path="/" exact component={AppRouter} /> */}
+      </Router>
     );
   }
 }

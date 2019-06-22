@@ -23,6 +23,7 @@ class Tools extends React.Component {
       tool: '',
       active: ''
     };
+    this.mounted = false;
   }
 
   componentWillMount() {
@@ -34,10 +35,11 @@ class Tools extends React.Component {
     const prevColor = $('#prevColor').css('background-color');
     store.dispatch({ type: 'currentColor', value: currentColor });
     store.dispatch({ type: 'prevColor', value: prevColor });
+    this.mounted = true;
   }
 
   componentWillUnmount() {
-    $(document).off(this.colorPickerHandleClick);
+    this.mounted = false;
   }
 
   colorPickerHandleClick(e) {
@@ -54,14 +56,18 @@ class Tools extends React.Component {
 
   buttonOnHoverIn(e) {
     const id = $(e.target).attr('id');
-    this.setState({ active: id });
+    if (this.mounted) {
+      this.setState({ active: id });
+    }
   }
 
   buttonOnHoverOut(e) {
     $(e.target)
       .children()
       .removeClass('fas-hovered');
-    this.setState({ active: 'false' });
+    if (this.mounted) {
+      this.setState({ active: 'false' });
+    }
   }
 
   render() {
@@ -77,7 +83,9 @@ class Tools extends React.Component {
               onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
                 paintBucketOnClick();
-                this.setState({ tool: toolState });
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
               }}
             >
               <i
@@ -96,7 +104,9 @@ class Tools extends React.Component {
               onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
                 colorPickerOnClick();
-                this.setState({ tool: toolState });
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
               }}
             >
               <i
@@ -115,7 +125,9 @@ class Tools extends React.Component {
               onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
                 penOnClick();
-                this.setState({ tool: toolState });
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
               }}
             >
               <i
@@ -132,7 +144,9 @@ class Tools extends React.Component {
               onMouseLeave={e => this.buttonOnHoverOut(e)}
               onClick={() => {
                 eraserOnClick();
-                this.setState({ tool: toolState });
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
               }}
             >
               <i

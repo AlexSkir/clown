@@ -19,8 +19,7 @@ function customedColorOnChange() {
 
 // change style of tool button
 function colorPickerOnClick() {
-  const a = store.getState().currentTool;
-  if (a !== 'colorPickerTool') {
+  if (store.getState().currentTool !== 'colorPickerTool') {
     $('#palette-tool-area')
       .find('button')
       .removeClass('hovered');
@@ -28,7 +27,7 @@ function colorPickerOnClick() {
     store.dispatch({ type: 'currentTool', value: 'colorPickerTool' });
     $('#color-picker').focus();
     $(document.body).css({ cursor: `url(${colorPicker}) 4 12, auto` });
-  } else if (a === 'colorPickerTool') {
+  } else if (store.getState().currentTool === 'colorPickerTool') {
     store.dispatch({ type: 'currentTool', value: 'none' });
     $('#color-picker').removeClass('hovered');
     $('.color').addClass('hidden');

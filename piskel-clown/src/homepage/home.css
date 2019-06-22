@@ -1,0 +1,168 @@
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: local('Orbitron Black'), local('Orbitron-Black'), url(https://fonts.gstatic.com/s/orbitron/v10/yMJWMIlzdpvBhQQL_QI4UDh2qtA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+.header {
+  margin: -8px -8px;
+}
+.header-menu {
+  display: flex;
+  width: auto;
+  height: 50px;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: sans-serif;
+  border-bottom: 1px solid rgba(231, 229, 229, 0.808);    
+  box-shadow: 0px 1px 7px -2px;
+}
+.menu {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+}
+.homepage {
+  margin-left: -20px;
+}
+.create {
+  position: absolute;
+  right: 160px;
+}
+.login {
+  margin-right: 10px;
+}
+.menu-item:hover {
+  background: rgba(32, 202, 202, 0.74);
+  cursor: pointer;
+}
+.menu-item:active {
+  background: rgb(109, 245, 177);
+}
+
+.menu-item {
+  display: flex;
+  width: 140px;
+  height: 35px;
+  margin-left: 10px;
+  align-items: center;
+  font-size: 15px;
+  background: rgb(233, 230, 230);
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.menu-icon {
+  margin-left: 20px;
+}
+.menu-list:hover {
+  cursor: pointer;
+}
+.task-name, .login-link, .create-link {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-decoration: none;
+  color: gray;
+}
+.task-name {
+  font-size: 33px;
+  font-family: 'Orbitron';
+  text-transform: uppercase;
+}
+
+.homepage-section {
+  display: grid;
+  width: 80%;
+  margin-top: 50px;
+  grid-template-columns: repeat (2, 1fr);
+  grid-template-areas: "about image";
+  background: whitesmoke;
+}
+.home-about {
+  grid-area: about;
+  width: 450px;
+  margin-left: 10px;
+  font-family: sans-serif;
+  color: gray;
+}
+.description {
+  font-style: italic;
+  text-decoration: none;
+  color: rgba(15, 15, 15, 0.829);
+}
+.home-image {
+  grid-area: image;
+  position: relative;
+  top: 10px;
+  display: inline-block;
+  width: 515px;
+  height: 315px;
+  border: 1px solid gray;
+}
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url('./home.png') no-repeat;
+  background-size: contain;
+}
+.home-preview {
+  position: absolute;
+  top: 42px;
+  right: 23px;
+  width: 92px;
+  height: 92px;
+  background: pink;
+}
+.piskel {
+  font-size: 27px;
+  font-family: 'Orbitron';
+  text-transform: uppercase;
+  color: rgb(15, 139, 139);
+}
+
+.home-buttons {
+  display: flex;
+  padding-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.login-button {
+  width: 90px;
+  height: 30px;
+  padding: 0;
+}
+.create-button {
+  width: 120px;
+  height: 30px;
+  margin-left: 20px;
+  padding: 0;
+}
+.login-button:hover, .create-button:hover {
+  background: rgba(32, 202, 202, 0.74);
+}
+.link {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-decoration: none;
+  color: rgba(15, 15, 15, 0.829);
+}
+
+@media (max-width: 1150px) {
+  .homepage-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: "about" "image";
+    justify-items: center;
+  }
+  .home-about {
+    text-align: center;
+  }
+}

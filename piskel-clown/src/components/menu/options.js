@@ -25,11 +25,18 @@ class Options extends React.Component {
     $('#current-height').text(customWidth);
     $('#new-width').text($('#canvas1').width());
     $('#resize-input').attr('max', `{${$('#canvas1').width()}}`);
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   fpsOnChangeHandler() {
     store.dispatch({ type: 'fps', value: $('#fps-bar').val() });
-    this.setState({ fps });
+    if (this.mounted) {
+      this.setState({ fps });
+    }
   }
 
   resizeCanvasOnClickHandler() {
@@ -38,7 +45,9 @@ class Options extends React.Component {
       const maxSize = +$('#resize-input').attr('max');
       if (inputVal > 0 && inputVal < maxSize) {
         store.dispatch({ type: 'customWidth', value: $('#resize-input').val() });
-        this.setState({ customWidth });
+        if (this.mounted) {
+          this.setState({ customWidth });
+        }
         $('#resize-input').val('');
         $('#error-message').text('');
       } else {

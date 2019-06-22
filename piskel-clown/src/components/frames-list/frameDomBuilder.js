@@ -9,29 +9,30 @@ let customWidth;
 store.subscribe(() => {
   customWidth = store.getState().customWidth;
 });
-// bind events on buttons on page load
-$(document).ready(() => {
-  $('.frame')
-    .hover(hoverIn, hoverOut)
-    .click(openCanvas); // show/hide frame buttons
-  $('.removeFrame').click(removeFrame); // frame-button to remove frame
-  $('.copyFrame').click(copyFrame); // frame-button to copy frame
 
-  // make the first frame active
-  $('#frame1')
-    .click(openCanvas)
-    .click();
-
-  // calculating canvas resize options
-  $('#current-width').text(customWidth);
-  $('#current-height').text(customWidth);
-  $('#new-width').text($('#canvas1').width());
-  $('#resize-input').attr('max', $('#canvas1').width());
-});
 class Frames extends React.Component {
   constructor() {
     super();
     this.state = {};
+  }
+
+  componentDidMount() {
+    $('.frame')
+      .hover(hoverIn, hoverOut)
+      .click(openCanvas); // show/hide frame buttons
+    $('.removeFrame').click(removeFrame); // frame-button to remove frame
+    $('.copyFrame').click(copyFrame); // frame-button to copy frame
+
+    // make the first frame active
+    $('#frame1')
+      .click(openCanvas)
+      .click();
+
+    // calculating canvas resize options
+    $('#current-width').text(customWidth);
+    $('#current-height').text(customWidth);
+    $('#new-width').text($('#canvas1').width());
+    $('#resize-input').attr('max', $('#canvas1').width());
   }
 
   render() {

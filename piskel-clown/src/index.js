@@ -1,21 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
-import Menu from './components/menu/menu';
+import AppRouter from './homepage/home';
 import * as serviceWorker from './serviceWorker';
-import Tools from './components/tools/toolsDomBuilder';
-import Canvas from './screens/canvas/canvasDomBuilder';
-import Frames from './components/frames-list/frameDomBuilder';
-import Preview from './screens/preview/previewDomBuilder';
-import Options from './components/menu/options';
 
-
-ReactDOM.render(<Menu />, document.getElementById('header'));
-ReactDOM.render(<Tools />, document.getElementById('tool-pannel'));
-ReactDOM.render(<Canvas />, document.getElementById('canvas-area'));
-ReactDOM.render(<Frames />, document.getElementById('frame-area'));
-ReactDOM.render(<Preview />, document.getElementById('preview-area'));
-ReactDOM.render(<Options />, document.getElementById('options-area'));
+ReactDOM.render(
+  <Router>
+    <AppRouter />
+  </Router>,
+  document.getElementById('home-page')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,5 +1,5 @@
 {
-  "name": "piskel-clown",
+  "name": "piskel-clone",
   "homepage": "http://AlexSkir.github.io/clown/piskel-clown/build/",
   "version": "0.1.0",
   "private": true,
@@ -7,6 +7,7 @@
     "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1"
   },

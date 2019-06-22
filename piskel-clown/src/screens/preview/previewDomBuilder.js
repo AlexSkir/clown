@@ -8,14 +8,27 @@ class Preview extends React.Component {
     this.state = {
       active: ''
     };
+    this.mounted = false;
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   hoverIn() {
-    this.setState({ active: true });
+    if (this.mounted) {
+      this.setState({ active: true });
+    }
   }
 
   hoverOut() {
-    this.setState({ active: false });
+    if (this.mounted) {
+      this.setState({ active: false });
+    }
   }
 
   render() {
