@@ -32,13 +32,14 @@
 }
 .create {
   position: absolute;
-  right: 160px;
+  right: 260px;
+  width: 140px;
 }
 .login {
   margin-right: 10px;
 }
 .menu-item:hover {
-  background: rgba(32, 202, 202, 0.74);
+  background: rgba(107, 235, 235, 0.801);
   cursor: pointer;
 }
 .menu-item:active {
@@ -47,10 +48,10 @@
 
 .menu-item {
   display: flex;
-  width: 140px;
   height: 35px;
   margin-left: 10px;
   align-items: center;
+  justify-content: space-between;
   font-size: 15px;
   background: rgb(233, 230, 230);
   border: 1px solid black;
@@ -144,7 +145,7 @@
   padding: 0;
 }
 .login-button:hover, .create-button:hover {
-  background: rgba(32, 202, 202, 0.74);
+  background: rgba(141, 238, 238, 0.877);
 }
 .link {
   display: flex;
@@ -152,6 +153,91 @@
   justify-content: center;
   text-decoration: none;
   color: rgba(15, 15, 15, 0.829);
+}
+
+.abcRioButton {
+  display: flex;
+  width: 140px;
+  height: 35px;
+  margin-right: 10px;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid black;
+  -webkit-border-radius: 5px;
+  border-radius: 5px!important;
+  text-align: initial;
+  box-shadow: none!important;
+}
+.abcRioButtonContentWrapper:hover {
+  background: rgba(32, 202, 202, 0.74);
+}
+.abcRioButtonContentWrapper {
+  background-color: rgb(233, 230, 230);
+}
+.abcRioButtonContents {
+  font-size: 15px!important;
+  font-weight: bold!important;
+  font-family: sans-serif!important;
+  color: gray;
+}
+.account {
+  width: 240px;
+  margin-right: 10px;
+}
+.account-button {
+  margin: 3px;
+  color: gray;
+}
+.account-image {
+  width: 28px;
+  height: 28px;
+  margin-left: 3px;
+  border-radius: 3px;
+  background-size: contain;
+}
+.fa-sort-down {
+  margin-right: 7px;
+  padding-bottom: 3px;
+}
+.fa-sort-down:focus {
+  border: none;
+}
+.dropdown {
+  position: absolute;
+  top: 44px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100px;
+  height: 70px;
+  list-style: none;
+}
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 138%;
+  height: 100%;
+  margin-left: -40px;
+  background: rgb(233, 230, 230);
+  border: 1px solid black;
+}
+.list:hover {
+  background: rgba(107, 235, 235, 0.801);
+}
+.top {
+  border-bottom: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.bottom {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.account-item {
+  text-decoration: none;
+  color: gray;
 }
 
 @media (max-width: 1150px) {

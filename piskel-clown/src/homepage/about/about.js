@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import store from '../../store/store';
 
 class About extends React.Component {
@@ -20,43 +19,52 @@ class About extends React.Component {
           <h2>
             <span className="description">Try an example</span>
             {', use '}
-            <Link
-              to="/clown/piskel-clown/build/login/"
+            <span
+              role="button"
+              tabIndex="-1"
+              onKeyPress={undefined}
               className="description"
               onClick={() => store.dispatch({ type: 'currentPage', value: 'login' })}
             >
               Google sign in
-            </Link>
+            </span>
             {' to access your gallery or simply '}
-            <Link
-              to="/clown/piskel-clown/build/create-animation/"
+            <span
+              role="button"
+              tabIndex="-1"
+              onKeyPress={undefined}
               className="description"
               onClick={() => store.dispatch({ type: 'currentPage', value: 'create' })}
             >
               create a new sprite.
-            </Link>
+            </span>
           </h2>
           <div className="home-buttons">
             <button type="button" className="login-button">
-              <Link
-                to="/clown/piskel-clown/build/login/"
+              <span
+                role="button"
+                tabIndex="-1"
+                onKeyPress={undefined}
                 className="link"
                 onClick={() => store.dispatch({ type: 'currentPage', value: 'login' })}
               >
                 Sign in
-              </Link>
+              </span>
             </button>
             <button type="button" className="create-button">
-              <Link
-                to="/clown/piskel-clown/build/create-animation/"
+              <span
+                role="button"
+                tabIndex="-1"
+                onKeyPress={undefined}
                 className="link"
                 onClick={() => store.dispatch({ type: 'currentPage', value: 'create' })}
               >
                 Create Sprite
-              </Link>
+              </span>
             </button>
           </div>
         </div>
+
         <div className="home-image">
           <div className="screen" />
           <div className="home-preview" />

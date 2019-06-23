@@ -1,0 +1,23 @@
+.user-page {
+  display: grid;
+  grid-template-columns: 230px 140px 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: "img list piskels"
+  "info list piskels";
+  width: 90%;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-left: 20px;
+  background: whitesmoke;
+}
+.user-image {
+  grid-area: img;
+  width: 100%;
+  height: 100%;
+}
+.user-name {
+  grid-area: info;
+}
+.piskel-list {
+  grid-area: list;
+}

@@ -30,6 +30,14 @@ function appState(state = {}, action) {
       return Object.assign({}, state, {
         customWidth: action.value
       });
+    case 'name':
+      return Object.assign({}, state, {
+        name: action.value
+      });
+    case 'imageURL':
+      return Object.assign({}, state, {
+        imageURL: action.value
+      });
     default:
       return state;
   }
