@@ -53,14 +53,15 @@
   border: none;
 }
 .palette-button:hover {
-	background: rgba(218, 216, 216, 0.308);
-	color: rgb(109, 245, 177);
+  background: whitesmoke;
+  border: 1px solid rgb(15, 139, 139);
 	
 }
 
 .palette-button:focus {
-  background: rgba(115, 245, 115, 0.192);
-  border: 1px solid green;
+  background: whitesmoke;
+  border: 1px solid rgb(15, 139, 139);
+  outline: none;
 }
 
 .radiobutton {
@@ -86,23 +87,4 @@
 #customed input {
   margin-left: 5px;
   padding: 0;
-}
-.bold {
-  font-weight: bold;
-}
-.active {
-  color: rgb(41, 212, 127);
-}
-.hovered {
-  background: rgba(115, 245, 115, 0.192);
-  border: 1px solid green;
-}
-.activeFrame {
-	border: 3px solid blue;
-}
-.hidden {
-  display: none;
-}
-.fas-hovered {
-  color: rgb(109, 245, 177);
 }

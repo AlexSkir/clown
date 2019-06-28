@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import store from '../../store/store';
+import { store } from '../../store/store';
 
 let fps;
 store.subscribe(() => {
@@ -27,11 +27,12 @@ function animate() {
 // make image from canvas drawing
 function makeImage(n) {
   const canvasImage = new Image();
-  $(canvasImage)
-    .attr('id', `canvasImage${n}`)
-    .css({ width: '100%' })
-    .attr('src', $(`#canvas${n}`)[0].toDataURL('image/png'));
-
+  if ($(`#canvas${n}`)[0]) {
+    $(canvasImage)
+      .attr('id', `canvasImage${n}`)
+      .css({ width: '100%' })
+      .attr('src', $(`#canvas${n}`)[0].toDataURL('image/png'));
+  }
   // if the image is from the same canvas should update the image
   if ($(`#canvasImage${n}`).length) {
     $(canvasImage)

@@ -5,7 +5,7 @@ import { colorPickerOnClick, customedColorOnChange, changeBG } from './color-pic
 import paintBucketOnClick from './paintBucket';
 import penOnClick from './pen';
 import eraserOnClick from './eraser';
-import store from '../../store/store';
+import { store } from '../../store/store';
 
 let toolState;
 let currentColorState;

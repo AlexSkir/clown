@@ -1,6 +1,9 @@
+body {
+  overflow-x: hidden;
+}
 .container {
   display: grid;
-	grid-template-columns: 50px 150px 2fr 220px;
+	grid-template-columns: 50px 150px 2fr 240px;
   grid-template-rows: auto;
   width: 97vw;
   height: 85vh;
@@ -29,5 +32,5 @@
 
 .options-area {
   grid-area: 1 / 4 / span 1 / span 1;
-	margin-top: 200px;
+	margin-top: 169px;
 }

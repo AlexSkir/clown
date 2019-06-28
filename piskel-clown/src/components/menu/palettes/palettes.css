@@ -1,0 +1,90 @@
+.palettes-box {
+  position: relative;
+  width: 176px;
+  background: whitesmoke;
+  border: 3px ridge gray;
+}
+.palettes-outlet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 176px;
+  height: 30px;
+}
+.palettes-title {
+  padding-left: 5px;
+  font-family: 'Orbitron';
+  color: rgb(15, 139, 139);
+}
+.palettes-buttons-box {
+  display: flex;
+  justify-content: space-around;
+}
+.fa-pen {
+  transform: scale(1.3);
+}
+.palettes-button {
+  width: 30px;
+  height: 30px;
+  border: 2px ridge gray;
+  cursor: pointer;
+}
+.colors-list {
+  width: 116px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.colors-list-arrow {
+  margin-right: -1px;
+}
+.colors-list-arrow-hovered {
+  color: rgb(15, 139, 139);
+}
+.palettes-list {    
+  min-height: 25px;
+  max-height: 75px;
+  margin: 0;
+  list-style: none;
+  overflow-y: scroll;
+}
+.palettes-item {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  margin-left: -35px;
+}
+.hint {
+  width: 130px;
+  height: 25px;
+  text-align: center;
+  background: rgba(107, 235, 235, 1);
+  border: 1px solid black;
+  z-index: 5;
+}
+.palettes-plus-arrow, .palettes-edit-arrow {
+  position: absolute;
+  top: 17px;
+  right: 47px;
+  color: rgba(107, 235, 235, 1);
+  z-index: 5;
+}
+.palettes-plus {
+  position: absolute;
+  top: -36px;
+  right: 100px;
+  height: 40px;
+}
+.palettes-plus-arrow {
+  top: 32px;
+}
+.palettes-edit {
+  position: absolute;
+  top: -21px;
+  right: -45px;
+}
+.palette-colors-isempty {
+  display: flex;
+  text-align: center;
+  margin-left: -29px;
+}

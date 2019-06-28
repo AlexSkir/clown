@@ -91,10 +91,17 @@
   font-family: sans-serif;
   color: gray;
 }
-.description {
+.description-link {
   font-style: italic;
   text-decoration: none;
   color: rgba(15, 15, 15, 0.829);
+}
+.description-link:hover {
+  cursor: pointer;
+  color: rgb(15, 139, 139);
+}
+.description-link:focus {
+  outline: none;
 }
 .home-image {
   grid-area: image;
@@ -146,6 +153,7 @@
 }
 .login-button:hover, .create-button:hover {
   background: rgba(141, 238, 238, 0.877);
+  cursor: pointer;
 }
 .link {
   display: flex;

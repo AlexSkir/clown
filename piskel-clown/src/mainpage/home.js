@@ -5,7 +5,7 @@ import $ from 'jquery';
 import CreateAnimation from './create/create';
 import User from './user/user';
 import About from './about/about';
-import store from '../store/store';
+import { user } from '../store/store';
 
 class AppRouter extends React.Component {
   constructor() {
@@ -14,28 +14,30 @@ class AppRouter extends React.Component {
       id: '',
       name: '',
       img: '',
-      redirected: false,
+      redirected: '',
       active: ''
     };
     this.onSuccess = this.onSuccess.bind(this);
   }
 
   componentDidMount() {
-    window.gapi.load('auth2', () => {
-      window.gapi.auth2
-        .init({
-          client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
-        })
-        .then(() => {
-          window.gapi.signin2.render('my-signIn', {
-            scope: 'profile email',
-            width: 240,
-            height: 37,
-            longtitle: true,
-            onsuccess: this.onSuccess,
-            onfailure: this.onFailure
+    $(document.body).ready(() => {
+      window.gapi.load('auth2', () => {
+        window.gapi.auth2
+          .init({
+            client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
+          })
+          .then(() => {
+            window.gapi.signin2.render('my-signIn', {
+              scope: 'profile email',
+              width: 240,
+              height: 37,
+              longtitle: true,
+              onsuccess: this.onSuccess,
+              onfailure: this.onFailure
+            });
           });
-        });
+      });
     });
   }
 
@@ -45,23 +47,31 @@ class AppRouter extends React.Component {
     const fullName = profile.getName();
     const imageURL = profile.getImageUrl();
 
-    store.dispatch({ type: 'name', value: fullName });
-    this.setState({ id: ID, name: fullName, img: imageURL, redirected: true });
+    user.dispatch({ type: 'name', value: fullName });
+    this.setState({ id: ID, name: fullName, img: imageURL });
+    if (localStorage.getItem('auth') === 'true') {
+      localStorage.setItem('page', `user/${ID}`);
+      this.setState({ redirected: `user/${ID}` });
+    }
   }
 
   signOut() {
     const auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
-      this.setState({ redirected: false });
+      this.setState({ redirected: 'about', id: '' });
+      localStorage.setItem('page', 'about');
+      localStorage.setItem('auth', false);
     });
   }
 
   isRedirected() {
-    if (this.state.redirected === true) {
-      store.dispatch({ type: 'imageURL', value: this.state.img });
-      return <Redirect to={`/clown/piskel-clown/build/user/${this.state.id}`} />;
+    user.dispatch({ type: 'imageURL', value: this.state.img });
+    if (!localStorage.getItem('page')) {
+      return <Redirect to="/clown/piskel-clown/build/about" />;
     }
-    return <Redirect to="/clown/piskel-clown/build/" />;
+    if (this.state.redirected) {
+      return <Redirect to={`/clown/piskel-clown/build/${this.state.redirected}`} />;
+    }
   }
 
   addActiveClass(e) {
@@ -84,10 +94,12 @@ class AppRouter extends React.Component {
             <ul className="menu">
               <li className="homepage">
                 <Link
-                  to="/clown/piskel-clown/build/"
+                  to="/clown/piskel-clown/build/about"
                   className="task-name"
                   onClick={() => {
-                    store.dispatch({ type: 'currentPage', value: 'about' });
+                    this.setState({ redirected: 'about' });
+                    localStorage.setItem('page', 'about');
+                    localStorage.setItem('auth', false);
                     $(document.body).css({ cursor: 'default' });
                   }}
                 >
@@ -96,10 +108,12 @@ class AppRouter extends React.Component {
               </li>
               <li className="create menu-item">
                 <Link
-                  to="/clown/piskel-clown/build/create-animation/"
+                  to="/clown/piskel-clown/build/create-animation"
                   className="create-link"
                   onClick={() => {
-                    store.dispatch({ type: 'currentPage', value: 'create' });
+                    this.setState({ redirected: 'create-animation' });
+                    localStorage.setItem('page', 'create-animation');
+                    localStorage.setItem('auth', false);
                     $(document.body).css({ cursor: 'default' });
                   }}
                 >
@@ -108,7 +122,7 @@ class AppRouter extends React.Component {
               </li>
               <li className="signin">
                 <div
-                  className={`menu-item ${this.state.redirected === true ? 'account' : 'hidden'}`}
+                  className={`menu-item ${this.state.id ? 'account' : 'hidden'}`}
                   id="list"
                   role="button"
                   tabIndex="-1"
@@ -132,13 +146,16 @@ class AppRouter extends React.Component {
                         to={`/clown/piskel-clown/build/user/${this.state.id}`}
                         id="galery"
                         className="account-item"
+                        onClick={() => {
+                          localStorage.setItem('auth', true);
+                        }}
                       >
                         My Galery
                       </Link>
                     </li>
                     <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                       <Link
-                        to="/clown/piskel-clown/build/"
+                        to="/clown/piskel-clown/build/about"
                         id="logout"
                         className="account-item"
                         onClick={() => this.signOut()}
@@ -148,16 +165,22 @@ class AppRouter extends React.Component {
                     </li>
                   </ul>
                 </div>
-                {this.isRedirected()}
                 <div
                   id="my-signIn"
-                  className={`${this.state.redirected === true ? 'hidden' : 'shown'}`}
+                  className={`${this.state.id ? 'hidden' : 'shown'}`}
+                  onClick={() => {
+                    localStorage.setItem('auth', true);
+                  }}
+                  onKeyPress={() => undefined}
+                  role="button"
+                  tabIndex="-1"
                 />
+                {this.isRedirected()}
               </li>
             </ul>
           </div>
         </header>
-        <Route path="/clown/piskel-clown/build/" exact component={About} />
+        <Route path="/clown/piskel-clown/build/about" exact component={About} />
         <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
         <Route path="/clown/piskel-clown/build/create-animation/" component={CreateAnimation} />
       </div>

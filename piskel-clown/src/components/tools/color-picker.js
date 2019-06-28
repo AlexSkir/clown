@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import colorPicker from './images/colorpicker.png';
-import store from '../../store/store';
+import { store } from '../../store/store';
 
 // chose color from pop out panel of colors and bind it to current color box
 function customedColorOnChange() {

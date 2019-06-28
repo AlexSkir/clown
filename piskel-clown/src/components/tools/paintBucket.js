@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import store from '../../store/store';
+import { store } from '../../store/store';
 import paintBucketIcon from './images/bucket.png';
 
 // change tool-button style, tool does not work yet
@@ -14,7 +14,7 @@ export default function paintBucketOnClick() {
     }
     store.dispatch({ type: 'currentTool', value: 'paintBucketTool' });
     $('#paint-bucket').focus();
-    $(document.body).css({ cursor: `url(${paintBucketIcon}), auto` });
+    $(document.body).css({ cursor: `url(${paintBucketIcon}) 15 15, auto` });
   } else if (store.getState().currentTool === 'paintBucketTool') {
     store.dispatch({ type: 'currentTool', value: '' });
     $('#paint-bucket').removeClass('hovered');

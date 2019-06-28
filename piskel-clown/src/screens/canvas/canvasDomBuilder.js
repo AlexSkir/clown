@@ -2,13 +2,14 @@ import React from 'react';
 import $ from 'jquery';
 import './resizeWindow';
 import './canvas.css';
-import store from '../../store/store';
+import { canvas } from '../../store/store';
 import { start } from './drawing';
+import paintIt from './paint';
 import { makeImage } from '../preview/preview';
 
 let currentCanvas;
-store.subscribe(() => {
-  currentCanvas = store.getState().currentCanvas;
+canvas.subscribe(() => {
+  currentCanvas = canvas.getState().currentCanvas;
 });
 
 class Canvas extends React.Component {
@@ -50,8 +51,10 @@ class Canvas extends React.Component {
     // remove old events
     $(`#canvas${this.state.curCanvas}`)
       .unbind('mousedown')
-      .unbind('mouseup');
+      .unbind('mouseup')
+      .unbind('click');
     // initialize new events
+    $(`#canvas${this.state.curCanvas}`).click(paintIt);
     $(`#canvas${this.state.curCanvas}`).mousedown(start);
     $(`#canvas${this.state.curCanvas}`).mouseup(() => {
       $(`#canvas${this.state.curCanvas}`).off('mousemove');

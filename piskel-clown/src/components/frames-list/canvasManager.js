@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import { makeImage } from '../../screens/preview/preview';
-import store from '../../store/store';
+import { canvas } from '../../store/store';
 
 // show canvas according to active frame, hide other canvas
 function openCanvas() {
   const num = $(this)
     .find('.number')
     .text(); // calc target frame ID
-  store.dispatch({ type: 'currentCanvas', value: +num });
+  canvas.dispatch({ type: 'currentCanvas', value: +num });
   $('.canvas').addClass('hidden'); // hide all canvas
   $(`#canvas${num}`).removeClass('hidden'); // show current canvas
   if ($('.activeFrame')) {
@@ -25,13 +25,13 @@ function newCanvas(n) {
     window.innerWidth - 450 < window.innerHeight - 155
       ? window.innerWidth - 450
       : window.innerHeight - 155;
-  const canvas = $('<canvas/>', {
+  const newCanvasEl = $('<canvas/>', {
     class: 'canvas hidden',
     id: `canvas${n}`
   })
     .attr('width', canvasWidth)
     .attr('height', canvasWidth);
-  canvas.appendTo('.canvas-area');
+  newCanvasEl.appendTo('.canvas-area');
 }
 
 // copy target frame's canvas with content if the frame was cloned
@@ -54,5 +54,24 @@ function copyCanvas(n) {
   const cloneContext = cloneWrapper.get(0).getContext('2d');
   cloneContext.putImageData(imageData, 0, 0);
 }
+function copyCanvasContext(n) {
+  const originalContext = $(`#canvas${n}`)
+    .get(0)
+    .getContext('2d');
+  const imageData = originalContext.getImageData(
+    0,
+    0,
+    $(`#canvas${n}`).width(),
+    $(`#canvas${n}`).width()
+  );
+  return imageData;
+}
 
-export { copyCanvas, newCanvas, openCanvas };
+function putImage(n, imageData) {
+  const cloneContext = $(`#canvas${n}`)
+    .get(0)
+    .getContext('2d');
+  cloneContext.putImageData(imageData, 0, 0);
+}
+
+export { copyCanvas, newCanvas, openCanvas, copyCanvasContext, putImage };

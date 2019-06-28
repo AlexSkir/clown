@@ -36,31 +36,37 @@
 	position: relative;
 	top: -97px;
 	left: 3px;
-	background: rgb(41, 154, 206);
+	background: rgb(15, 139, 139);
 	font-size: 15px;
-	color: rgb(188, 231, 29);
+	color: whitesmoke;
   text-align: center;
   z-index: 5;
 }
 .copyFrame {
 	position: relative;
 	top: -43px;
-  left: 78px;
-  z-index: 5;
+	left: 48px;
 }
-.fa-copy, .fa-trash-alt {
-	color: rgb(41, 154, 206);
+.fa-copy, .fa-trash-alt, .fa-arrows-alt {
+	color: rgb(15, 139, 139);
 }
 .removeFrame {
 	position: relative;
 	top: -112px;
-  left: 60px;
-  z-index: 5;
+	left: 78px;
 }
+.dragFrame {
+	position: relative;
+	top: -43px;
+	left: -8px;
+}
+
 .addNewFrame {
 	width: 90px;
 }
-
-.activeFrame {
-	border: 3px solid blue;
+.minorZ {
+	z-index: -5;
+}
+.superZ {
+	z-index: 10;
 }

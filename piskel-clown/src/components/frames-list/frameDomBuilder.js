@@ -1,9 +1,17 @@
 import React from 'react';
 import $ from 'jquery';
 import './frames.css';
-import { hoverIn, hoverOut, addNewFrame, removeFrame, copyFrame } from './framesManager';
+import {
+  hoverIn,
+  hoverOut,
+  addNewFrame,
+  removeFrame,
+  copyFrame,
+  dragFrame,
+  dragOff
+} from './framesManager';
 import { openCanvas } from './canvasManager';
-import store from '../../store/store';
+import { store } from '../../store/store';
 
 let customWidth;
 store.subscribe(() => {
@@ -19,9 +27,12 @@ class Frames extends React.Component {
   componentDidMount() {
     $('.frame')
       .hover(hoverIn, hoverOut)
-      .click(openCanvas); // show/hide frame buttons
-    $('.removeFrame').click(removeFrame); // frame-button to remove frame
-    $('.copyFrame').click(copyFrame); // frame-button to copy frame
+      .click(openCanvas);
+    $('.removeFrame').click(removeFrame);
+    $('.copyFrame').click(copyFrame);
+    $('.dragFrame')
+      .mousedown(dragFrame)
+      .mouseup(dragOff);
 
     // make the first frame active
     $('#frame1')
@@ -38,15 +49,18 @@ class Frames extends React.Component {
   render() {
     return (
       <div className="frame-box">
-        <ul id="frame-list" className="frame-list">
-          <li className="frame activeFrame" id="frame1">
+        <ul id="sortable" className="frame-list">
+          <li className="ui-state-default frame activeFrame" id="frame1">
             <p id="preview-box" className="preview-box" />
             <title className="number">1</title>
-            <span className="copyFrame hidden">
-              <i className="fas fa-copy" />
-            </span>
-            <span className="removeFrame hidden">
+            <span className="removeFrame minorZ">
               <i className="fas fa-trash-alt" />
+            </span>
+            <span className="dragFrame minorZ">
+              <i className="fas fa-arrows-alt" />
+            </span>
+            <span className="copyFrame minorZ">
+              <i className="fas fa-copy" />
             </span>
           </li>
         </ul>

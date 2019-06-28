@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import './tools.css';
-import store from '../../store/store';
+import { store } from '../../store/store';
 import penIcon from './images/pen.png';
 
 // change button-tool style if clicked

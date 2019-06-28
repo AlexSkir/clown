@@ -1,21 +1,19 @@
 import React from 'react';
 // import { Route, Link } from 'react-router-dom';
 import './user.css';
-import store from '../../store/store';
+import { user } from '../../store/store';
 
-// let name;
-// let img;
-// store.subscribe(() => {
-//   name = store.getState().name;
-//   img = store.getState().imageURL;
-//   console.log(name);
-// });
+let name;
+let img;
+user.subscribe(() => {
+  name = user.getState().name;
+  img = user.getState().imageURL;
+});
 
 class User extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: '',
       height: ''
     };
     this.mounted = false;
@@ -27,7 +25,6 @@ class User extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.setState({ name: store.getState().name });
   }
 
   componentWillUnmount() {
@@ -40,11 +37,11 @@ class User extends React.Component {
         <div
           className="user-image"
           style={{
-            backgroundImage: `url(${store.getState().imageURL})`,
+            backgroundImage: `url(${img})`,
             backgroundSize: 'contain'
           }}
         />
-        <h2 className="user-name">{this.state.name}</h2>
+        <h2 className="user-name">{name}</h2>
         <ul className="piskel-list">
           <li>all</li>
           <li>public</li>

@@ -3,7 +3,7 @@ import Tools from '../../components/tools/toolsDomBuilder';
 import Canvas from '../../screens/canvas/canvasDomBuilder';
 import Frames from '../../components/frames-list/frameDomBuilder';
 import Preview from '../../screens/preview/previewDomBuilder';
-import Options from '../../components/menu/options';
+import Options from '../../components/menu/optionsDomBuilder';
 
 class CreateAnimation extends React.Component {
   constructor() {

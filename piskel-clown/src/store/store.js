@@ -18,10 +18,6 @@ function appState(state = {}, action) {
       return Object.assign({}, state, {
         currentTool: action.value
       });
-    case 'currentCanvas':
-      return Object.assign({}, state, {
-        currentCanvas: action.value
-      });
     case 'fps':
       return Object.assign({}, state, {
         fps: action.value
@@ -30,6 +26,35 @@ function appState(state = {}, action) {
       return Object.assign({}, state, {
         customWidth: action.value
       });
+    default:
+      return state;
+  }
+}
+
+function settingsState(state = {}, action) {
+  switch (action.type) {
+    case 'setBg':
+      return Object.assign({}, state, {
+        setBg: action.value
+      });
+    default:
+      return state;
+  }
+}
+
+function canvasState(state = {}, action) {
+  switch (action.type) {
+    case 'currentCanvas':
+      return Object.assign({}, state, {
+        currentCanvas: action.value
+      });
+    default:
+      return state;
+  }
+}
+
+function userState(state = {}, action) {
+  switch (action.type) {
     case 'name':
       return Object.assign({}, state, {
         name: action.value
@@ -43,6 +68,21 @@ function appState(state = {}, action) {
   }
 }
 
-const store = createStore(appState);
+function optionsState(state = {}, action) {
+  switch (action.type) {
+    case 'optionsBlock':
+      return Object.assign({}, state, {
+        optionsBlock: action.value
+      });
+    default:
+      return state;
+  }
+}
 
-export default store;
+const store = createStore(appState);
+const settings = createStore(settingsState);
+const canvas = createStore(canvasState);
+const user = createStore(userState);
+const options = createStore(optionsState);
+
+export { store, settings, canvas, user, options };

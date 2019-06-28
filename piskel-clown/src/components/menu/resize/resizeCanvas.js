@@ -1,20 +1,20 @@
 import React from 'react';
 import $ from 'jquery';
-import './menu.css';
-import store from '../../store/store';
+import './resize.css';
+import { store, options } from '../../../store/store';
 
 let customWidth;
-let fps;
+let optionsBlock;
 store.subscribe(() => {
   customWidth = store.getState().customWidth || 33;
-  fps = store.getState().fps || 3;
 });
-
-class Options extends React.Component {
+options.subscribe(() => {
+  optionsBlock = options.getState().optionsBlock;
+});
+class ResizeCanvas extends React.Component {
   constructor() {
     super();
     this.state = {
-      fps: '',
       customWidth: ''
     };
   }
@@ -24,7 +24,7 @@ class Options extends React.Component {
     $('#current-width').text(customWidth);
     $('#current-height').text(customWidth);
     $('#new-width').text($('#canvas1').width());
-    $('#resize-input').attr('max', `{${$('#canvas1').width()}}`);
+    $('#resize-input').attr('max', `${$('#canvas1').width()}`);
     this.mounted = true;
   }
 
@@ -32,19 +32,13 @@ class Options extends React.Component {
     this.mounted = false;
   }
 
-  fpsOnChangeHandler() {
-    store.dispatch({ type: 'fps', value: $('#fps-bar').val() });
-    if (this.mounted) {
-      this.setState({ fps });
-    }
-  }
-
   resizeCanvasOnClickHandler() {
     if ($('#resize-input').val()) {
       const inputVal = +$('#resize-input').val();
+      console.log(inputVal);
       const maxSize = +$('#resize-input').attr('max');
       if (inputVal > 0 && inputVal < maxSize) {
-        store.dispatch({ type: 'customWidth', value: $('#resize-input').val() });
+        store.dispatch({ type: 'customWidth', value: inputVal });
         if (this.mounted) {
           this.setState({ customWidth });
         }
@@ -63,21 +57,11 @@ class Options extends React.Component {
 
   render() {
     return (
-      <div className="optionsBox">
-        <div className="fps-options">
-          <span id="display-fps" className="display-fps">
-            {`${this.state.fps ? this.state.fps : fps} FPS`}
-          </span>
-          <input
-            type="range"
-            min="1"
-            max="24"
-            step="1"
-            defaultValue={fps}
-            id="fps-bar"
-            onChange={() => this.fpsOnChangeHandler()}
-          />
-        </div>
+      <div
+        className={`resize-canvas-block ${
+          optionsBlock === 'resize-settings' ? 'flexed' : 'hidden'
+        }`}
+      >
         <div className="current-size">
           <span className="default-size bold">current size</span>
           <p>
@@ -118,4 +102,4 @@ class Options extends React.Component {
   }
 }
 
-export default Options;
+export default ResizeCanvas;

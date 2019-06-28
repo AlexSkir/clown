@@ -1,11 +1,13 @@
 import $ from 'jquery';
-import store from '../../store/store';
+import { store, canvas } from '../../store/store';
 
 let currentCanvas;
 let customWidth;
 let tool;
+canvas.subscribe(() => {
+  currentCanvas = canvas.getState().currentCanvas;
+});
 store.subscribe(() => {
-  currentCanvas = store.getState().currentCanvas;
   customWidth = store.getState().customWidth || 33;
   tool = store.getState().currentTool;
 });

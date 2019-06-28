@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import './tools.css';
-import store from '../../store/store';
+import { store } from '../../store/store';
 import erserIcon from './images/eraser.png';
 
 // change button-tool style if clicked

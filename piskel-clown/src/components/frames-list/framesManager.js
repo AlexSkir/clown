@@ -1,41 +1,80 @@
 import $ from 'jquery';
+import 'jquery-ui-sortable-npm';
 import { makeImage } from '../../screens/preview/preview';
-import { openCanvas, newCanvas, copyCanvas } from './canvasManager';
+import { openCanvas, newCanvas, copyCanvas, copyCanvasContext, putImage } from './canvasManager';
 
 // show/hide frame buttons
 function hoverIn() {
   const children = $(this).find('span');
-  if (children.hasClass('hidden')) {
-    children.removeClass('hidden');
-    if ($(this).is('#frame1')) {
+  if (children.hasClass('minorZ')) {
+    children.removeClass('minorZ');
+    if ($('#sortable').children().length === 1) {
       $('#frame1')
         .find('.removeFrame')
-        .addClass('hidden');
+        .addClass('minorZ');
+      $('#frame1')
+        .find('.dragFrame')
+        .addClass('minorZ');
     }
   }
 }
 function hoverOut() {
   const children = $(this).find('span');
-  if (!children.hasClass('hidden')) {
-    children.addClass('hidden');
+  if (!children.hasClass('minorZ')) {
+    children.addClass('minorZ');
   }
-  if ($(this).is('#frame1')) {
+  if ($('#sortable').children().length === 1) {
     $('#frame1')
       .find('.copyFrame')
-      .addClass('hidden');
+      .addClass('minorZ');
+    $('#frame1')
+      .find('.dragFrame')
+      .addClass('minorZ');
   }
 }
 // update IDs after adding/removing elements
 function updateId() {
-  for (let i = 0; i < $('#frame-list').children().length; i += 1) {
-    $('#frame-list').children()[i].id = `frame${i + 1}`;
-    const child = $($('#frame-list').children()[i]);
+  for (let i = 0; i < $('#sortable').children().length; i += 1) {
+    $('#sortable').children()[i].id = `frame${i + 1}`;
+    const child = $($('#sortable').children()[i]);
     child.find('.number').text(i + 1);
+    makeImage(i + 1);
+  }
+  for (let i = 0; i < $('#canvas-area').children().length; i += 1) {
     $('#canvas-area').children()[i].id = `canvas${i + 1}`;
   }
   for (let i = 0; i < $('.preview').children().length; i += 1) {
     $('.preview').children()[i].id = `canvasImage${i + 1}`;
   }
+}
+
+function dragFrame() {
+  $('#sortable').sortable();
+  $('#sortable').sortable('option', 'disabled', false);
+  $('#sortable').disableSelection();
+}
+
+function dragOff(e) {
+  $('#sortable').sortable('option', 'disabled', true);
+  setTimeout(() => {
+    const dragged = $(e.currentTarget)
+      .parent()
+      .find('.number')
+      .text();
+    updateId();
+    const target = $(e.currentTarget)
+      .parent()
+      .find('.number')
+      .text();
+    $(e.currentTarget)
+      .parent()
+      .click();
+    const draggedImage = copyCanvasContext(dragged);
+    const targetImage = copyCanvasContext(target);
+    putImage(dragged, targetImage);
+    putImage(target, draggedImage);
+    updateId();
+  }, 200);
 }
 
 function removeFrame() {
@@ -75,6 +114,10 @@ function copyFrame() {
   $(`#frame${+num + 1}`)
     .find('.copyFrame')
     .click(copyFrame);
+  $(`#frame${+num + 1}`)
+    .find('.dragFrame')
+    .mousedown(dragFrame)
+    .mouseup(dragOff);
   // make copied frame active
   setTimeout(() => {
     $(`#frame${+num + 1}`).click();
@@ -91,17 +134,17 @@ function copyFrame() {
       });
   }
   // update frame images and animation
-  for (let i = 0; i < $('#frame-list').children().length; i += 1) {
+  for (let i = 0; i < $('.frame-list').children().length; i += 1) {
     makeImage(i + 1);
   }
 }
 
 function addNewFrame() {
-  const count = $('#frame-list').children().length + 1; // calc ID for new frame
+  const count = $('.frame-list').children().length + 1; // calc ID for new frame
   $('.frame')
     .first()
     .clone()
-    .appendTo('#frame-list')
+    .appendTo('.frame-list')
     .attr('id', `frame${count}`)
     .removeClass('activeFrame')
     .hover(hoverIn, hoverOut)
@@ -114,13 +157,17 @@ function addNewFrame() {
   newCanvas(count);
   $(`#frame${count}`)
     .find('.removeFrame')
-    .click(removeFrame); // add event
+    .click(removeFrame);
   $(`#frame${count}`)
     .find('.copyFrame')
-    .click(copyFrame); // add event
+    .click(copyFrame);
+  $(`#frame${count}`)
+    .find('.dragFrame')
+    .mousedown(dragFrame)
+    .mouseup(dragOff);
   setTimeout(() => {
     $(`#frame${count}`).click(); // make new frame active
   }, 100);
 }
 
-export { hoverIn, hoverOut, addNewFrame, removeFrame, copyFrame };
+export { hoverIn, hoverOut, addNewFrame, removeFrame, copyFrame, dragFrame, dragOff, updateId };
