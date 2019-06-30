@@ -16,6 +16,7 @@ class CreateAnimation extends React.Component {
     $(window).bind('beforeunload', () => {
       localStorage.setItem('page', '');
       const url = 'https://alexskir.github.io/clown/piskel-clown/build/';
+      console.log(url);
       $(window.location).attr('href', url);
       return 'are you sure you want to leave?';
     });
