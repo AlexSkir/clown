@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import React from 'react';
-import { Redirect, Route, Link } from 'react-router-dom';
+import { Redirect, Route, Link, Switch } from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
 import CreateAnimation from './create/create';
@@ -217,9 +217,13 @@ class AppRouter extends React.Component {
             </ul>
           </div>
         </header>
-        <Route path="/clown/piskel-clown/build/" exact component={About} />
-        <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
-        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+        <Switch>
+          <Route path="/clown/piskel-clown/build/" exact component={About} />
+          <Redirect from="/clown/piskel-clown/build/create" to="/clown/piskel-clown/build/" />
+          <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
+          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+          <Route component={About} />
+        </Switch>
       </div>
     );
   }
