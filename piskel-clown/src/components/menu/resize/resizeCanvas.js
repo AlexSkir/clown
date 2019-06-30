@@ -35,7 +35,6 @@ class ResizeCanvas extends React.Component {
   resizeCanvasOnClickHandler() {
     if ($('#resize-input').val()) {
       const inputVal = +$('#resize-input').val();
-      console.log(inputVal);
       const maxSize = +$('#resize-input').attr('max');
       if (inputVal > 0 && inputVal < maxSize) {
         store.dispatch({ type: 'customWidth', value: inputVal });
@@ -85,7 +84,17 @@ class ResizeCanvas extends React.Component {
             <span>1 - </span>
             <span id="new-width" className="canvas-width" />
             <span>px</span>
-            <input type="number" className="resize-input" id="resize-input" min="1" />
+            <input
+              type="number"
+              className="resize-input"
+              id="resize-input"
+              min="1"
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  this.resizeCanvasOnClickHandler();
+                }
+              }}
+            />
           </p>
           <p id="error-message" className="error-message" />
           <button

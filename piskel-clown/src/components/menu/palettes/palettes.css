@@ -41,10 +41,13 @@
 .colors-list-arrow-hovered {
   color: rgb(15, 139, 139);
 }
-.palettes-list {    
+.palettes-list {
+  display: flex;
+  flex-wrap: wrap;
   min-height: 25px;
   max-height: 75px;
   margin: 0;
+  padding-left: 0;
   list-style: none;
   overflow-y: scroll;
 }
@@ -84,7 +87,23 @@
   right: -45px;
 }
 .palette-colors-isempty {
-  display: flex;
   text-align: center;
-  margin-left: -29px;
+}
+.palette-sample {
+  width: 25px;
+  height: 25px;
+  border: 2px ridge gray;
+}
+.palette-sample:hover {
+  cursor: pointer;
+  border: 2px ridge rgb(15, 139, 139);
+}
+.active-palette-sample {
+  border: 2px ridge yellow;
+}
+.palette-sample:active {
+  outline: none;
+}
+.palette-sample:focus {
+  outline: none;
 }

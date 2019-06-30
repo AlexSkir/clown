@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { store, canvas } from '../../store/store';
+import { store, canvas, palette } from '../../store/store';
 
 let currentCanvas;
 let customWidth;
@@ -63,6 +63,8 @@ function start(e) {
     mouseDownY = Math.floor(e.offsetY / canvasSize) * canvasSize;
     ctx.fillRect(mouseDownX, mouseDownY, canvasSize, canvasSize);
     $(`#canvas${currentCanvas}`).mousemove(end);
+    palette.dispatch({ type: 'addColor', value: $('#currentColor').css('background-color') });
+    $('#addColorButton').click();
   }
 }
 

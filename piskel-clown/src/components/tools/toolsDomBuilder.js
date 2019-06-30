@@ -1,27 +1,33 @@
 import React from 'react';
 import $ from 'jquery';
 import './tools.css';
-import { colorPickerOnClick, customedColorOnChange, changeBG } from './color-picker';
+import { colorPickerOnClick, customedColorOnChange, rgbaToHex, rgbToHex } from './color-picker';
 import paintBucketOnClick from './paintBucket';
 import penOnClick from './pen';
 import eraserOnClick from './eraser';
-import { store } from '../../store/store';
+import { store, canvas } from '../../store/store';
 
 let toolState;
 let currentColorState;
-let prevColorState;
+let backColorState;
 store.subscribe(() => {
   toolState = store.getState().currentTool;
   currentColorState = store.getState().currentColor;
-  prevColorState = store.getState().prevColor;
+  backColorState = store.getState().backColor;
 });
-
+let currentCanvas;
+canvas.subscribe(() => {
+  currentCanvas = canvas.getState().currentCanvas;
+});
 class Tools extends React.Component {
   constructor() {
     super();
     this.state = {
       tool: '',
-      active: ''
+      active: '',
+      value1: '#161030',
+      value2: '#c0c0c0',
+      pickedColor: ''
     };
     this.mounted = false;
   }
@@ -32,23 +38,50 @@ class Tools extends React.Component {
 
   componentDidMount() {
     const currentColor = $('#currentColor').css('background-color');
-    const prevColor = $('#prevColor').css('background-color');
+    const backColor = $('#backColor').css('background-color');
     store.dispatch({ type: 'currentColor', value: currentColor });
-    store.dispatch({ type: 'prevColor', value: prevColor });
+    store.dispatch({ type: 'backColor', value: backColor });
     this.mounted = true;
+    if (this.mounted === true) {
+      this.setState({ pickedColor: currentColor });
+    }
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
+  switchColorsOnClick() {
+    store.dispatch({ type: 'currentColor', value: backColorState });
+    store.dispatch({ type: 'backColor', value: this.state.pickedColor });
+    const curColorValue = $('#customed1').val();
+    const backColorValue = $('#customed2').val();
+    $('#currentColor').css({ 'background-color': currentColorState });
+    $('#backColor').css({ 'background-color': backColorState });
+    this.setState({
+      value1: backColorValue,
+      value2: curColorValue,
+      pickedColor: currentColorState
+    });
+  }
+
   colorPickerHandleClick(e) {
     if (this.state.tool === 'colorPickerTool') {
-      if ($(e.target).is('.radiobutton')) {
-        if ($(e.target).css('background-color') !== currentColorState) {
-          store.dispatch({ type: 'prevColor', value: currentColorState });
-          store.dispatch({ type: 'currentColor', value: $(e.target).css('background-color') });
-          changeBG(currentColorState, prevColorState);
+      if ($(e.target).is('.canvas')) {
+        const curCanv = document.querySelector(`#canvas${currentCanvas}`);
+        const rect = curCanv.getBoundingClientRect();
+        const x = Math.round(e.clientX - rect.left);
+        const y = Math.round(e.clientY - rect.top);
+        const ctx = curCanv.getContext('2d').getImageData(x, y, 1, 1).data;
+        const rgbColor = `rgba(${ctx[0]}, ${ctx[1]}, ${ctx[2]})`;
+        if (ctx[3] > 0) {
+          const hexColor = rgbaToHex(ctx[0], ctx[1], ctx[2]);
+          store.dispatch({ type: 'currentColor', value: rgbColor });
+          $('#currentColor').css({ 'background-color': rgbColor });
+          this.setState({
+            value1: hexColor,
+            pickedColor: rgbColor
+          });
         }
       }
     }
@@ -156,34 +189,54 @@ class Tools extends React.Component {
           </div>
         </div>
 
-        <div className={`color ${this.state.tool === 'colorPickerTool' ? '' : 'hidden'}`}>
-          <div className="color-block">
-            <div className="radiobutton white" id="currentColor" />
-            <span className="color-name">Current color</span>
+        <div className="color">
+          <div className="color-block hidden">
+            <div className="radiobutton current" id="currentColor" />
+            <div className="radiobutton back" id="backColor" />
+            <button
+              type="button"
+              id="switchHexValue"
+              onClick={() => {
+                const hex = rgbToHex(currentColorState);
+                this.setState({ value1: hex });
+              }}
+            />
           </div>
-          <div className="color-block">
-            <div className="radiobutton green" id="prevColor" />
-            <span className="color-name">Prev color</span>
+          <div
+            className="switcher"
+            role="button"
+            onClick={() => this.switchColorsOnClick()}
+            onFocus={() => undefined}
+            onKeyPress={() => undefined}
+            tabIndex="-1"
+          >
+            <i className="fas fa-retweet" />
           </div>
-          <div className="color-block">
-            <div className="radiobutton red" />
-            <span className="color-name">Red</span>
-          </div>
-          <div className="color-block">
-            <div className="radiobutton blue" />
-            <span className="color-name">Blue</span>
-          </div>
-          <div className="color-block">
+          <div className="color-block-upper">
             <input
               type="color"
               name="colors"
-              id="customed"
-              value="#161030"
+              className="input-color"
+              id="customed1"
+              value={this.state.value1}
               onChange={() => {
-                customedColorOnChange();
+                customedColorOnChange('customed1');
+                this.setState({ value1: $('#customed1').val(), pickedColor: currentColorState });
               }}
             />
-            <span className="color-name">Custom color</span>
+          </div>
+          <div className="color-block-under">
+            <input
+              type="color"
+              name="colors"
+              className="input-color"
+              id="customed2"
+              value={this.state.value2}
+              onChange={() => {
+                customedColorOnChange('customed2');
+                this.setState({ value2: $('#customed2').val() });
+              }}
+            />
           </div>
         </div>
       </div>

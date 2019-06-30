@@ -10,9 +10,9 @@ function appState(state = {}, action) {
       return Object.assign({}, state, {
         currentColor: action.value
       });
-    case 'prevColor':
+    case 'backColor':
       return Object.assign({}, state, {
-        prevColor: action.value
+        backColor: action.value
       });
     case 'currentTool':
       return Object.assign({}, state, {
@@ -36,6 +36,29 @@ function settingsState(state = {}, action) {
     case 'setBg':
       return Object.assign({}, state, {
         setBg: action.value
+      });
+    case 'title':
+      return Object.assign({}, state, {
+        title: action.value
+      });
+    default:
+      return state;
+  }
+}
+
+function previewState(state = {}, action) {
+  switch (action.type) {
+    case 'gif':
+      return Object.assign({}, state, {
+        gif: action.value
+      });
+    case 'frames':
+      return Object.assign({}, state, {
+        frames: action.value
+      });
+    case 'piskelID':
+      return Object.assign({}, state, {
+        piskelID: action.value
       });
     default:
       return state;
@@ -79,10 +102,23 @@ function optionsState(state = {}, action) {
   }
 }
 
+function paletteState(state = {}, action) {
+  switch (action.type) {
+    case 'addColor':
+      return Object.assign({}, state, {
+        addColor: action.value
+      });
+    default:
+      return state;
+  }
+}
+
+const preview = createStore(previewState);
 const store = createStore(appState);
 const settings = createStore(settingsState);
 const canvas = createStore(canvasState);
 const user = createStore(userState);
 const options = createStore(optionsState);
+const palette = createStore(paletteState);
 
-export { store, settings, canvas, user, options };
+export { store, settings, canvas, user, options, palette, preview };

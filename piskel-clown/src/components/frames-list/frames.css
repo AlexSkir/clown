@@ -9,6 +9,7 @@
 }
 .frame-list {
 	list-style: none;
+	z-index: 100;
 }
 .frame {
 	display: block;

@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { store, canvas } from '../../store/store';
+import { store, canvas, palette } from '../../store/store';
 
 let currentCanvas;
 canvas.subscribe(() => {
@@ -113,6 +113,8 @@ export default function paintIt(e) {
     floodFill(imageData, col, x, y);
     ctx.putImageData(imageData, 0, 0);
 
+    palette.dispatch({ type: 'addColor', value: $('#currentColor').css('background-color') });
+    $('#addColorButton').click();
     // put canvas image in preview-box
     const dataURL = $(`#canvas${currentCanvas}`)[0].toDataURL('image/png');
 

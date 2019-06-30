@@ -9,9 +9,6 @@ export default function paintBucketOnClick() {
       .find('button')
       .removeClass('hovered');
     $('#paint-bucket').addClass('hovered');
-    if (!$('.color').hasClass('hidden')) {
-      $('.color').addClass('hidden');
-    }
     store.dispatch({ type: 'currentTool', value: 'paintBucketTool' });
     $('#paint-bucket').focus();
     $(document.body).css({ cursor: `url(${paintBucketIcon}) 15 15, auto` });

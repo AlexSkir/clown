@@ -13,7 +13,6 @@ let fps;
 store.subscribe(() => {
   fps = store.getState().fps;
 });
-
 class Options extends React.Component {
   constructor() {
     super();

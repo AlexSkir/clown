@@ -1,12 +1,22 @@
 import React from 'react';
+import $ from 'jquery';
 import './palettes.css';
+import { palette, store } from '../../../store/store';
+
+let newColor;
+palette.subscribe(() => {
+  newColor = palette.getState().addColor;
+});
 
 class Palettes extends React.Component {
   constructor() {
     super();
     this.state = {
       hovered: '',
-      mouseEnter: false
+      mouseEnter: false,
+      color: [],
+      changed: false,
+      active: ''
     };
   }
 
@@ -25,6 +35,21 @@ class Palettes extends React.Component {
 
   mouseOut() {
     this.setState({ mouseEnter: false });
+  }
+
+  addNewColor() {
+    if (this.state.color.indexOf(newColor) === -1) {
+      this.state.color.push(newColor);
+      this.setState({ changed: true, active: newColor });
+    }
+  }
+
+  changeCurColor(e) {
+    const color = $(e.target).css('background-color');
+    this.setState({ active: color });
+    $('#currentColor').css({ background: color });
+    store.dispatch({ type: 'currentColor', value: color });
+    $('#switchHexValue').click();
   }
 
   render() {
@@ -84,8 +109,31 @@ class Palettes extends React.Component {
           </p>
         </div>
         <ul className="palettes-list">
-          <span className="palette-colors-isempty">No colors in this palette yet</span>
+          <span className={`palette-colors-isempty ${this.state.changed === true ? 'hidden' : ''}`}>
+            No colors in this palette yet
+          </span>
+          {this.state.color.map(item => (
+            <li key={item} id={item} className="palette-sample-list">
+              <div
+                style={{ background: item }}
+                className={`palette-sample ${
+                  this.state.active === item ? 'active-palette-sample' : ''
+                }`}
+                onClick={e => this.changeCurColor(e)}
+                tabIndex="-1"
+                onKeyPress={() => undefined}
+                onFocus={() => undefined}
+                role="button"
+              />
+            </li>
+          ))}
         </ul>
+        <button
+          id="addColorButton"
+          className="hidden"
+          type="button"
+          onClick={() => this.addNewColor()}
+        />
       </div>
     );
   }

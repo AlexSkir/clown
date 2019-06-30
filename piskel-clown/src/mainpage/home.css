@@ -125,7 +125,9 @@
   right: 23px;
   width: 92px;
   height: 92px;
-  background: pink;
+  background: url('./homepage.gif');
+  background-size: 99%;
+  background-repeat: no-repeat;
 }
 .piskel {
   font-size: 27px;
@@ -232,7 +234,7 @@
   border: 1px solid black;
 }
 .list:hover {
-  background: rgba(107, 235, 235, 0.801);
+  background: rgba(107, 235, 235, 1);
 }
 .top {
   border-bottom: none;
@@ -244,6 +246,8 @@
   border-bottom-left-radius: 5px;
 }
 .account-item {
+  width: 100%;
+  text-align: center;
   text-decoration: none;
   color: gray;
 }

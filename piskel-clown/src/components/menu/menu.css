@@ -29,7 +29,7 @@
 
 .optionsBox {
 	display: grid;
-  grid-template-rows: 35px repeat(2, 1fr);    
+  grid-template-rows: 35px 1fr;    
   margin-top: 12px;
   width: 182px;
 }

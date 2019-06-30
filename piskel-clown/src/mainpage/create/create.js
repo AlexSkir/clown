@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import Tools from '../../components/tools/toolsDomBuilder';
 import Canvas from '../../screens/canvas/canvasDomBuilder';
 import Frames from '../../components/frames-list/frameDomBuilder';
@@ -9,6 +10,12 @@ class CreateAnimation extends React.Component {
   constructor() {
     super();
     this.state = {};
+  }
+
+  componentDidMount() {
+    $(window).bind('beforeunload', () => {
+      return 'are you sure you want to leave?';
+    });
   }
 
   render() {

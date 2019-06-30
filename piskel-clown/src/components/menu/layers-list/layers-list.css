@@ -3,6 +3,8 @@
   margin-top: 5px;
   margin-bottom: 5px;
   width: 176px;
+  height: 86px;
+  max-height: 136px;
   background: whitesmoke;
   border: 3px ridge gray;
 }

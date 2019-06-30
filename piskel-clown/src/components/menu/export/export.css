@@ -69,3 +69,27 @@
 .download-block {
   display: flex;
 }
+.resolution-block {
+  margin-top: 10px;
+  width: 90%;
+}
+.resolution-title {
+  margin: 5px;
+}
+.resolution-input {
+  margin: 5px;
+  width: 50px;
+}
+.link-to-gif {
+  position: absolute;
+  top: 240px;
+  width: 90%;
+}
+#hidden {
+  width: 421px;
+  height: 421px;
+  position: absolute;
+  top: -35px;
+  right: 286px;
+  border: 1px solid black
+}

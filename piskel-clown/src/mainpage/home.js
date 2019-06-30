@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import { Redirect, Route, Link } from 'react-router-dom';
 import './home.css';
@@ -25,7 +26,7 @@ class AppRouter extends React.Component {
       window.gapi.load('auth2', () => {
         window.gapi.auth2
           .init({
-            client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
+            client_id: '842905832916-kcnptlm4pbd6ji1lpqbka2p6jpdr5i0q.apps.googleusercontent.com'
           })
           .then(() => {
             window.gapi.signin2.render('my-signIn', {
@@ -49,9 +50,16 @@ class AppRouter extends React.Component {
 
     user.dispatch({ type: 'name', value: fullName });
     this.setState({ id: ID, name: fullName, img: imageURL });
-    if (localStorage.getItem('auth') === 'true') {
-      localStorage.setItem('page', `user/${ID}`);
-      this.setState({ redirected: `user/${ID}` });
+    $('#updateSaveButtonLoggedIn').click();
+    if (localStorage.getItem('page') === 'create-animation') {
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm('Are you sure you want to leave?') === true) {
+        if (localStorage.getItem('auth') === 'true') {
+          localStorage.setItem('page', `user/${ID}`);
+          this.setState({ redirected: `user/${ID}` });
+          $(document.body).css({ cursor: 'default' });
+        }
+      }
     }
   }
 
@@ -61,6 +69,7 @@ class AppRouter extends React.Component {
       this.setState({ redirected: 'about', id: '' });
       localStorage.setItem('page', 'about');
       localStorage.setItem('auth', false);
+      user.dispatch({ type: 'name', value: '' });
     });
   }
 
@@ -72,6 +81,7 @@ class AppRouter extends React.Component {
     if (this.state.redirected) {
       return <Redirect to={`/clown/piskel-clown/build/${this.state.redirected}`} />;
     }
+    return <Redirect to="/clown/piskel-clown/build/about" />;
   }
 
   addActiveClass(e) {
@@ -96,11 +106,17 @@ class AppRouter extends React.Component {
                 <Link
                   to="/clown/piskel-clown/build/about"
                   className="task-name"
-                  onClick={() => {
-                    this.setState({ redirected: 'about' });
-                    localStorage.setItem('page', 'about');
-                    localStorage.setItem('auth', false);
-                    $(document.body).css({ cursor: 'default' });
+                  onClick={e => {
+                    if (localStorage.getItem('page') === 'create-animation') {
+                      // eslint-disable-next-line no-restricted-globals
+                      if (confirm('Are you sure you want to leave?') === true) {
+                        this.setState({ redirected: 'about' });
+                        localStorage.setItem('page', 'about');
+                        localStorage.setItem('auth', true);
+                        $(document.body).css({ cursor: 'default' });
+                      }
+                      e.preventDefault();
+                    }
                   }}
                 >
                   Piskel-clone
@@ -146,8 +162,17 @@ class AppRouter extends React.Component {
                         to={`/clown/piskel-clown/build/user/${this.state.id}`}
                         id="galery"
                         className="account-item"
-                        onClick={() => {
-                          localStorage.setItem('auth', true);
+                        onClick={e => {
+                          if (localStorage.getItem('page') === 'create-animation') {
+                            // eslint-disable-next-line no-restricted-globals
+                            if (confirm('Are you sure you want to leave?') === true) {
+                              localStorage.setItem('auth', true);
+                              localStorage.setItem('page', `user/${this.state.id}`);
+                              this.setState({ redirected: localStorage.getItem('page') });
+                              $(document.body).css({ cursor: 'default' });
+                            }
+                            e.preventDefault();
+                          }
                         }}
                       >
                         My Galery
@@ -155,10 +180,15 @@ class AppRouter extends React.Component {
                     </li>
                     <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                       <Link
-                        to="/clown/piskel-clown/build/about"
+                        to={`/clown/piskel-clown/build/${this.state.redirected ? this.state.redirected : 'about'}`}
                         id="logout"
                         className="account-item"
-                        onClick={() => this.signOut()}
+                        onClick={() => {
+                          // eslint-disable-next-line no-restricted-globals
+                          if (confirm('Are you sure you want to leave?') === true) {
+                            this.signOut();
+                          }
+                        }}
                       >
                         Log out
                       </Link>
@@ -182,7 +212,7 @@ class AppRouter extends React.Component {
         </header>
         <Route path="/clown/piskel-clown/build/about" exact component={About} />
         <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
-        <Route path="/clown/piskel-clown/build/create-animation/" component={CreateAnimation} />
+        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
       </div>
     );
   }
