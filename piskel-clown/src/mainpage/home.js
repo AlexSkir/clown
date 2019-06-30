@@ -20,6 +20,11 @@ class AppRouter extends React.Component {
     };
     this.onSuccess = this.onSuccess.bind(this);
   }
+  componentWillMount() {
+    if (!localStorage.getItem('page')) {
+      this.setState({ redirected: '/about' });
+    }
+  }
 
   componentDidMount() {
     $(document.body).ready(() => {
