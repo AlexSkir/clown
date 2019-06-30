@@ -31,7 +31,7 @@ class AppRouter extends React.Component {
       window.gapi.load('auth2', () => {
         window.gapi.auth2
           .init({
-            client_id: '842905832916-kcnptlm4pbd6ji1lpqbka2p6jpdr5i0q.apps.googleusercontent.com'
+            client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
           })
           .then(() => {
             window.gapi.signin2.render('my-signIn', {
