@@ -23,7 +23,7 @@ class AppRouter extends React.Component {
 
   componentWillMount() {
     if (!localStorage.getItem('page')) {
-      this.setState({ redirected: '/about' });
+      this.setState({ redirected: '' });
     }
   }
 
@@ -71,8 +71,8 @@ class AppRouter extends React.Component {
   signOut() {
     const auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
-      this.setState({ redirected: 'about', id: '' });
-      localStorage.setItem('page', 'about');
+      this.setState({ redirected: '', id: '' });
+      localStorage.setItem('page', '');
       localStorage.setItem('auth', false);
       user.dispatch({ type: 'name', value: '' });
     });
@@ -81,12 +81,12 @@ class AppRouter extends React.Component {
   isRedirected() {
     user.dispatch({ type: 'imageURL', value: this.state.img });
     if (!localStorage.getItem('page')) {
-      return <Redirect to="/clown/piskel-clown/build/about" />;
+      return <Redirect to="/clown/piskel-clown/build/" />;
     }
     if (this.state.redirected) {
       return <Redirect to={`/clown/piskel-clown/build/${this.state.redirected}`} />;
     }
-    return <Redirect to="/clown/piskel-clown/build/about" />;
+    return <Redirect to={`/clown/piskel-clown/build/${localStorage.getItem('page')}`} />;
   }
 
   addActiveClass(e) {
@@ -109,14 +109,14 @@ class AppRouter extends React.Component {
             <ul className="menu">
               <li className="homepage">
                 <Link
-                  to="/clown/piskel-clown/build/about"
+                  to="/clown/piskel-clown/build/"
                   className="task-name"
                   onClick={e => {
                     if (localStorage.getItem('page') === 'create-animation') {
                       // eslint-disable-next-line no-restricted-globals
                       if (confirm('Are you sure you want to leave?') === true) {
-                        this.setState({ redirected: 'about' });
-                        localStorage.setItem('page', 'about');
+                        this.setState({ redirected: '' });
+                        localStorage.setItem('page', '');
                         localStorage.setItem('auth', true);
                         $(document.body).css({ cursor: 'default' });
                       }
@@ -186,7 +186,7 @@ class AppRouter extends React.Component {
                     <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                       <Link
                         to={`/clown/piskel-clown/build/${
-                          this.state.redirected ? this.state.redirected : 'about'
+                          this.state.redirected ? this.state.redirected : ''
                         }`}
                         id="logout"
                         className="account-item"
@@ -217,7 +217,7 @@ class AppRouter extends React.Component {
             </ul>
           </div>
         </header>
-        <Route path="/clown/piskel-clown/build/about" exact component={About} />
+        <Route path="/clown/piskel-clown/build/" exact component={About} />
         <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
         <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
       </div>
