@@ -73,13 +73,14 @@ class About extends React.Component {
           <div className="screen" />
           <div className="home-preview" />
         </div>
-        <Switch>
+        {/* <Switch>
           <Route path="/clown/piskel-clown/build/" exact component={About} />
           <Redirect from="/clown/piskel-clown/build/create" to="/clown/piskel-clown/build/" />
           <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
-          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+          
           <Route component={About} />
-        </Switch>
+        </Switch> */}
+        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
       </div>
     );
   }
