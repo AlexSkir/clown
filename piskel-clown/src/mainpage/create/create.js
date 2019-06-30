@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import Tools from '../../components/tools/toolsDomBuilder';
 import Canvas from '../../screens/canvas/canvasDomBuilder';
@@ -42,6 +43,13 @@ class CreateAnimation extends React.Component {
             <Options />
           </section>
         </div>
+        {/* <Switch>
+          <Route path="/clown/piskel-clown/build/" exact component={About} />
+          <Redirect from="/clown/piskel-clown/build/create" to="/clown/piskel-clown/build/" />
+          <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
+          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+          <Route component={About} />
+        </Switch> */}
       </div>
     );
   }
