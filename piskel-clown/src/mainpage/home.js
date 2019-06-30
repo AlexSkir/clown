@@ -20,6 +20,7 @@ class AppRouter extends React.Component {
     };
     this.onSuccess = this.onSuccess.bind(this);
   }
+
   componentWillMount() {
     if (!localStorage.getItem('page')) {
       this.setState({ redirected: '/about' });
@@ -59,11 +60,10 @@ class AppRouter extends React.Component {
     if (localStorage.getItem('page') === 'create-animation') {
       // eslint-disable-next-line no-restricted-globals
       if (confirm('Are you sure you want to leave?') === true) {
-        if (localStorage.getItem('auth') === 'true') {
-          localStorage.setItem('page', `user/${ID}`);
-          this.setState({ redirected: `user/${ID}` });
-          $(document.body).css({ cursor: 'default' });
-        }
+        localStorage.setItem('auth', true);
+        localStorage.setItem('page', `user/${ID}`);
+        this.setState({ redirected: `user/${ID}` });
+        $(document.body).css({ cursor: 'default' });
       }
     }
   }
@@ -185,7 +185,9 @@ class AppRouter extends React.Component {
                     </li>
                     <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                       <Link
-                        to={`/clown/piskel-clown/build/${this.state.redirected ? this.state.redirected : 'about'}`}
+                        to={`/clown/piskel-clown/build/${
+                          this.state.redirected ? this.state.redirected : 'about'
+                        }`}
                         id="logout"
                         className="account-item"
                         onClick={() => {

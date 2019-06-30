@@ -14,6 +14,7 @@ class CreateAnimation extends React.Component {
 
   componentDidMount() {
     $(window).bind('beforeunload', () => {
+      localStorage.setItem('page', '');
       return 'are you sure you want to leave?';
     });
   }
