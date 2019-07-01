@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
 // import { store } from '../../store/store';
-// import CreateAnimation from '../create/create';
+import CreateAnimation from '../create/create';
 
 class About extends React.Component {
   constructor() {
@@ -86,6 +86,7 @@ class About extends React.Component {
         {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
         {/* <Route component={About} />
           </Switch> */}
+        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
       </div>
     );
   }
