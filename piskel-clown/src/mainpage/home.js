@@ -28,6 +28,10 @@ class AppRouter extends React.Component {
   }
 
   componentDidMount() {
+    $(window).bind('beforeunload', () => {
+      this.setState({ redirected: '/' });
+      return 'are you sure you want to leave?';
+    });
     $(document.body).ready(() => {
       window.gapi.load('auth2', () => {
         window.gapi.auth2
