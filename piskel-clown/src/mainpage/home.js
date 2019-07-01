@@ -1,6 +1,13 @@
 /* eslint-disable no-alert */
 import React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Link,
+  Switch,
+  HashRouter
+} from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
 import CreateAnimation from './create/create';
@@ -110,7 +117,7 @@ class AppRouter extends React.Component {
 
   render() {
     return (
-      <Router>
+      <HashRouter>
         <div>
           <header className="header">
             <div className="header-menu">
@@ -238,7 +245,7 @@ class AppRouter extends React.Component {
             <Route path="*" component={About} />
           </Switch>
         </div>
-      </Router>
+      </HashRouter>
     );
   }
 }

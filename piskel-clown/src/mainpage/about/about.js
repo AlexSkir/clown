@@ -1,6 +1,13 @@
 import React from 'react';
 import $ from 'jquery';
-import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Link,
+  Switch,
+  HashRouter
+} from 'react-router-dom';
 // import { store } from '../../store/store';
 import CreateAnimation from '../create/create';
 
@@ -12,7 +19,7 @@ class About extends React.Component {
 
   render() {
     return (
-      <Router>
+      <HashRouter>
         <div className="homepage-section">
           <div className="home-about">
             <h1>
@@ -76,7 +83,7 @@ class About extends React.Component {
 
           <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
         </div>
-      </Router>
+      </HashRouter>
     );
   }
 }
