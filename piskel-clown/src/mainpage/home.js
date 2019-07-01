@@ -36,9 +36,9 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     $(window).bind('beforeunload', () => {
-      localStorage.setItem('page', '/');
-      console.log(localStorage.getItem('page'));
-      this.setState({ redirected: '/' });
+      // localStorage.setItem('page', '/');
+      // console.log(localStorage.getItem('page'));
+      // this.setState({ redirected: '/' });
       return 'are you sure you want to leave?';
     });
     $(document.body).ready(() => {

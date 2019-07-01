@@ -1,8 +1,6 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
-import $ from 'jquery';
 import Tools from '../../components/tools/toolsDomBuilder';
 import Canvas from '../../screens/canvas/canvasDomBuilder';
 import Frames from '../../components/frames-list/frameDomBuilder';
@@ -12,22 +10,7 @@ import Options from '../../components/menu/optionsDomBuilder';
 class CreateAnimation extends React.Component {
   constructor() {
     super();
-    this.state = {
-      redirected: false
-    };
-  }
-
-  componentDidMount() {
-    $(window).bind('beforeunload', () => {
-      localStorage.setItem('page', '/');
-      this.setState({ redirected: true });
-    });
-  }
-
-  isRedirected() {
-    if (this.state.redirected === true) {
-      return <Redirect to="/" />;
-    }
+    this.state = {};
   }
 
   render() {
@@ -49,7 +32,6 @@ class CreateAnimation extends React.Component {
           <section className="options-area" id="options-area">
             <Options />
           </section>
-          {this.isRedirected()}
         </div>
       </div>
     );
