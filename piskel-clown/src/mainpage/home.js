@@ -83,9 +83,10 @@ class AppRouter extends React.Component {
         $(document.body).css({ cursor: 'default' });
       }
     }
-    localStorage.setItem('auth', true);
-    localStorage.setItem('page', `user/${ID}`);
-    this.setState({ redirected: `user/${ID}` });
+    if (localStorage.getItem('auth') === true) {
+      localStorage.setItem('page', `user/${ID}`);
+      this.setState({ redirected: `user/${ID}` });
+    }
   }
 
   signOut() {
@@ -143,6 +144,9 @@ class AppRouter extends React.Component {
                         }
                         e.preventDefault();
                       }
+                      localStorage.setItem('auth', false);
+                      localStorage.setItem('page', '/');
+                      this.setState({ redirected: '/' });
                     }}
                   >
                     Piskel-clone
