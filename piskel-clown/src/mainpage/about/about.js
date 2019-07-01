@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
 // import { store } from '../../store/store';
 // import CreateAnimation from '../create/create';
 
@@ -65,7 +66,7 @@ class About extends React.Component {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
                   $(document.body).css({ cursor: 'default' });
-                  $('#create-animation').click();
+                  return <Redirect to="/clown/piskel-clown/build/" />;
                 }}
                 className="link"
               >
