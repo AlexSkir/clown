@@ -14,7 +14,19 @@ import CreateAnimation from '../create/create';
 class About extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      redirected: ''
+    };
+  }
+
+  isRedirected() {
+    if (!localStorage.getItem('page')) {
+      return <Redirect to="/" />;
+    }
+    if (this.state.redirected) {
+      return <Redirect to={`/${this.state.redirected}`} />;
+    }
+    return <Redirect to={`/${localStorage.getItem('page')}`} />;
   }
 
   render() {
@@ -43,6 +55,7 @@ class About extends React.Component {
               <Link
                 to="/create-animation"
                 onClick={() => {
+                  this.setState({ redirected: 'create-animation' });
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
                   $(document.body).css({ cursor: 'default' });
@@ -80,7 +93,7 @@ class About extends React.Component {
             <div className="screen" />
             <div className="home-preview" />
           </div>
-
+          {this.isRedirected()}
           <Route path="/create-animation" component={CreateAnimation} />
         </div>
       </HashRouter>

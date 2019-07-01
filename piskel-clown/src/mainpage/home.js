@@ -185,7 +185,7 @@ class AppRouter extends React.Component {
                     >
                       <li className={`list top ${this.state.active === 'list' ? '' : 'hidden'}`}>
                         <Link
-                          to={`/${this.state.id}`}
+                          to={`/user/${this.state.id}`}
                           id="galery"
                           className="account-item"
                           onClick={e => {
