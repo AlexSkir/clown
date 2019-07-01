@@ -218,12 +218,10 @@ class AppRouter extends React.Component {
               </ul>
             </div>
           </header>
-          <Switch>
-            <Route path="/" exact component={About} />
-            <Route path={`/user/${this.state.id}`} component={User} />
-            <Route path="/create-animation" component={CreateAnimation} />
-            <Route component={About} />
-          </Switch>
+          <Route path="/" exact component={About} />
+          <Route path={`/user/${this.state.id}`} component={User} />
+          <Route path="/create-animation" component={CreateAnimation} />
+          <Route component={About} />
         </div>
       </Router>
     );
