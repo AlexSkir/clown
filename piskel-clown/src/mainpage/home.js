@@ -110,7 +110,7 @@ class AppRouter extends React.Component {
               <ul className="menu">
                 <li className="homepage">
                   <Link
-                    to="/"
+                    to="/clown/piskel-clown/build/"
                     className="task-name"
                     onClick={e => {
                       if (localStorage.getItem('page') === 'create-animation') {
@@ -130,7 +130,7 @@ class AppRouter extends React.Component {
                 </li>
                 <li className="create menu-item">
                   <Link
-                    to="/create-animation"
+                    to="/clown/piskel-clown/build/create-animation"
                     id="create-animation"
                     className="create-link"
                     onClick={() => {
@@ -168,7 +168,7 @@ class AppRouter extends React.Component {
                     >
                       <li className={`list top ${this.state.active === 'list' ? '' : 'hidden'}`}>
                         <Link
-                          to={`/user/${this.state.id}`}
+                          to={`/clown/piskel-clown/build/user/${this.state.id}`}
                           id="galery"
                           className="account-item"
                           onClick={e => {
@@ -189,7 +189,9 @@ class AppRouter extends React.Component {
                       </li>
                       <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                         <Link
-                          to={`/${this.state.redirected ? this.state.redirected : ''}`}
+                          to={`/clown/piskel-clown/build/${
+                            this.state.redirected ? this.state.redirected : ''
+                          }`}
                           id="logout"
                           className="account-item"
                           onClick={() => {
@@ -220,9 +222,9 @@ class AppRouter extends React.Component {
             </div>
           </header>
           <Switch>
-            <Route path="/" exact component={About} />
-            <Route path={`/user/${this.state.id}`} component={User} />
-            <Route path="/create-animation" component={CreateAnimation} />
+            <Route path="/clown/piskel-clown/build/" exact component={About} />
+            <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
+            <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
             <Route component={About} />
           </Switch>
         </div>
