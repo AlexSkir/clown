@@ -35,7 +35,7 @@ class AppRouter extends React.Component {
       return 'are you sure you want to leave?';
     });
     $(document.body).ready(() => {
-      window.gapi.onload('auth2', () => {
+      window.gapi.load('auth2', () => {
         window.gapi.auth2
           .init({
             client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
