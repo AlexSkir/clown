@@ -41,7 +41,7 @@ class About extends React.Component {
               </span>
               {' to access your gallery or simply '}
               <Link
-                to="/clown/piskel-clown/build/create-animation"
+                to="/create-animation"
                 onClick={() => {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
@@ -62,7 +62,7 @@ class About extends React.Component {
               </button>
               <button type="button" className="create-button">
                 <Link
-                  to="/clown/piskel-clown/build/create-animation"
+                  to="/create-animation"
                   onClick={() => {
                     localStorage.setItem('page', 'create-animation');
                     localStorage.setItem('auth', false);
@@ -81,7 +81,7 @@ class About extends React.Component {
             <div className="home-preview" />
           </div>
 
-          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+          <Route path="/create-animation" component={CreateAnimation} />
         </div>
       </HashRouter>
     );

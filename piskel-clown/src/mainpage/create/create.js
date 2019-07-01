@@ -26,7 +26,7 @@ class CreateAnimation extends React.Component {
 
   isRedirected() {
     if (this.state.redirected === true) {
-      return <Redirect to="/clown/piskel-clown/build/" />;
+      return <Redirect to="/" />;
     }
   }
 
