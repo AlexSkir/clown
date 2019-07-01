@@ -18,13 +18,9 @@ class CreateAnimation extends React.Component {
   }
 
   componentDidMount() {
-    $(window).bind('beforeunload', e => {
-      if (confirm('Are you sure you want to leave?') === true) {
-        localStorage.setItem('page', '/');
-        this.setState({ redirected: true });
-      } else {
-        e.preventDefault();
-      }
+    $(window).bind('beforeunload', () => {
+      localStorage.setItem('page', '/');
+      this.setState({ redirected: true });
     });
   }
 
