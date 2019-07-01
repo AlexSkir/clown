@@ -83,6 +83,9 @@ class AppRouter extends React.Component {
         $(document.body).css({ cursor: 'default' });
       }
     }
+    localStorage.setItem('auth', true);
+    localStorage.setItem('page', `user/${ID}`);
+    this.setState({ redirected: `user/${ID}` });
   }
 
   signOut() {
