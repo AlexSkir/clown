@@ -48,6 +48,10 @@ class AppRouter extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.setState({ redirected: '/' });
+  }
+
   onSuccess(googleUser) {
     const profile = googleUser.getBasicProfile();
     const ID = profile.getId();
