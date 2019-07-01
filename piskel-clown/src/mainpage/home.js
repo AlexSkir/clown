@@ -225,7 +225,7 @@ class AppRouter extends React.Component {
             <Route path="/clown/piskel-clown/build/" exact component={About} />
             <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
             <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
-            <Route component={About} />
+            {/* <Route component={About} /> */}
           </Switch>
         </div>
       </Router>
