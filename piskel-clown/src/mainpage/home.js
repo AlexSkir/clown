@@ -116,8 +116,8 @@ class AppRouter extends React.Component {
                       if (localStorage.getItem('page') === 'create-animation') {
                         // eslint-disable-next-line no-restricted-globals
                         if (confirm('Are you sure you want to leave?') === true) {
-                          this.setState({ redirected: '' });
-                          localStorage.setItem('page', '');
+                          this.setState({ redirected: '/' });
+                          localStorage.setItem('page', '/');
                           localStorage.setItem('auth', true);
                           $(document.body).css({ cursor: 'default' });
                         }
