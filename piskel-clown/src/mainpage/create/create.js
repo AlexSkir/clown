@@ -12,12 +12,12 @@ class CreateAnimation extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    $(window).bind('beforeunload', () => {
-      localStorage.setItem('page', '/');
-      return 'are you sure you want to leave?';
-    });
-  }
+  // componentDidMount() {
+  //   $(window).bind('beforeunload', () => {
+  //     localStorage.setItem('page', '/');
+  //     return 'are you sure you want to leave?';
+  //   });
+  // }
 
   render() {
     return (

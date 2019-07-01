@@ -59,7 +59,6 @@ class About extends React.Component {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
                   $(document.body).css({ cursor: 'default' });
-                  return <Redirect to="/clown/piskel-clown/build/create-animation" />;
                 }}
                 className="link"
               >
