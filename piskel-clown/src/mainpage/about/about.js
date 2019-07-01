@@ -66,7 +66,7 @@ class About extends React.Component {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
                   $(document.body).css({ cursor: 'default' });
-                  return <Redirect to="/clown/piskel-clown/build/" />;
+                  return <Redirect to="/clown/piskel-clown/build/create-animation" />;
                 }}
                 className="link"
               >
@@ -86,7 +86,7 @@ class About extends React.Component {
         {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
         {/* <Route component={About} />
           </Switch> */}
-        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+        {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
       </div>
     );
   }
