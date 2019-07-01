@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import React from 'react';
-import { Redirect, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
 import CreateAnimation from './create/create';
@@ -100,131 +100,134 @@ class AppRouter extends React.Component {
 
   render() {
     return (
-      <div>
-        <header className="header">
-          <div className="header-menu">
-            <span className="menu-icon">
-              <i className="fas fa-bars" />
-            </span>
-            <ul className="menu">
-              <li className="homepage">
-                <Link
-                  to="/clown/piskel-clown/build/"
-                  className="task-name"
-                  onClick={e => {
-                    if (localStorage.getItem('page') === 'create-animation') {
-                      // eslint-disable-next-line no-restricted-globals
-                      if (confirm('Are you sure you want to leave?') === true) {
-                        this.setState({ redirected: '' });
-                        localStorage.setItem('page', '');
-                        localStorage.setItem('auth', true);
-                        $(document.body).css({ cursor: 'default' });
+      <Router>
+        <div>
+          <header className="header">
+            <div className="header-menu">
+              <span className="menu-icon">
+                <i className="fas fa-bars" />
+              </span>
+              <ul className="menu">
+                <li className="homepage">
+                  <Link
+                    to="/clown/piskel-clown/build/"
+                    className="task-name"
+                    onClick={e => {
+                      if (localStorage.getItem('page') === 'create-animation') {
+                        // eslint-disable-next-line no-restricted-globals
+                        if (confirm('Are you sure you want to leave?') === true) {
+                          this.setState({ redirected: '' });
+                          localStorage.setItem('page', '');
+                          localStorage.setItem('auth', true);
+                          $(document.body).css({ cursor: 'default' });
+                        }
+                        e.preventDefault();
                       }
-                      e.preventDefault();
-                    }
-                  }}
-                >
-                  Piskel-clone
-                </Link>
-              </li>
-              <li className="create menu-item">
-                <Link
-                  to="/clown/piskel-clown/build/create-animation"
-                  className="create-link"
-                  onClick={() => {
-                    this.setState({ redirected: 'create-animation' });
-                    localStorage.setItem('page', 'create-animation');
-                    localStorage.setItem('auth', false);
-                    $(document.body).css({ cursor: 'default' });
-                  }}
-                >
-                  Create Animation
-                </Link>
-              </li>
-              <li className="signin">
-                <div
-                  className={`menu-item ${this.state.id ? 'account' : 'hidden'}`}
-                  id="list"
-                  role="button"
-                  tabIndex="-1"
-                  onKeyPress={undefined}
-                  onClick={e => {
-                    this.addActiveClass(e);
-                  }}
-                >
-                  <div
-                    className="account-image"
-                    style={{
-                      backgroundImage: `url(${this.state.img})`,
-                      backgroundSize: 'contain'
                     }}
-                  />
-                  <span className="account-button">{this.state.name}</span>
-                  <i className="fas fa-sort-down" />
-                  <ul className={`dropdown ${this.state.active === 'list' ? 'active' : 'hidden'}`}>
-                    <li className={`list top ${this.state.active === 'list' ? '' : 'hidden'}`}>
-                      <Link
-                        to={`/clown/piskel-clown/build/user/${this.state.id}`}
-                        id="galery"
-                        className="account-item"
-                        onClick={e => {
-                          if (localStorage.getItem('page') === 'create-animation') {
+                  >
+                    Piskel-clone
+                  </Link>
+                </li>
+                <li className="create menu-item">
+                  <Link
+                    to="/clown/piskel-clown/build/create-animation"
+                    className="create-link"
+                    onClick={() => {
+                      this.setState({ redirected: 'create-animation' });
+                      localStorage.setItem('page', 'create-animation');
+                      localStorage.setItem('auth', false);
+                      $(document.body).css({ cursor: 'default' });
+                    }}
+                  >
+                    Create Animation
+                  </Link>
+                </li>
+                <li className="signin">
+                  <div
+                    className={`menu-item ${this.state.id ? 'account' : 'hidden'}`}
+                    id="list"
+                    role="button"
+                    tabIndex="-1"
+                    onKeyPress={undefined}
+                    onClick={e => {
+                      this.addActiveClass(e);
+                    }}
+                  >
+                    <div
+                      className="account-image"
+                      style={{
+                        backgroundImage: `url(${this.state.img})`,
+                        backgroundSize: 'contain'
+                      }}
+                    />
+                    <span className="account-button">{this.state.name}</span>
+                    <i className="fas fa-sort-down" />
+                    <ul
+                      className={`dropdown ${this.state.active === 'list' ? 'active' : 'hidden'}`}
+                    >
+                      <li className={`list top ${this.state.active === 'list' ? '' : 'hidden'}`}>
+                        <Link
+                          to={`/clown/piskel-clown/build/user/${this.state.id}`}
+                          id="galery"
+                          className="account-item"
+                          onClick={e => {
+                            if (localStorage.getItem('page') === 'create-animation') {
+                              // eslint-disable-next-line no-restricted-globals
+                              if (confirm('Are you sure you want to leave?') === true) {
+                                localStorage.setItem('auth', true);
+                                localStorage.setItem('page', `user/${this.state.id}`);
+                                this.setState({ redirected: localStorage.getItem('page') });
+                                $(document.body).css({ cursor: 'default' });
+                              }
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          My Galery
+                        </Link>
+                      </li>
+                      <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
+                        <Link
+                          to={`/clown/piskel-clown/build/${
+                            this.state.redirected ? this.state.redirected : ''
+                          }`}
+                          id="logout"
+                          className="account-item"
+                          onClick={() => {
                             // eslint-disable-next-line no-restricted-globals
                             if (confirm('Are you sure you want to leave?') === true) {
-                              localStorage.setItem('auth', true);
-                              localStorage.setItem('page', `user/${this.state.id}`);
-                              this.setState({ redirected: localStorage.getItem('page') });
-                              $(document.body).css({ cursor: 'default' });
+                              this.signOut();
                             }
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        My Galery
-                      </Link>
-                    </li>
-                    <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
-                      <Link
-                        to={`/clown/piskel-clown/build/${
-                          this.state.redirected ? this.state.redirected : ''
-                        }`}
-                        id="logout"
-                        className="account-item"
-                        onClick={() => {
-                          // eslint-disable-next-line no-restricted-globals
-                          if (confirm('Are you sure you want to leave?') === true) {
-                            this.signOut();
-                          }
-                        }}
-                      >
-                        Log out
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  id="my-signIn"
-                  className={`${this.state.id ? 'hidden' : 'shown'}`}
-                  onClick={() => {
-                    localStorage.setItem('auth', true);
-                  }}
-                  onKeyPress={() => undefined}
-                  role="button"
-                  tabIndex="-1"
-                />
-                {this.isRedirected()}
-              </li>
-            </ul>
-          </div>
-        </header>
-        <Switch>
-          <Route path="/clown/piskel-clown/build/" exact component={About} />
-          <Redirect from="/clown/piskel-clown/build/create" to="/clown/piskel-clown/build/" />
-          <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
-          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
-          <Route component={About} />
-        </Switch>
-      </div>
+                          }}
+                        >
+                          Log out
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    id="my-signIn"
+                    className={`${this.state.id ? 'hidden' : 'shown'}`}
+                    onClick={() => {
+                      localStorage.setItem('auth', true);
+                    }}
+                    onKeyPress={() => undefined}
+                    role="button"
+                    tabIndex="-1"
+                  />
+                  {this.isRedirected()}
+                </li>
+              </ul>
+            </div>
+          </header>
+          <Switch>
+            <Route path="/clown/piskel-clown/build/" exact component={About} />
+            <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} />
+            <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+            <Route component={About} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
