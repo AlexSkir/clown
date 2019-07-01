@@ -34,8 +34,8 @@ class AppRouter extends React.Component {
       this.setState({ redirected: '/' });
       return 'are you sure you want to leave?';
     });
-    $(document.body).ready(() => {
-      window.gapi.ready('auth2', () => {
+    $(document.body).onload(() => {
+      window.gapi.load('auth2', () => {
         window.gapi.auth2
           .init({
             client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
