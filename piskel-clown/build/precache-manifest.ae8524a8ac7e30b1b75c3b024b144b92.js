@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "beeff0b01558520bfd449d7a08024391",
+    "revision": "e752588dddf3d4647e7c4dab7ad38b96",
     "url": "/clown/piskel-clown/build/index.html"
   },
   {
-    "revision": "d808c4d310145769168f",
+    "revision": "ca78200afa46f42739d9",
     "url": "/clown/piskel-clown/build/static/css/main.7f725050.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/clown/piskel-clown/build/static/js/2.03f8b671.chunk.js"
   },
   {
-    "revision": "d808c4d310145769168f",
-    "url": "/clown/piskel-clown/build/static/js/main.1ffdf5fa.chunk.js"
+    "revision": "ca78200afa46f42739d9",
+    "url": "/clown/piskel-clown/build/static/js/main.c532a2cf.chunk.js"
   },
   {
     "revision": "3a0e000f0e61265b096d",
