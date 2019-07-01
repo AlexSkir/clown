@@ -32,21 +32,17 @@ class About extends React.Component {
               Google sign in
             </span>
             {' to access your gallery or simply '}
-            <span
-              onKeyPress={() => undefined}
-              role="button"
-              onFocus={() => undefined}
-              tabIndex="-1"
+            <Link
+              to="/clown/piskel-clown/build/create-animation"
               onClick={() => {
                 localStorage.setItem('page', 'create-animation');
                 localStorage.setItem('auth', false);
                 $(document.body).css({ cursor: 'default' });
-                $('#create-animation').click();
               }}
               className="description-link"
             >
               create a new sprite.
-            </span>
+            </Link>
           </h2>
           <div className="home-buttons">
             <button
@@ -57,11 +53,8 @@ class About extends React.Component {
               Sign in
             </button>
             <button type="button" className="create-button">
-              <span
-                onKeyPress={() => undefined}
-                role="button"
-                onFocus={() => undefined}
-                tabIndex="-1"
+              <Link
+                to="/clown/piskel-clown/build/create-animation"
                 onClick={() => {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
@@ -71,7 +64,7 @@ class About extends React.Component {
                 className="link"
               >
                 Create Sprite
-              </span>
+              </Link>
             </button>
           </div>
         </div>
@@ -80,15 +73,8 @@ class About extends React.Component {
           <div className="screen" />
           <div className="home-preview" />
         </div>
-        {/* <Switch>
-            <Route path="/clown/piskel-clown/build/" exact component={About} />
-            <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} /> */}
-        {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
-        {/* <Route component={About} />
-          </Switch> */}
-        <Router>
-          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
-        </Router>
+
+        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
       </div>
     );
   }
