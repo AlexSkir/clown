@@ -131,6 +131,7 @@ class AppRouter extends React.Component {
                 <li className="create menu-item">
                   <Link
                     to="/create-animation"
+                    id="create-animation"
                     className="create-link"
                     onClick={() => {
                       this.setState({ redirected: 'create-animation' });
@@ -218,10 +219,12 @@ class AppRouter extends React.Component {
               </ul>
             </div>
           </header>
-          <Route path="/" exact component={About} />
-          <Route path={`/user/${this.state.id}`} component={User} />
-          <Route path="/create-animation" component={CreateAnimation} />
-          <Route component={About} />
+          <Switch>
+            <Route path="/" exact component={About} />
+            <Route path={`/user/${this.state.id}`} component={User} />
+            <Route path="/create-animation" component={CreateAnimation} />
+            <Route component={About} />
+          </Switch>
         </div>
       </Router>
     );

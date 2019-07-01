@@ -1,9 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 // import { store } from '../../store/store';
-import CreateAnimation from '../create/create';
-import User from '../user/user';
+// import CreateAnimation from '../create/create';
 
 class About extends React.Component {
   constructor() {
@@ -33,17 +31,21 @@ class About extends React.Component {
               Google sign in
             </span>
             {' to access your gallery or simply '}
-            <Link
-              to="/clown/piskel-clown/build/create-animation"
+            <span
+              onKeyPress={() => undefined}
+              role="button"
+              onFocus={() => undefined}
+              tabIndex="-1"
               onClick={() => {
                 localStorage.setItem('page', 'create-animation');
                 localStorage.setItem('auth', false);
                 $(document.body).css({ cursor: 'default' });
+                $('#create-animation').click();
               }}
               className="description-link"
             >
               create a new sprite.
-            </Link>
+            </span>
           </h2>
           <div className="home-buttons">
             <button
@@ -54,17 +56,21 @@ class About extends React.Component {
               Sign in
             </button>
             <button type="button" className="create-button">
-              <Link
-                to="/clown/piskel-clown/build/create-animation"
+              <span
+                onKeyPress={() => undefined}
+                role="button"
+                onFocus={() => undefined}
+                tabIndex="-1"
                 onClick={() => {
                   localStorage.setItem('page', 'create-animation');
                   localStorage.setItem('auth', false);
                   $(document.body).css({ cursor: 'default' });
+                  $('#create-animation').click();
                 }}
                 className="link"
               >
                 Create Sprite
-              </Link>
+              </span>
             </button>
           </div>
         </div>
@@ -76,7 +82,7 @@ class About extends React.Component {
         {/* <Switch>
             <Route path="/clown/piskel-clown/build/" exact component={About} />
             <Route path={`/clown/piskel-clown/build/user/${this.state.id}`} component={User} /> */}
-        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+        {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
         {/* <Route component={About} />
           </Switch> */}
       </div>
