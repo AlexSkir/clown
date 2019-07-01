@@ -1,4 +1,7 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 import React from 'react';
+import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
 import $ from 'jquery';
 import Tools from '../../components/tools/toolsDomBuilder';
 import Canvas from '../../screens/canvas/canvasDomBuilder';
@@ -9,15 +12,27 @@ import Options from '../../components/menu/optionsDomBuilder';
 class CreateAnimation extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      redirected: false
+    };
   }
 
-  // componentDidMount() {
-  //   $(window).bind('beforeunload', () => {
-  //     localStorage.setItem('page', '/');
-  //     return 'are you sure you want to leave?';
-  //   });
-  // }
+  componentDidMount() {
+    $(window).bind('beforeunload', e => {
+      if (confirm('Are you sure you want to leave?') === true) {
+        localStorage.setItem('page', '/');
+        this.setState({ redirected: true });
+      } else {
+        e.preventDefault();
+      }
+    });
+  }
+
+  isRedirected() {
+    if (this.state.redirected === true) {
+      return <Redirect to="/clown/piskel-clown/build/" />;
+    }
+  }
 
   render() {
     return (
@@ -38,6 +53,7 @@ class CreateAnimation extends React.Component {
           <section className="options-area" id="options-area">
             <Options />
           </section>
+          {this.isRedirected()}
         </div>
       </div>
     );
