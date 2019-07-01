@@ -143,6 +143,7 @@ class AppRouter extends React.Component {
                           $(document.body).css({ cursor: 'default' });
                         }
                         e.preventDefault();
+                        return;
                       }
                       localStorage.setItem('auth', false);
                       localStorage.setItem('page', '/');
