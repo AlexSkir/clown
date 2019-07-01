@@ -86,7 +86,9 @@ class About extends React.Component {
         {/* <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} /> */}
         {/* <Route component={About} />
           </Switch> */}
-        <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+        <Router>
+          <Route path="/clown/piskel-clown/build/create-animation" component={CreateAnimation} />
+        </Router>
       </div>
     );
   }
