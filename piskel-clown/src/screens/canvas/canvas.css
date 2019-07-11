@@ -4,3 +4,9 @@
 	background-color: rgba(255, 255, 255, 1);
 	border: 1px solid black;
 }
+.drawCanvas {
+	position: absolute;
+	top: 83px;
+	left: 254px;
+	border: 1px solid black;
+}

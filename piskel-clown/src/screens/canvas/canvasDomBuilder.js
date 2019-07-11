@@ -3,7 +3,7 @@ import $ from 'jquery';
 import './resizeWindow';
 import './canvas.css';
 import { canvas } from '../../store/store';
-import { start } from './drawing';
+import { start, strokeLines } from './drawing';
 import paintIt from './paint';
 import { makeImage } from '../preview/preview';
 
@@ -16,8 +16,7 @@ class Canvas extends React.Component {
   constructor() {
     super();
     this.state = {
-      size: '',
-      curCanvas: ''
+      size: ''
     };
     this.mounted = false;
   }
@@ -34,9 +33,6 @@ class Canvas extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    if (this.mounted) {
-      this.setState({ curCanvas: currentCanvas });
-    }
   }
 
   componentWillUnmount() {
@@ -44,24 +40,22 @@ class Canvas extends React.Component {
   }
 
   penHandleClick() {
-    if (this.mounted) {
-      this.setState({ curCanvas: currentCanvas });
-    }
+    this.mounted = true;
 
     // remove old events
-    $(`#canvas${this.state.curCanvas}`)
+    $('#drawCanvas')
       .unbind('mousedown')
       .unbind('mouseup')
       .unbind('click');
     // initialize new events
-    $(`#canvas${this.state.curCanvas}`).click(paintIt);
-    $(`#canvas${this.state.curCanvas}`).mousedown(start);
-    $(`#canvas${this.state.curCanvas}`).mouseup(() => {
-      $(`#canvas${this.state.curCanvas}`).off('mousemove');
-      // create canvas-image url
-      const dataURL = $(`#canvas${this.state.curCanvas}`)[0].toDataURL('image/png');
+    $('#drawCanvas').click(paintIt);
+    $('#drawCanvas').mousedown(start);
+    $('#drawCanvas').mousedown(strokeLines);
+    $('#drawCanvas').mouseup(() => {
+      $('#drawCanvas').off('mousemove');
+      const dataURL = $(`#canvas${currentCanvas}`)[0].toDataURL('image/png');
       // put canvas image in preview-box
-      $(`#frame${this.state.curCanvas}`)
+      $(`#frame${currentCanvas}`)
         .find('.preview-box')
         .css({
           background: `url(${dataURL})`,
@@ -69,19 +63,29 @@ class Canvas extends React.Component {
         });
       // create image for animation preview
       setTimeout(() => {
-        makeImage(this.state.curCanvas);
+        makeImage(currentCanvas);
       }, 500);
     });
   }
 
   render() {
     return (
-      <canvas
-        id="canvas1"
-        className="canvas hidden"
-        width={this.state.size}
-        height={this.state.size}
-      />
+      <div>
+        <div id="canvas-block">
+          <canvas
+            id="canvas1"
+            className="canvas hidden"
+            width={this.state.size}
+            height={this.state.size}
+          />
+        </div>
+        <canvas
+          id="drawCanvas"
+          className="drawCanvas"
+          width={this.state.size}
+          height={this.state.size}
+        />
+      </div>
     );
   }
 }

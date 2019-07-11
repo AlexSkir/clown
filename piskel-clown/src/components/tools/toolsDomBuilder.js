@@ -5,6 +5,7 @@ import { colorPickerOnClick, customedColorOnChange, rgbaToHex, rgbToHex } from '
 import paintBucketOnClick from './paintBucket';
 import penOnClick from './pen';
 import eraserOnClick from './eraser';
+import { strokeOnClick, rectangleOnClick, circleOnClick } from './stroke';
 import { store, canvas } from '../../store/store';
 
 let toolState;
@@ -184,6 +185,65 @@ class Tools extends React.Component {
             >
               <i
                 className={`fas fa-eraser ${this.state.active === 'eraser' ? 'fas-hovered' : ''}`}
+              />
+            </button>
+          </div>
+          <div className="palette-block">
+            <button
+              id="stroke"
+              className="palette-button"
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
+              onClick={() => {
+                strokeOnClick();
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
+              }}
+            >
+              <i
+                className={`fas fa-slash ${this.state.active === 'stroke' ? 'fas-hovered' : ''}`}
+              />
+            </button>
+          </div>
+          <div className="palette-block">
+            <button
+              id="rectangle"
+              className="palette-button"
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
+              onClick={() => {
+                rectangleOnClick();
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
+              }}
+            >
+              <i
+                className={`far fa-square ${
+                  this.state.active === 'rectangle' ? 'fas-hovered' : ''
+                }`}
+              />
+            </button>
+          </div>
+          <div className="palette-block">
+            <button
+              id="circle"
+              className="palette-button"
+              type="button"
+              onMouseEnter={e => this.buttonOnHoverIn(e)}
+              onMouseLeave={e => this.buttonOnHoverOut(e)}
+              onClick={() => {
+                circleOnClick();
+                if (this.mounted) {
+                  this.setState({ tool: toolState });
+                }
+              }}
+            >
+              <i
+                className={`far fa-circle ${this.state.active === 'circle' ? 'fas-hovered' : ''}`}
               />
             </button>
           </div>

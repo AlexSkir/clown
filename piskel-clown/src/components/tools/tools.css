@@ -1,5 +1,5 @@
 .palette {
-  height: 200px;  
+  height: auto;  
   font-size: 18px;
   border: 1px solid rgba(231, 229, 229, 0.808);
   box-shadow: 1px 4px 10px -6px;
@@ -25,6 +25,10 @@
 .fas {
   color: rgb(148, 146, 146);
   transform: scale(1.5);
+}
+.far {
+  color: rgb(148, 146, 146);
+  transform: scale(2);
 }
 .color-name {
   margin-left: 20px;

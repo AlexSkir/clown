@@ -1,13 +1,6 @@
 /* eslint-disable no-alert */
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Link,
-  Switch,
-  HashRouter
-} from 'react-router-dom';
+import { Redirect, Route, Link, Switch, HashRouter } from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
 import CreateAnimation from './create/create';

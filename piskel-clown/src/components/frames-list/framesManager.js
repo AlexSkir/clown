@@ -40,8 +40,8 @@ function updateId() {
     child.find('.number').text(i + 1);
     makeImage(i + 1);
   }
-  for (let i = 0; i < $('#canvas-area').children().length; i += 1) {
-    $('#canvas-area').children()[i].id = `canvas${i + 1}`;
+  for (let i = 0; i < $('#canvas-block').children().length; i += 1) {
+    $('#canvas-block').children()[i].id = `canvas${i + 1}`;
   }
   for (let i = 0; i < $('.preview').children().length; i += 1) {
     $('.preview').children()[i].id = `canvasImage${i + 1}`;
