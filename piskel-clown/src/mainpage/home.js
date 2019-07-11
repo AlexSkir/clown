@@ -36,29 +36,28 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     $(window).bind('beforeunload', () => {
-      // localStorage.setItem('page', '/');
-      // console.log(localStorage.getItem('page'));
-      // this.setState({ redirected: '/' });
       return 'are you sure you want to leave?';
     });
-    $(document.body).ready(() => {
-      window.gapi.load('auth2', () => {
-        window.gapi.auth2
-          .init({
-            client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
-          })
-          .then(() => {
-            window.gapi.signin2.render('my-signIn', {
-              scope: 'profile email',
-              width: 240,
-              height: 37,
-              longtitle: true,
-              onsuccess: this.onSuccess,
-              onfailure: this.onFailure
+    setTimeout(() => {
+      $(document.body).ready(() => {
+        window.gapi.load('auth2', () => {
+          window.gapi.auth2
+            .init({
+              client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
+            })
+            .then(() => {
+              window.gapi.signin2.render('my-signIn', {
+                scope: 'profile email',
+                width: 240,
+                height: 37,
+                longtitle: true,
+                onsuccess: this.onSuccess,
+                onfailure: this.onFailure
+              });
             });
-          });
+        });
       });
-    });
+    }, 200);
   }
 
   componentWillUnmount() {
