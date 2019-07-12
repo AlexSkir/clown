@@ -114,7 +114,7 @@ class ExportOptions extends React.Component {
         <div
           className={`png-block ${this.state.active === 'show-png-block' ? 'flexed' : 'hidden'}`}
         >
-          <span className="png-title">Export selected frame as a PNG file</span>
+          <span className="png-title">Export your animation as a PNG file</span>
           <div className="download-block">
             <button
               id="download-png"
@@ -124,7 +124,7 @@ class ExportOptions extends React.Component {
             >
               Download
             </button>
-            <span className="download-png-title">Spritesheet file export</span>
+            <span className="download-png-title">Download selected frame as PNG file</span>
           </div>
           <div className="download-block">
             <button

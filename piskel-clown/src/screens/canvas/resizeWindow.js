@@ -1,8 +1,8 @@
 import $ from 'jquery';
 
 const canvasWidth =
-  window.innerWidth - 450 < window.innerHeight - 155
-    ? window.innerWidth - 450
+  window.innerWidth - 500 < window.innerHeight - 155
+    ? window.innerWidth - 500
     : window.innerHeight - 155;
 
 $(window).bind('resize', () => {
@@ -15,8 +15,8 @@ $(window).bind('resize', () => {
 
     // calc new canvas width on resize the window
     const changeWidth =
-      window.innerWidth - 450 < window.innerHeight - 155
-        ? window.innerWidth - 450
+      window.innerWidth - 500 < window.innerHeight - 155
+        ? window.innerWidth - 500
         : window.innerHeight - 155;
 
     $(`#canvas${i + 1}`)

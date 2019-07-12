@@ -23,8 +23,8 @@ class Canvas extends React.Component {
 
   componentWillMount() {
     const canvasWidth =
-      window.innerWidth - 450 < window.innerHeight - 155
-        ? window.innerWidth - 450
+      window.innerWidth - 500 < window.innerHeight - 155
+        ? window.innerWidth - 500
         : window.innerHeight - 155;
     this.setState({ size: canvasWidth });
 
