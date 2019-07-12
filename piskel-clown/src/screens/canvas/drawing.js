@@ -140,6 +140,8 @@ function strokeLines(e) {
   startX = e.pageX - this.offsetLeft;
   startY = e.pageY - this.offsetTop;
   $('#drawCanvas').mousemove(endStroke);
+  palette.dispatch({ type: 'addColor', value: $('#currentColor').css('background-color') });
+  $('#addColorButton').click();
 }
 
 export { start, end, strokeLines };

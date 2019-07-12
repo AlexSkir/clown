@@ -53,14 +53,17 @@ class Canvas extends React.Component {
     $('#drawCanvas').mousedown(strokeLines);
     $('#drawCanvas').mouseup(() => {
       $('#drawCanvas').off('mousemove');
-      const dataURL = $(`#canvas${currentCanvas}`)[0].toDataURL('image/png');
-      // put canvas image in preview-box
-      $(`#frame${currentCanvas}`)
-        .find('.preview-box')
-        .css({
-          background: `url(${dataURL})`,
-          'background-size': 'contain'
-        });
+      setTimeout(() => {
+        const dataURL = $(`#canvas${currentCanvas}`)[0].toDataURL('image/png');
+        // put canvas image in preview-box
+        $(`#frame${currentCanvas}`)
+          .find('.preview-box')
+          .css({
+            background: `url(${dataURL})`,
+            'background-size': 'contain'
+          });
+      }, 300);
+
       // create image for animation preview
       setTimeout(() => {
         makeImage(currentCanvas);
