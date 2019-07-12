@@ -31,7 +31,7 @@ function newCanvas(n) {
   })
     .attr('width', canvasWidth)
     .attr('height', canvasWidth);
-  newCanvasEl.appendTo('.canvas-area');
+  newCanvasEl.appendTo('#canvas-block');
 }
 
 // copy target frame's canvas with content if the frame was cloned
