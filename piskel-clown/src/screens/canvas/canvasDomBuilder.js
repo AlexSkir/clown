@@ -71,7 +71,7 @@ class Canvas extends React.Component {
   render() {
     return (
       <div>
-        <div id="canvas-block">
+        <div id="canvas-block" className="canvas-block">
           <canvas
             id="canvas1"
             className="canvas hidden"

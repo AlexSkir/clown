@@ -10,3 +10,8 @@
 	left: 254px;
 	border: 1px solid black;
 }
+.canvas-block {
+	position: absolute;
+  left: 254px;
+}
+
