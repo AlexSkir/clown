@@ -85,7 +85,7 @@ function saveAsGif() {
   encoder.setDelay(delay);
   encoder.start();
 
-  for (let i = 0; i < $('#canvas-area').children().length; i += 1) {
+  for (let i = 0; i < $('#canvas-block').children().length; i += 1) {
     const curCanv = document.querySelector(`#canvas${i + 1}`);
     const originalContext = $(`#canvas${i + 1}`)
       .get(0)
@@ -127,7 +127,7 @@ function uploadToUrl() {
   encoder.setDelay(delay);
   encoder.start();
 
-  for (let i = 0; i < $('#canvas-area').children().length; i += 1) {
+  for (let i = 0; i < $('#canvas-block').children().length; i += 1) {
     const curCanv = document.querySelector(`#canvas${i + 1}`);
     const originalContext = $(`#canvas${i + 1}`)
       .get(0)
