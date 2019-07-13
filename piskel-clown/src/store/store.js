@@ -86,6 +86,18 @@ function userState(state = {}, action) {
       return Object.assign({}, state, {
         imageURL: action.value
       });
+    case 'email':
+      return Object.assign({}, state, {
+        email: action.value
+      });
+    case 'token':
+      return Object.assign({}, state, {
+        token: action.value
+      });
+    case 'googleUrl':
+      return Object.assign({}, state, {
+        googleUrl: action.value
+      });
     default:
       return state;
   }

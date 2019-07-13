@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 /* eslint-disable func-names */
 /* eslint-disable import/prefer-default-export */
@@ -25,6 +26,7 @@
  * @author Kevin Kwok (JavaScript version - https://github.com/antimatter15/jsgif)
  * @version 0.1 AS3 implementation
  */
+import $ from 'jquery';
 import { NeuQuant } from './NeuQuant';
 import { LZWEncoder } from './LZWEncoder';
 
@@ -222,6 +224,26 @@ const GIFEncoder = function() {
         new Blob([new Uint8Array(out.bin)], { type: 'image/gif' })
       );
       templink.click();
+    }
+  });
+
+  const upload = (exports.upload = function upload(filename) {
+    if (out === null || closeStream == false) {
+      console.log(
+        'Please call start method and add frames and call finish method before calling download'
+      );
+    } else {
+      filename =
+        filename !== undefined ? (filename.endsWith('.gif') ? filename : filename) : 'download.gif';
+      const templink = document.createElement('a');
+      templink.target = '_blank';
+      templink.href = URL.createObjectURL(
+        new Blob([new Uint8Array(out.bin)], { type: 'image/gif' })
+      );
+      const link = $(templink)
+        .attr('href')
+        .replace('blob:', '');
+      return new Uint8Array(out.bin);
     }
   });
 

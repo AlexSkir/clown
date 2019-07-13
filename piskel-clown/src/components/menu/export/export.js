@@ -1,26 +1,44 @@
 import React from 'react';
 import $ from 'jquery';
 import './export.css';
-import { options } from '../../../store/store';
+import { options, user } from '../../../store/store';
 import {
   saveAsGif,
   uploadToUrl,
   downloadPng,
   debugBase64,
-  debugBase64WithText
+  debugBase64WithText,
+  uploadToGoogle
 } from './fromCanvasToFile';
 
 let optionsBlock;
 options.subscribe(() => {
   optionsBlock = options.getState().optionsBlock;
 });
+
+let url;
+let name;
+user.subscribe(() => {
+  url = user.getState().googleUrl;
+  name = user.getState().name;
+  // console.log(url);
+});
 class ExportOptions extends React.Component {
   constructor() {
     super();
     this.state = {
       active: 'show-gif-block',
-      dataUrl: ''
+      dataUrl: '',
+      googleUrl: '',
+      isLogin: false
     };
+  }
+
+  componentWillMount() {
+    this.mounted = true;
+    if (name) {
+      this.setState({ isLogin: true });
+    }
   }
 
   componentDidMount() {
@@ -34,6 +52,12 @@ class ExportOptions extends React.Component {
   showExportOptions(e) {
     const clicked = e.target.getAttribute('id');
     this.setState({ active: clicked });
+  }
+
+  updateState() {
+    if (name) {
+      this.setState({ isLogin: true });
+    }
   }
 
   render() {
@@ -110,7 +134,56 @@ class ExportOptions extends React.Component {
               </button>
             </div>
           </div>
+          <div className="download-block">
+            <button
+              id="upload-google"
+              className={`gif-button ${this.state.isLogin ? '' : 'hidden'}`}
+              type="button"
+              onClick={() => {
+                uploadToGoogle();
+                this.setState({ googleUrl: true });
+              }}
+            >
+              Get link
+            </button>
+            <span className={`upload-gif-google ${this.state.isLogin ? 'blocked' : 'hidden'}`}>
+              Save your animation to Google disk to share
+            </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                $('.abcRioButton.abcRioButtonLightBlue').click();
+              }}
+              className={`save-online-button ${this.state.isLogin ? 'hidden' : ''}`}
+            >
+              Sign in to save to Google disk
+            </button>
+            <button
+              type="button"
+              className="hidden"
+              id="updateGoogleButtonLoggedIn"
+              onClick={() => this.updateState()}
+            />
+
+            <div className={`link-to-gif ${this.state.googleUrl ? '' : 'hidden'}`}>
+              <span>Click the link</span>
+              <a
+                className="google-link"
+                id="google-link"
+                rel="noopener noreferrer"
+                target="_blank"
+                href={url}
+                onClick={() => {
+                  this.setState({ googleUrl: '' });
+                }}
+              >
+                {url}
+              </a>
+            </div>
+          </div>
         </div>
+
         <div
           className={`png-block ${this.state.active === 'show-png-block' ? 'flexed' : 'hidden'}`}
         >

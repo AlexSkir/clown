@@ -33,14 +33,14 @@ class AppRouter extends React.Component {
     });
     setTimeout(() => {
       $(document.body).ready(() => {
-        window.gapi.load('auth2', () => {
+        window.gapi.load('client:auth2', () => {
           window.gapi.auth2
             .init({
               client_id: '717448332612-evijnpopt50fj6vp0d9iul50sgdout90.apps.googleusercontent.com'
             })
             .then(() => {
               window.gapi.signin2.render('my-signIn', {
-                scope: 'profile email',
+                scope: 'https://www.googleapis.com/auth/drive.file',
                 width: 240,
                 height: 37,
                 longtitle: true,
@@ -62,10 +62,13 @@ class AppRouter extends React.Component {
     const ID = profile.getId();
     const fullName = profile.getName();
     const imageURL = profile.getImageUrl();
+    const email = profile.getEmail();
+    user.dispatch({ type: 'email', value: email });
 
     user.dispatch({ type: 'name', value: fullName });
     this.setState({ id: ID, name: fullName, img: imageURL });
     $('#updateSaveButtonLoggedIn').click();
+    $('#updateGoogleButtonLoggedIn').click();
     if (localStorage.getItem('page') === 'create-animation') {
       // eslint-disable-next-line no-restricted-globals
       if (confirm('Are you sure you want to leave?') === true) {

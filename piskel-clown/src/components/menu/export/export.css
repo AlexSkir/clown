@@ -66,6 +66,15 @@
   margin-left: 10px;
   font-size: 13px;
 }
+.upload-gif-google {
+  width: 126px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 13px;
+}
+.blocked {
+  display: block;
+}
 .download-block {
   display: flex;
 }
@@ -82,8 +91,16 @@
 }
 .link-to-gif {
   position: absolute;
-  top: 240px;
+  top: 275px;
   width: 90%;
+}
+.google-link {
+  display: block;
+  color: black;
+  text-decoration: none;
+  word-break: break-all;
+  background: white;
+  border: 1px solid black;
 }
 #hidden {
   width: 421px;

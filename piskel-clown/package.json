@@ -1,16 +1,23 @@
 {
-  "name": "piskel-clown",
+  "name": "piskel-clone",
   "homepage": "http://AlexSkir.github.io/clown/piskel-clown/build/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "async": "^3.1.0",
+    "browserify-fs": "^1.0.0",
+    "googleapis": "^41.0.0",
     "jquery": "^3.4.1",
     "jquery-ui-sortable-npm": "^1.0.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-google-drive-rest-api": "^1.1.6",
+    "react-google-picker": "^0.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "superagent": "^5.1.0"
   },
   "scripts": {
     "lint": "eslint ./src/**/*.js",

@@ -22,8 +22,8 @@ function openCanvas() {
 // create new canvas if new frame was created
 function newCanvas(n) {
   const canvasWidth =
-    window.innerWidth - 450 < window.innerHeight - 155
-      ? window.innerWidth - 450
+    window.innerWidth - 500 < window.innerHeight - 155
+      ? window.innerWidth - 500
       : window.innerHeight - 155;
   const newCanvasEl = $('<canvas/>', {
     class: 'canvas hidden',
