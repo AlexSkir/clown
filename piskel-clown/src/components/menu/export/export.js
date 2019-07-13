@@ -148,7 +148,7 @@ class ExportOptions extends React.Component {
                 }, 700);
                 setTimeout(() => {
                   this.setState({ googleUrl: '' });
-                }, 300000);
+                }, 150000);
               }}
             >
               Get link
