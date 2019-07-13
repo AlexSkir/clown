@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/clown/piskel-clown/build/precache-manifest.a6e75536d13a3e8c182a8bcfd60b2f5d.js"
+  "/clown/piskel-clown/build/precache-manifest.3d70c8806c7870fbb4b0b584b50cda48.js"
 );
 
 self.addEventListener('message', (event) => {

@@ -141,7 +141,9 @@ class ExportOptions extends React.Component {
               type="button"
               onClick={() => {
                 uploadToGoogle();
-                this.setState({ googleUrl: true });
+                setTimeout(() => {
+                  this.setState({ googleUrl: true });
+                }, 500);
               }}
             >
               Get link
@@ -178,7 +180,7 @@ class ExportOptions extends React.Component {
                   this.setState({ googleUrl: '' });
                 }}
               >
-                {url}
+                {url || 'Your animation is available by this link'}
               </a>
             </div>
           </div>
