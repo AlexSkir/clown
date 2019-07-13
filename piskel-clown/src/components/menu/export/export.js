@@ -17,9 +17,11 @@ options.subscribe(() => {
 });
 
 let url;
+let gifUrl;
 let name;
 user.subscribe(() => {
   url = user.getState().googleUrl;
+  gifUrl = user.getState().urlToGif;
   name = user.getState().name;
   // console.log(url);
 });
@@ -143,7 +145,10 @@ class ExportOptions extends React.Component {
                 uploadToGoogle();
                 setTimeout(() => {
                   this.setState({ googleUrl: true });
-                }, 500);
+                }, 700);
+                setTimeout(() => {
+                  this.setState({ googleUrl: '' });
+                }, 300000);
               }}
             >
               Get link
@@ -176,11 +181,17 @@ class ExportOptions extends React.Component {
                 rel="noopener noreferrer"
                 target="_blank"
                 href={url}
-                onClick={() => {
-                  this.setState({ googleUrl: '' });
-                }}
               >
-                {url || 'Your animation is available by this link'}
+                {'Link to file on Google disk'}
+              </a>
+              <a
+                className="google-link"
+                id="span-link"
+                rel="noopener noreferrer"
+                target="_blank"
+                href={gifUrl}
+              >
+                {'Direct link to your GIF'}
               </a>
             </div>
           </div>

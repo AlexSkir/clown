@@ -95,12 +95,22 @@
   width: 90%;
 }
 .google-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;
+  padding-left: 5px;
   color: black;
   text-decoration: none;
   word-break: break-all;
   background: white;
   border: 1px solid black;
+  box-sizing: border-box;
+}
+.google-link:hover {
+  cursor: pointer;
+  background: rgba(107, 235, 235, 1);
+  border: 2px ridge gray;
 }
 #hidden {
   width: 421px;

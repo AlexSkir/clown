@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-ui-sortable-npm';
 import { makeImage } from '../../screens/preview/preview';
-import { openCanvas, newCanvas, copyCanvas, copyCanvasContext, putImage } from './canvasManager';
+import { openCanvas, newCanvas, copyCanvas } from './canvasManager';
 
 // show/hide frame buttons
 function hoverIn() {
@@ -34,17 +34,17 @@ function hoverOut() {
 }
 // update IDs after adding/removing elements
 function updateId() {
-  for (let i = 0; i < $('#sortable').children().length; i += 1) {
-    $('#sortable').children()[i].id = `frame${i + 1}`;
-    const child = $($('#sortable').children()[i]);
-    child.find('.number').text(i + 1);
-    makeImage(i + 1);
-  }
   for (let i = 0; i < $('#canvas-block').children().length; i += 1) {
     $('#canvas-block').children()[i].id = `canvas${i + 1}`;
   }
   for (let i = 0; i < $('.preview').children().length; i += 1) {
     $('.preview').children()[i].id = `canvasImage${i + 1}`;
+  }
+  for (let i = 0; i < $('#sortable').children().length; i += 1) {
+    $('#sortable').children()[i].id = `frame${i + 1}`;
+    const child = $($('#sortable').children()[i]);
+    child.find('.number').text(i + 1);
+    makeImage(i + 1);
   }
 }
 
@@ -66,15 +66,22 @@ function dragOff(e) {
       .parent()
       .find('.number')
       .text();
+    if (dragged < target) {
+      $(`#canvas${dragged}`).insertAfter(`#canvas${target}`);
+    } else {
+      $(`#canvas${dragged}`).insertBefore(`#canvas${target}`);
+    }
+    // const draggedImage = copyCanvasContext(dragged);
+    // const targetImage = copyCanvasContext(dragged + 1);
+    // putImage(dragged, targetImage);
+    // putImage(target, draggedImage);
+    updateId();
+  }, 200);
+  setTimeout(() => {
     $(e.currentTarget)
       .parent()
       .click();
-    const draggedImage = copyCanvasContext(dragged);
-    const targetImage = copyCanvasContext(target);
-    putImage(dragged, targetImage);
-    putImage(target, draggedImage);
-    updateId();
-  }, 200);
+  }, 400);
 }
 
 function removeFrame() {

@@ -230,9 +230,12 @@ function uploadToGoogle() {
     onComplete(data) {
       const info = JSON.parse(data);
       const fileId = info.id;
-      const url = `https://docs.google.com/file/d/${fileId}/preview`;
+      const url = `https://drive.google.com/open?id=${fileId}`;
+      const urlToGif = `https://drive.google.com/thumbnail?id=${fileId}`;
       user.dispatch({ type: 'googleUrl', value: url });
+      user.dispatch({ type: 'gifUrl', value: urlToGif });
       $('#google-link').attr('href', url);
+      $('#span-link').attr('href', urlToGif);
       window.gapi.client.drive.permissions
         .create({
           fileId: `${fileId}`,
