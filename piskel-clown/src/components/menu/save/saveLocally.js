@@ -78,25 +78,22 @@ function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newVa
       globalObj[storageEntries[i][0]] = {};
       globalObj[storageEntries[i][0]] = storageEntries[i][1];
     }
-  } else if (!storage) {
-    if (globalObj) {
-      if (Object.keys(globalObj).length === 0) {
-        globalObj[`${userID}`] = {};
-      }
+    if (storageEntries.every(storedUser => storedUser[0] !== userID)) {
+      globalObj[userID] = {};
     }
+  } else {
+    globalObj[userID] = {};
   }
   // if object with user's projects updates then rewrite this user in global object
   if (localStorage.getItem(`${user}`)) {
-    globalObj[`${userID}`] = {};
-    globalObj[`${userID}`] = JSON.parse(localStorage.getItem(`${user}`));
+    globalObj[userID] = {};
+    globalObj[userID] = JSON.parse(localStorage.getItem(`${user}`));
   }
-  // update storage
-  localStorage.setItem('authLocalProjects', JSON.stringify(globalObj[`${userID}`]));
 
   let storedObj; // object for user ID projects
-  const newstorage = localStorage.getItem('authLocalProjects');
-  if (newstorage) {
-    const entries = Object.entries(newstorage);
+  // const newstorage = JSON.parse(localStorage.getItem('authLocalProjects'));
+  if (globalObj) {
+    const entries = Object.entries(globalObj);
     for (let i = 0; i < entries.length; i += 1) {
       if (entries[i][0] === userID) {
         storedObj = entries[i][1];
