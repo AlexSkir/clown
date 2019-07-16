@@ -79,6 +79,11 @@ class SaveOptions extends React.Component {
   }
 
   saveToGaleryHandler() {
+    if (!localStorage.getItem('auth')) {
+      this.setState({ isLogin: false });
+      $('#signOuted').click();
+      return;
+    }
     const newValue = $('#title-input').val();
     this.setState({ value: newValue });
     settings.dispatch({ type: 'title', value: newValue });

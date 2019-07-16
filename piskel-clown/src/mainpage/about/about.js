@@ -64,7 +64,6 @@ class About extends React.Component {
                 store.dispatch({ type: 'currentPage', value: `create-animation/${this.id}` });
                 this.setState({ page: `create-animation/${this.id}` });
                 localStorage.setItem('page', `create-animation/${this.id}`);
-                localStorage.setItem('auth', false);
                 localStorage.setItem('project', this.id);
                 $(document.body).css({ cursor: 'default' });
               }}
@@ -88,7 +87,6 @@ class About extends React.Component {
                 preview.dispatch({ type: 'piskelID', value: this.id });
                 this.setState({ page: `create-animation/${this.id}` });
                 localStorage.setItem('page', `create-animation/${this.id}`);
-                localStorage.setItem('auth', false);
                 localStorage.setItem('project', this.id);
                 $(document.body).css({ cursor: 'default' });
               }}

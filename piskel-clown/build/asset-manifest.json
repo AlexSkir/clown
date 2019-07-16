@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/clown/piskel-clown/build/static/css/main.284fd0e9.chunk.css",
-    "main.js": "/clown/piskel-clown/build/static/js/main.c74b977a.chunk.js",
-    "main.js.map": "/clown/piskel-clown/build/static/js/main.c74b977a.chunk.js.map",
+    "main.css": "/clown/piskel-clown/build/static/css/main.eac4b867.chunk.css",
+    "main.js": "/clown/piskel-clown/build/static/js/main.a5ed686f.chunk.js",
+    "main.js.map": "/clown/piskel-clown/build/static/js/main.a5ed686f.chunk.js.map",
     "runtime~main.js": "/clown/piskel-clown/build/static/js/runtime~main.5962645a.js",
     "runtime~main.js.map": "/clown/piskel-clown/build/static/js/runtime~main.5962645a.js.map",
-    "static/js/2.82cdf6bc.chunk.js": "/clown/piskel-clown/build/static/js/2.82cdf6bc.chunk.js",
-    "static/js/2.82cdf6bc.chunk.js.map": "/clown/piskel-clown/build/static/js/2.82cdf6bc.chunk.js.map",
+    "static/js/2.01cf5195.chunk.js": "/clown/piskel-clown/build/static/js/2.01cf5195.chunk.js",
+    "static/js/2.01cf5195.chunk.js.map": "/clown/piskel-clown/build/static/js/2.01cf5195.chunk.js.map",
     "index.html": "/clown/piskel-clown/build/index.html",
-    "precache-manifest.f068a81b971872986bfc6046b5dca27c.js": "/clown/piskel-clown/build/precache-manifest.f068a81b971872986bfc6046b5dca27c.js",
+    "precache-manifest.fa3ea0e0f14707d534029aeb6f6bb758.js": "/clown/piskel-clown/build/precache-manifest.fa3ea0e0f14707d534029aeb6f6bb758.js",
     "service-worker.js": "/clown/piskel-clown/build/service-worker.js",
-    "static/css/main.284fd0e9.chunk.css.map": "/clown/piskel-clown/build/static/css/main.284fd0e9.chunk.css.map",
+    "static/css/main.eac4b867.chunk.css.map": "/clown/piskel-clown/build/static/css/main.eac4b867.chunk.css.map",
+    "static/media/error.jpg": "/clown/piskel-clown/build/static/media/error.d70d2a0b.jpg",
     "static/media/home.css": "/clown/piskel-clown/build/static/media/homepage.635e8d33.gif"
   }
 }

@@ -6,6 +6,7 @@ import $ from 'jquery';
 import CreateAnimation from './create/create';
 import User from './user/user';
 import { About, makeRandomId } from './about/about';
+import Error from './error/error';
 import { user, preview } from '../store/store';
 
 class AppRouter extends React.Component {
@@ -16,7 +17,9 @@ class AppRouter extends React.Component {
       name: '',
       img: '',
       redirected: '',
-      active: ''
+      active: '',
+      auth: false,
+      error: false
     };
     this.onSuccess = this.onSuccess.bind(this);
   }
@@ -62,18 +65,15 @@ class AppRouter extends React.Component {
     user.dispatch({ type: 'userID', value: ID });
     localStorage.setItem('userID', ID);
     user.dispatch({ type: 'name', value: fullName });
-    this.setState({ id: ID, name: fullName, img: imageURL });
+    this.setState({ id: ID, name: fullName, img: imageURL, auth: true });
     $('#updateSaveButtonLoggedIn').click();
     $('#updateGoogleButtonLoggedIn').click();
+    localStorage.setItem('auth', true);
     if (localStorage.getItem('page')) {
-      if (localStorage.getItem('page').indexOf('create') !== -1) {
-        localStorage.setItem('auth', false);
-      } else {
-        localStorage.setItem('auth', false);
+      if (localStorage.getItem('page').indexOf('create') === -1) {
         this.setState({ redirected: localStorage.getItem('page') });
       }
     } else {
-      localStorage.setItem('auth', true);
       localStorage.setItem('page', `user/${ID}`);
       this.setState({ redirected: `user/${ID}` });
       $(document.body).css({ cursor: 'default' });
@@ -83,7 +83,7 @@ class AppRouter extends React.Component {
   signOut() {
     const auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
-      this.setState({ redirected: '', id: '' });
+      this.setState({ redirected: '', id: '', auth: false });
       localStorage.setItem('page', '');
       localStorage.setItem('auth', false);
       user.dispatch({ type: 'name', value: '' });
@@ -125,13 +125,15 @@ class AppRouter extends React.Component {
                     to="/"
                     className="task-name"
                     onClick={e => {
+                      if (!localStorage.getItem('auth')) {
+                        this.setState({ auth: false });
+                      }
                       if (localStorage.getItem('page')) {
                         if (localStorage.getItem('page').indexOf('create') !== -1) {
                           // eslint-disable-next-line no-restricted-globals
                           if (confirm('Are you sure you want to leave?') === true) {
                             this.setState({ redirected: 'about' });
                             localStorage.setItem('page', 'about');
-                            localStorage.setItem('auth', false);
                             $(document.body).css({ cursor: 'default' });
                             return;
                           }
@@ -139,7 +141,6 @@ class AppRouter extends React.Component {
                         } else {
                           this.setState({ redirected: 'about' });
                           localStorage.setItem('page', 'about');
-                          localStorage.setItem('auth', false);
                           $(document.body).css({ cursor: 'default' });
                         }
                       }
@@ -161,7 +162,6 @@ class AppRouter extends React.Component {
                             preview.dispatch({ type: 'piskelID', value: piskel });
                             this.setState({ redirected: `create-animation/${piskel}` });
                             localStorage.setItem('page', `create-animation/${piskel}`);
-                            localStorage.setItem('auth', false);
                             localStorage.setItem('project', piskel);
                             $(document.body).css({ cursor: 'default' });
                             return;
@@ -174,7 +174,6 @@ class AppRouter extends React.Component {
                       preview.dispatch({ type: 'piskelID', value: piskel });
                       this.setState({ redirected: `create-animation/${piskel}` });
                       localStorage.setItem('page', `create-animation/${piskel}`);
-                      localStorage.setItem('auth', false);
                       localStorage.setItem('project', piskel);
                       $(document.body).css({ cursor: 'default' });
                     }}
@@ -184,12 +183,16 @@ class AppRouter extends React.Component {
                 </li>
                 <li className="signin">
                   <div
-                    className={`menu-item ${this.state.id ? 'account' : 'hidden'}`}
+                    className={`menu-item ${this.state.auth ? 'account' : 'hidden'}`}
                     id="list"
                     role="button"
                     tabIndex="-1"
                     onKeyPress={undefined}
                     onClick={e => {
+                      if (!localStorage.getItem('auth')) {
+                        $('#signOuted').click();
+                        return;
+                      }
                       this.addActiveClass(e);
                     }}
                   >
@@ -215,7 +218,6 @@ class AppRouter extends React.Component {
                               if (localStorage.getItem('page').indexOf('create') !== -1) {
                                 // eslint-disable-next-line no-restricted-globals
                                 if (confirm('Are you sure you want to leave?') === true) {
-                                  localStorage.setItem('auth', true);
                                   localStorage.setItem('page', `user/${this.state.id}`);
                                   this.setState({ redirected: localStorage.getItem('page') });
                                   $(document.body).css({ cursor: 'default' });
@@ -223,7 +225,6 @@ class AppRouter extends React.Component {
                                 }
                                 e.preventDefault();
                               } else {
-                                localStorage.setItem('auth', true);
                                 localStorage.setItem('page', `user/${this.state.id}`);
                                 this.setState({ redirected: localStorage.getItem('page') });
                                 $(document.body).css({ cursor: 'default' });
@@ -239,10 +240,12 @@ class AppRouter extends React.Component {
                           to={`/${this.state.redirected}`}
                           id="logout"
                           className="account-item"
-                          onClick={() => {
+                          onClick={e => {
                             // eslint-disable-next-line no-restricted-globals
                             if (confirm('Are you sure you want to leave?') === true) {
                               this.signOut();
+                            } else {
+                              e.preventDefault();
                             }
                           }}
                         >
@@ -253,9 +256,9 @@ class AppRouter extends React.Component {
                   </div>
                   <div
                     id="my-signIn"
-                    className={`${this.state.id ? 'hidden' : 'shown'}`}
+                    className={`${this.state.auth ? 'hidden' : 'shown'}`}
                     onClick={() => {
-                      localStorage.setItem('auth', true);
+                      // localStorage.setItem('auth', true);
                     }}
                     onKeyPress={() => undefined}
                     role="button"
@@ -265,13 +268,24 @@ class AppRouter extends React.Component {
                 </li>
               </ul>
             </div>
+            <button
+              id="signOuted"
+              type="button"
+              className="hidden"
+              onClick={() => this.setState({ auth: false, error: true })}
+            />
           </header>
-          <Switch>
-            <Route path="/" exact component={About} />
-            <Route path={`/user/${this.state.id}`} component={User} />
-            <Route path="/create-animation/*" component={CreateAnimation} />
-            <Route path="*" component={About} />
-          </Switch>
+          <div className={`error-section ${this.state.error ? 'blocked' : 'hidden'}`}>
+            <Error />
+          </div>
+          <div className={`${this.state.error ? 'hidden' : ''}`}>
+            <Switch>
+              <Route path="/" exact component={About} />
+              <Route path={`/user/${this.state.id}`} component={User} />
+              <Route path="/create-animation/*" component={CreateAnimation} />
+              <Route path="*" component={About} />
+            </Switch>
+          </div>
         </div>
       </HashRouter>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import './user.css';
 import { user } from '../../store/store';
 
@@ -26,6 +27,9 @@ class User extends React.Component {
 
   componentWillMount() {
     this.user = localStorage.getItem('userID');
+    if (!localStorage.getItem('auth')) {
+      this.setState({ isEmpty: true });
+    }
   }
 
   componentDidMount() {
@@ -42,6 +46,11 @@ class User extends React.Component {
   }
 
   deletePiskel(item) {
+    if (!localStorage.getItem('auth')) {
+      this.setState({ isEmpty: true });
+      $('#signOuted').click();
+      return;
+    }
     for (let i = 0; i < this.state.projects.length; i += 1) {
       if (this.state.projects[i][0] === item) {
         this.state.projects.splice(i, 1);

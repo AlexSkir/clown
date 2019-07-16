@@ -23,7 +23,6 @@ user.subscribe(() => {
   url = user.getState().googleUrl;
   gifUrl = user.getState().urlToGif;
   name = user.getState().name;
-  // console.log(url);
 });
 class ExportOptions extends React.Component {
   constructor() {
@@ -142,6 +141,11 @@ class ExportOptions extends React.Component {
               className={`gif-button ${this.state.isLogin ? '' : 'hidden'}`}
               type="button"
               onClick={() => {
+                if (!localStorage.getItem('auth')) {
+                  this.setState({ isLogin: false });
+                  $('#signOuted').click();
+                  return;
+                }
                 uploadToGoogle();
                 setTimeout(() => {
                   this.setState({ googleUrl: true });
