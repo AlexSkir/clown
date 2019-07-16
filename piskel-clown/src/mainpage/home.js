@@ -1,12 +1,12 @@
 /* eslint-disable no-alert */
 import React from 'react';
-import { Redirect, Route, Link, Switch, HashRouter } from 'react-router-dom';
+import { Redirect, Route, Link, HashRouter, Switch } from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
 import CreateAnimation from './create/create';
 import User from './user/user';
-import About from './about/about';
-import { user } from '../store/store';
+import { About, makeRandomId } from './about/about';
+import { user, preview } from '../store/store';
 
 class AppRouter extends React.Component {
   constructor() {
@@ -24,13 +24,12 @@ class AppRouter extends React.Component {
   componentWillMount() {
     if (!localStorage.getItem('page')) {
       this.setState({ redirected: '' });
+    } else {
+      this.setState({ redirected: localStorage.getItem('page') });
     }
   }
 
   componentDidMount() {
-    $(window).bind('beforeunload', () => {
-      return 'are you sure you want to leave?';
-    });
     setTimeout(() => {
       $(document.body).ready(() => {
         window.gapi.load('client:auth2', () => {
@@ -53,10 +52,6 @@ class AppRouter extends React.Component {
     }, 200);
   }
 
-  componentWillUnmount() {
-    this.setState({ redirected: '/' });
-  }
-
   onSuccess(googleUser) {
     const profile = googleUser.getBasicProfile();
     const ID = profile.getId();
@@ -64,23 +59,24 @@ class AppRouter extends React.Component {
     const imageURL = profile.getImageUrl();
     const email = profile.getEmail();
     user.dispatch({ type: 'email', value: email });
-
+    user.dispatch({ type: 'userID', value: ID });
+    localStorage.setItem('userID', ID);
     user.dispatch({ type: 'name', value: fullName });
     this.setState({ id: ID, name: fullName, img: imageURL });
     $('#updateSaveButtonLoggedIn').click();
     $('#updateGoogleButtonLoggedIn').click();
-    if (localStorage.getItem('page') === 'create-animation') {
-      // eslint-disable-next-line no-restricted-globals
-      if (confirm('Are you sure you want to leave?') === true) {
-        localStorage.setItem('auth', true);
-        localStorage.setItem('page', `user/${ID}`);
-        this.setState({ redirected: `user/${ID}` });
-        $(document.body).css({ cursor: 'default' });
+    if (localStorage.getItem('page')) {
+      if (localStorage.getItem('page').indexOf('create') !== -1) {
+        localStorage.setItem('auth', false);
+      } else {
+        localStorage.setItem('auth', false);
+        this.setState({ redirected: localStorage.getItem('page') });
       }
-    }
-    if (localStorage.getItem('auth') === true) {
+    } else {
+      localStorage.setItem('auth', true);
       localStorage.setItem('page', `user/${ID}`);
       this.setState({ redirected: `user/${ID}` });
+      $(document.body).css({ cursor: 'default' });
     }
   }
 
@@ -102,7 +98,7 @@ class AppRouter extends React.Component {
     if (this.state.redirected) {
       return <Redirect to={`/${this.state.redirected}`} />;
     }
-    return <Redirect to={`/${localStorage.getItem('page')}`} />;
+    return <Redirect to="/" />;
   }
 
   addActiveClass(e) {
@@ -129,20 +125,24 @@ class AppRouter extends React.Component {
                     to="/"
                     className="task-name"
                     onClick={e => {
-                      if (localStorage.getItem('page') === 'create-animation') {
-                        // eslint-disable-next-line no-restricted-globals
-                        if (confirm('Are you sure you want to leave?') === true) {
-                          this.setState({ redirected: '/' });
-                          localStorage.setItem('page', '/');
-                          localStorage.setItem('auth', true);
+                      if (localStorage.getItem('page')) {
+                        if (localStorage.getItem('page').indexOf('create') !== -1) {
+                          // eslint-disable-next-line no-restricted-globals
+                          if (confirm('Are you sure you want to leave?') === true) {
+                            this.setState({ redirected: 'about' });
+                            localStorage.setItem('page', 'about');
+                            localStorage.setItem('auth', false);
+                            $(document.body).css({ cursor: 'default' });
+                            return;
+                          }
+                          e.preventDefault();
+                        } else {
+                          this.setState({ redirected: 'about' });
+                          localStorage.setItem('page', 'about');
+                          localStorage.setItem('auth', false);
                           $(document.body).css({ cursor: 'default' });
                         }
-                        e.preventDefault();
-                        return;
                       }
-                      localStorage.setItem('auth', false);
-                      localStorage.setItem('page', '/');
-                      this.setState({ redirected: '/' });
                     }}
                   >
                     Piskel-clone
@@ -151,12 +151,31 @@ class AppRouter extends React.Component {
                 <li className="create menu-item">
                   <Link
                     to="/create-animation"
-                    id="create-animation"
                     className="create-link"
-                    onClick={() => {
-                      this.setState({ redirected: 'create-animation' });
-                      localStorage.setItem('page', 'create-animation');
+                    onClick={e => {
+                      if (localStorage.getItem('page')) {
+                        if (localStorage.getItem('page').indexOf('create') !== -1) {
+                          // eslint-disable-next-line no-restricted-globals
+                          if (confirm('Are you sure you want to leave?') === true) {
+                            const piskel = makeRandomId();
+                            preview.dispatch({ type: 'piskelID', value: piskel });
+                            this.setState({ redirected: `create-animation/${piskel}` });
+                            localStorage.setItem('page', `create-animation/${piskel}`);
+                            localStorage.setItem('auth', false);
+                            localStorage.setItem('project', piskel);
+                            $(document.body).css({ cursor: 'default' });
+                            return;
+                          }
+                          e.preventDefault();
+                          return;
+                        }
+                      }
+                      const piskel = makeRandomId();
+                      preview.dispatch({ type: 'piskelID', value: piskel });
+                      this.setState({ redirected: `create-animation/${piskel}` });
+                      localStorage.setItem('page', `create-animation/${piskel}`);
                       localStorage.setItem('auth', false);
+                      localStorage.setItem('project', piskel);
                       $(document.body).css({ cursor: 'default' });
                     }}
                   >
@@ -192,15 +211,23 @@ class AppRouter extends React.Component {
                           id="galery"
                           className="account-item"
                           onClick={e => {
-                            if (localStorage.getItem('page') === 'create-animation') {
-                              // eslint-disable-next-line no-restricted-globals
-                              if (confirm('Are you sure you want to leave?') === true) {
+                            if (localStorage.getItem('page')) {
+                              if (localStorage.getItem('page').indexOf('create') !== -1) {
+                                // eslint-disable-next-line no-restricted-globals
+                                if (confirm('Are you sure you want to leave?') === true) {
+                                  localStorage.setItem('auth', true);
+                                  localStorage.setItem('page', `user/${this.state.id}`);
+                                  this.setState({ redirected: localStorage.getItem('page') });
+                                  $(document.body).css({ cursor: 'default' });
+                                  return;
+                                }
+                                e.preventDefault();
+                              } else {
                                 localStorage.setItem('auth', true);
                                 localStorage.setItem('page', `user/${this.state.id}`);
                                 this.setState({ redirected: localStorage.getItem('page') });
                                 $(document.body).css({ cursor: 'default' });
                               }
-                              e.preventDefault();
                             }
                           }}
                         >
@@ -209,7 +236,7 @@ class AppRouter extends React.Component {
                       </li>
                       <li className={`list bottom ${this.state.active === 'list' ? '' : 'hidden'}`}>
                         <Link
-                          to={`/${this.state.redirected ? this.state.redirected : ''}`}
+                          to={`/${this.state.redirected}`}
                           id="logout"
                           className="account-item"
                           onClick={() => {
@@ -242,7 +269,7 @@ class AppRouter extends React.Component {
           <Switch>
             <Route path="/" exact component={About} />
             <Route path={`/user/${this.state.id}`} component={User} />
-            <Route path="/create-animation" component={CreateAnimation} />
+            <Route path="/create-animation/*" component={CreateAnimation} />
             <Route path="*" component={About} />
           </Switch>
         </div>

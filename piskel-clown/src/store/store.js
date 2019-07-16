@@ -60,6 +60,10 @@ function previewState(state = {}, action) {
       return Object.assign({}, state, {
         piskelID: action.value
       });
+    case 'projects':
+      return Object.assign({}, state, {
+        projects: action.value
+      });
     default:
       return state;
   }
@@ -82,6 +86,10 @@ function userState(state = {}, action) {
       return Object.assign({}, state, {
         name: action.value
       });
+    case 'userID':
+      return Object.assign({}, state, {
+        userID: action.value
+      });
     case 'imageURL':
       return Object.assign({}, state, {
         imageURL: action.value
@@ -97,6 +105,10 @@ function userState(state = {}, action) {
     case 'googleUrl':
       return Object.assign({}, state, {
         googleUrl: action.value
+      });
+    case 'urlToGif':
+      return Object.assign({}, state, {
+        urlToGif: action.value
       });
     default:
       return state;

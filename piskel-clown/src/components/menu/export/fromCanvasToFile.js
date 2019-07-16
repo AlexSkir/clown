@@ -204,7 +204,7 @@ function downloadPng() {
   encoder.download(`${filename}.png`);
 }
 
-const apikey = 'AIzaSyAVJFuo57LAwfGHx66mi177_F4r2sWrato';
+const apikey = 'AIzaSyD8p3NmO-jrbUeGpC9EYDHzH8FWOl3ivss';
 function loadClient() {
   window.gapi.client.setApiKey(apikey);
   return window.gapi.client

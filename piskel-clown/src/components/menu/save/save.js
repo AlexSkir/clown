@@ -1,17 +1,30 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import React from 'react';
 import $ from 'jquery';
 import './save.css';
 import { options, settings, preview, user } from '../../../store/store';
 import { uploadToUrl } from '../export/fromCanvasToFile';
+import { getDate, saveLocally, saveToGalery } from './saveLocally';
+
+window.localProjects = {};
+window.authLocalProjects = {};
 
 let optionsBlock;
 options.subscribe(() => {
   optionsBlock = options.getState().optionsBlock;
 });
 let name;
+let userID;
 user.subscribe(() => {
   name = user.getState().name;
+  userID = user.getState().userID;
 });
+let projectID;
+preview.subscribe(() => {
+  projectID = preview.getState().piskelID;
+});
+
 class SaveOptions extends React.Component {
   constructor() {
     super();
@@ -33,26 +46,67 @@ class SaveOptions extends React.Component {
     this.mounted = false;
   }
 
-  onChangeHandler() {
+  saveLocallyHandler() {
     const newValue = $('#title-input').val();
     this.setState({ value: newValue });
     settings.dispatch({ type: 'title', value: newValue });
-    const array = [];
+    const arrayFramesSrc = [];
     for (let i = 0; i < $('.preview').children().length; i += 1) {
-      array.push($('.preview').children()[i].src);
+      arrayFramesSrc.push($('.preview').children()[i].src);
     }
     const dataUrl = uploadToUrl();
-    preview.dispatch({ type: 'gif', value: dataUrl });
-    preview.dispatch({ type: 'frames', value: array });
-    const j = [];
-    let x;
-    for (let i = 0; i < 20; i += 1) {
-      x = [[48, 57], [65, 90], [97, 122], [1040, 1103]][(Math.random() * 4) >> 0];
-      j[i] = String.fromCharCode(((Math.random() * (x[1] - x[0] + 1)) >> 0) + x[0]);
+    const storageObj =
+      localStorage.getItem('localProjects') !== 'undefined'
+        ? JSON.parse(localStorage.getItem('localProjects'))
+        : undefined;
+
+    const date = getDate();
+
+    const objToSave = JSON.stringify(
+      saveLocally(
+        window.localProjects,
+        storageObj,
+        projectID,
+        dataUrl,
+        arrayFramesSrc,
+        newValue,
+        date
+      )
+    );
+    localStorage.setItem('localProjects', objToSave);
+    preview.dispatch({ type: 'projects', value: objToSave });
+    $('#addLocalPiskel').click();
+  }
+
+  saveToGaleryHandler() {
+    const newValue = $('#title-input').val();
+    this.setState({ value: newValue });
+    settings.dispatch({ type: 'title', value: newValue });
+    const arrayFramesSrc = [];
+    for (let i = 0; i < $('.preview').children().length; i += 1) {
+      arrayFramesSrc.push($('.preview').children()[i].src);
     }
-    const piskelID = j.join('');
-    preview.dispatch({ type: 'piskelID', value: piskelID });
-    $('#userAddPiskel').click();
+    const dataUrl = uploadToUrl();
+    const storageObj =
+      localStorage.getItem('authLocalProjects') !== 'undefined'
+        ? JSON.parse(localStorage.getItem('authLocalProjects'))
+        : undefined;
+
+    const date = getDate();
+
+    const objToSave = JSON.stringify(
+      saveToGalery(
+        window.authLocalProjects,
+        storageObj,
+        projectID,
+        dataUrl,
+        arrayFramesSrc,
+        newValue,
+        date,
+        userID
+      )
+    );
+    localStorage.setItem('authLocalProjects', objToSave);
   }
 
   updateState() {
@@ -76,10 +130,21 @@ class SaveOptions extends React.Component {
         <div className="save-online-block">
           <span className="save-online bold">Save online</span>
           <button
+            id="save-locally"
+            className="save-online-button"
+            type="button"
+            onClick={() => this.saveLocallyHandler()}
+          >
+            Save locally
+          </button>
+          <p className="save-online-info">
+            Your piskel will be saved and available only from this browser
+          </p>
+          <button
             id="save-online"
             className={`save-online-button ${this.state.isLogin ? '' : 'hidden'}`}
             type="button"
-            onClick={() => this.onChangeHandler()}
+            onClick={() => this.saveToGaleryHandler()}
           >
             Save to your gallery
           </button>

@@ -61,12 +61,16 @@
   border: 2px ridge gray;
   cursor: pointer;
 }
-.settings-button-cog, .resize-settings, .save-settings, .export-settings {
+.settings-button-cog, .resize-settings, .save-settings, .export-settings, .import-settings {
   position: absolute;
   top: -10px;
   right: 49px;
 }
-.settings-button-cog-arrow, .resize-settings-arrow, .save-settings-arrow, .export-settings-arrow {
+.settings-button-cog-arrow, 
+.resize-settings-arrow, 
+.save-settings-arrow, 
+.export-settings-arrow, 
+.import-settings-arrow {
   position: absolute;
   top: 5px;
   right: -8px;
@@ -84,6 +88,9 @@
 }
 .export-settings {
   top: 110px;
+}
+.import-settings {
+  top: 150px;
 }
 
 .options-blocks-area {

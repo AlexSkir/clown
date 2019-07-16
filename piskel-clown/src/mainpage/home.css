@@ -164,6 +164,11 @@
   text-decoration: none;
   color: rgba(15, 15, 15, 0.829);
 }
+.text-button {
+  font: inherit;
+  background: none;
+  border: none;
+}
 
 .abcRioButton {
   display: flex;

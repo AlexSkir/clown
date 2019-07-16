@@ -1,104 +1,110 @@
+/* eslint-disable no-bitwise */
 import React from 'react';
 import $ from 'jquery';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Link,
-  Switch,
-  HashRouter
-} from 'react-router-dom';
-// import { store } from '../../store/store';
-import CreateAnimation from '../create/create';
+import { Redirect } from 'react-router-dom';
+import { preview, store } from '../../store/store';
+
+function makeRandomId() {
+  const j = [];
+  let x;
+  for (let i = 0; i < 20; i += 1) {
+    x = [[48, 57], [65, 90], [97, 122]][(Math.random() * 3) >> 0];
+    j[i] = String.fromCharCode(((Math.random() * (x[1] - x[0] + 1)) >> 0) + x[0]);
+  }
+  return j.join('');
+}
 
 class About extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirected: ''
+      page: ''
     };
+    this.id = '';
   }
 
-  isRedirected() {
-    if (!localStorage.getItem('page')) {
-      return <Redirect to="/" />;
+  isRedirected(span) {
+    if (this.state.page) {
+      return <Redirect to={`/create-animation/${this.id}`} />;
     }
-    if (this.state.redirected) {
-      return <Redirect to={`/${this.state.redirected}`} />;
+    if (span) {
+      return <span className="description-link">Create a new Sprite</span>;
     }
-    return <Redirect to={`/${localStorage.getItem('page')}`} />;
+    return <span className="link">Create Sprite</span>;
   }
 
   render() {
     return (
-      <HashRouter>
-        <div className="homepage-section">
-          <div className="home-about">
-            <h1>
-              <span className="piskel">Piskel-clone </span>
-              is a free online editor for animated sprites & pixel art
-            </h1>
-            <h2>Create animations in your browser.</h2>
-            <h2>
-              <span className="description-link">Try an example</span>
-              {', use '}
-              <span
-                role="button"
-                tabIndex="-1"
-                onKeyPress={undefined}
-                className="description-link"
-                onClick={() => $('.abcRioButton.abcRioButtonLightBlue').click()}
-              >
-                Google sign in
-              </span>
-              {' to access your gallery or simply '}
-              <Link
-                to="/create-animation"
-                onClick={() => {
-                  this.setState({ redirected: 'create-animation' });
-                  localStorage.setItem('page', 'create-animation');
-                  localStorage.setItem('auth', false);
-                  $(document.body).css({ cursor: 'default' });
-                }}
-                className="description-link"
-              >
-                create a new sprite.
-              </Link>
-            </h2>
-            <div className="home-buttons">
-              <button
-                type="button"
-                className="login-button"
-                onClick={() => $('.abcRioButton.abcRioButtonLightBlue').click()}
-              >
-                Sign in
-              </button>
-              <button type="button" className="create-button">
-                <Link
-                  to="/create-animation"
-                  onClick={() => {
-                    localStorage.setItem('page', 'create-animation');
-                    localStorage.setItem('auth', false);
-                    $(document.body).css({ cursor: 'default' });
-                  }}
-                  className="link"
-                >
-                  Create Sprite
-                </Link>
-              </button>
-            </div>
+      <div className="homepage-section">
+        <div className="home-about">
+          <h1>
+            <span className="piskel">Piskel-clone </span>
+            is a free online editor for animated sprites & pixel art
+          </h1>
+          <h2>Create animations in your browser.</h2>
+          <h2>
+            <span className="description-link">Try an example</span>
+            {', use '}
+            <span
+              role="button"
+              tabIndex="-1"
+              onKeyPress={undefined}
+              className="description-link"
+              onClick={() => $('.abcRioButton.abcRioButtonLightBlue').click()}
+            >
+              Google sign in
+            </span>
+            {' to access your gallery or simply '}
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => {
+                this.id = makeRandomId();
+                preview.dispatch({ type: 'piskelID', value: this.id });
+                store.dispatch({ type: 'currentPage', value: `create-animation/${this.id}` });
+                this.setState({ page: `create-animation/${this.id}` });
+                localStorage.setItem('page', `create-animation/${this.id}`);
+                localStorage.setItem('auth', false);
+                localStorage.setItem('project', this.id);
+                $(document.body).css({ cursor: 'default' });
+              }}
+            >
+              {this.isRedirected('span')}
+            </button>
+          </h2>
+          <div className="home-buttons">
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => $('.abcRioButton.abcRioButtonLightBlue').click()}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              className="create-button"
+              onClick={() => {
+                this.id = makeRandomId();
+                preview.dispatch({ type: 'piskelID', value: this.id });
+                this.setState({ page: `create-animation/${this.id}` });
+                localStorage.setItem('page', `create-animation/${this.id}`);
+                localStorage.setItem('auth', false);
+                localStorage.setItem('project', this.id);
+                $(document.body).css({ cursor: 'default' });
+              }}
+            >
+              {this.isRedirected()}
+            </button>
           </div>
-
-          <div className="home-image">
-            <div className="screen" />
-            <div className="home-preview" />
-          </div>
-          {this.isRedirected()}
-          <Route path="/create-animation" component={CreateAnimation} />
         </div>
-      </HashRouter>
+
+        <div className="home-image">
+          <div className="screen" />
+          <div className="home-preview" />
+        </div>
+      </div>
     );
   }
 }
 
-export default About;
+export { About, makeRandomId };

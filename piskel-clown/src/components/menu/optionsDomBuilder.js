@@ -8,6 +8,7 @@ import Settings from './settings/settings';
 import ResizeCanvas from './resize/resizeCanvas';
 import SaveOptions from './save/save';
 import ExportOptions from './export/export';
+import ImportOptions from './import/import';
 
 let fps;
 store.subscribe(() => {
@@ -95,6 +96,7 @@ class Options extends React.Component {
           <ResizeCanvas />
           <SaveOptions />
           <ExportOptions />
+          <ImportOptions />
         </div>
         <div
           className={`settings-buttons ${this.state.active === 'none' ? '' : 'slide'}`}
@@ -161,6 +163,21 @@ class Options extends React.Component {
               } ${this.state.active === 'export-settings' ? 'fas-hovered' : ''}`}
             />
           </button>
+          <button
+            type="button"
+            className="settings-button"
+            onFocus={() => undefined}
+            onClick={e => this.showOptionsOnClick(e)}
+            onMouseEnter={() => this.mouseIn()}
+            onMouseLeave={() => this.mouseOut()}
+          >
+            <i
+              id="import-settings"
+              className={`fas fa-file-upload ${
+                this.state.hovered === 'import-settings' ? 'fas-hovered' : ''
+              } ${this.state.active === 'import-settings' ? 'fas-hovered' : ''}`}
+            />
+          </button>
 
           <p
             className={`hint settings-button-cog ${
@@ -199,6 +216,16 @@ class Options extends React.Component {
           >
             Export as image or animated gif
             <i className="export-settings-arrow fas fa-caret-right" />
+          </p>
+          <p
+            className={`big hint import-settings ${
+              this.state.mouseEnter === true && this.state.hovered === 'import-settings'
+                ? ''
+                : 'hidden'
+            }`}
+          >
+            Import your animation
+            <i className="import-settings-arrow fas fa-caret-right" />
           </p>
         </div>
       </div>

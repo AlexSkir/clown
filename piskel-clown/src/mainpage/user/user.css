@@ -1,11 +1,11 @@
 .user-page {
   display: grid;
-  grid-template-columns: 230px 140px 1fr;
+  grid-template-columns: 230px 130px 1fr;
   grid-template-rows: repeat(2, 1fr);
   grid-template-areas: 
   'img list piskels'
   'info list piskels';
-  width: 90%;
+  width: 95%;
   margin-top: 30px;
   padding-top: 20px;
   padding-left: 20px;
@@ -30,13 +30,14 @@
   overflow: hidden;
 }
 .user-preview-piskel-block {
-  flex-direction: column;
+  height: 100%;
   flex-wrap: wrap;
   overflow-y: scroll;
 }
 .preview-wrapper {
   width: 175px;
   height: 230px;
+  margin: 5px;
   border: 2px ridge gray;
 }
 .preview-gif {
@@ -44,11 +45,28 @@
   border-bottom: 2px ridge gray;
 }
 .preview-gif-title {
+  position: relative;
   display: block;
-  width: 100%;
-  height: 53px;
+  width: inherit;
+  height: 29px;
   margin-top: -4px;
   font-size: 20px;
+  text-align: center;
+  background: white;
+}
+.piskel-preview-button {
+  position: relative;
+  top: -80px;
+  background: none;
+  border: none;
+  outline: none;
+}
+.preview-gif-date {
+  position: relative;
+  display: block;
+  width: inherit;
+  height: 25px;
+  color: black;
   text-align: center;
   background: white;
 }

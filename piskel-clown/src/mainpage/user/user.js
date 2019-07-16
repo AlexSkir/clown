@@ -1,8 +1,6 @@
 import React from 'react';
-import $ from 'jquery';
-// import { Route, Link } from 'react-router-dom';
 import './user.css';
-import { user, preview, settings } from '../../store/store';
+import { user } from '../../store/store';
 
 let name;
 let img;
@@ -10,69 +8,65 @@ user.subscribe(() => {
   name = user.getState().name;
   img = user.getState().imageURL;
 });
-let gif;
-let frames;
-let piskelID;
-preview.subscribe(() => {
-  gif = preview.getState().gif;
-  frames = preview.getState().frames;
-  piskelID = preview.getState().piskelID;
-});
-let title;
-settings.subscribe(() => {
-  title = settings.getState().title;
-});
-
-const projects = {
-  project1: {
-    id: piskelID,
-    gif,
-    frames
-  }
-};
-const projectsJson = JSON.stringify(projects);
-localStorage.setItem('myProjects', projectsJson);
-$(document).ready(() => {
-  const returnProjects = JSON.parse(localStorage.getItem('myProjects'));
-});
 
 class User extends React.Component {
   constructor() {
     super();
     this.state = {
-      img: '',
-      name: '',
+      active: '',
       height: '',
       isEmpty: true,
-      gif: '',
-      frames: [],
-      title: ''
+      projects: []
     };
+    this.changedProjects = '';
+    this.localObj = {};
     this.mounted = false;
+    this.user = '';
   }
 
   componentWillMount() {
-    this.setState({ height: window.innerHeight, img, name });
-    if (gif && frames) {
-      this.setState({ isEmpty: false, gif, frames, title });
-      localStorage.setItem('isEmpty', false);
-      localStorage.setItem('gif', gif);
-      localStorage.setItem('frames', frames);
-      localStorage.setItem('title', title);
-    }
+    this.user = localStorage.getItem('userID');
   }
 
   componentDidMount() {
+    this.setState({ height: window.innerHeight });
     this.mounted = true;
+    if (localStorage.getItem(`${this.user}`)) {
+      const obj = JSON.parse(localStorage.getItem(`${this.user}`));
+      this.setState({ isEmpty: false, projects: Object.entries(obj) });
+    }
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  adoptGif() {
-    if (this.state.color.gif === '') {
-      this.setState({ isEmpty: false, gif });
+  deletePiskel(item) {
+    for (let i = 0; i < this.state.projects.length; i += 1) {
+      if (this.state.projects[i][0] === item) {
+        this.state.projects.splice(i, 1);
+      }
+    }
+
+    this.changedProjects = this.state.projects;
+    window[`${this.user}`] = {};
+    for (let k = 0; k < this.changedProjects.length; k += 1) {
+      window[`${this.user}`][this.changedProjects[k][0]] = this.changedProjects[k][1];
+    }
+    this.setState({ projects: this.changedProjects });
+    const projectsJson = JSON.stringify(window[`${this.user}`]);
+    localStorage.setItem(`${this.user}`, projectsJson);
+  }
+
+  hoverIn(e) {
+    if (this.mounted) {
+      this.setState({ active: e.currentTarget.id });
+    }
+  }
+
+  hoverOut() {
+    if (this.mounted) {
+      this.setState({ active: false });
     }
   }
 
@@ -82,11 +76,11 @@ class User extends React.Component {
         <div
           className="user-image"
           style={{
-            backgroundImage: `url(${this.state.img})`,
+            backgroundImage: `url(${img})`,
             backgroundSize: 'contain'
           }}
         />
-        <h2 className="user-name">{this.state.name}</h2>
+        <h2 className="user-name">{name}</h2>
         <ul className="piskel-list">
           <li>all</li>
           <li>public</li>
@@ -97,20 +91,43 @@ class User extends React.Component {
           <span className={`${this.state.isEmpty ? '' : 'hidden'}`}>
             No piskel available in &#39;all&#39; category.
           </span>
+
           <div className={`user-preview-piskel-block ${this.state.isEmpty ? 'hidden' : 'flexed'}`}>
-            <div className="preview-wrapper">
-              <img className="preview-gif" src={this.state.gif} alt="preview" />
-              <span className="preview-gif-title">{this.state.title}</span>
-              <div id="user-piskel-hidden" className="hidden">
-                {this.state.frames.map(item => (
-                  <img key={item} src={item} alt="img" />
-                ))}
+            {this.state.projects.map((item, i) => (
+              <div
+                key={item}
+                className="preview-wrapper"
+                id={item[0]}
+                onMouseEnter={e => this.hoverIn(e)}
+                onMouseLeave={() => this.hoverOut()}
+              >
+                <img key={item[1].gif} className="preview-gif" src={item[1].gif} alt="preview" />
+                <span key={item[1].title} className="preview-gif-title">
+                  {item[1].title}
+                </span>
+                <span key={item[1].time} className="preview-gif-date">
+                  {item[1].time}
+                </span>
+                <button
+                  type="button"
+                  className={`piskel-preview-button ${
+                    this.state.active === item[0] ? '' : 'hidden'
+                  }`}
+                  onClick={() => this.deletePiskel(item[0])}
+                >
+                  <i className="fas fa-trash-alt" />
+                </button>
+                <div key={item[1].frames} className="hidden">
+                  {item[1].frames.map(frame => (
+                    <img key={frame} src={frame} alt="img" />
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className="hidden">
-          <button id="userAddPiskel" type="button" onClick={() => this.adoptGif()} />
+          <button id="userAddPiskel" type="button" onClick={undefined} />
         </div>
       </div>
     );

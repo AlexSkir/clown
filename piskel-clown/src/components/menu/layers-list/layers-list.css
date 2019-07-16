@@ -40,6 +40,12 @@
   border: 2px ridge gray;
   cursor: pointer;
 }
+.layer-button:focus {
+  outline: none;
+}
+.layer-button:active {
+  background: rgb(15, 139, 139);
+}
 .layer-list {    
   min-height: 25px;
   max-height: 75px;
