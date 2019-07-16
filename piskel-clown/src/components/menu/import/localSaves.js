@@ -63,40 +63,42 @@ class LocalSaves extends React.Component {
             role="button"
           />
         </div>
-        <table className="table-local-saves" cellPadding="10" cellSpacing="20">
-          <thead>
-            <tr>
-              <th className="table-title">Name</th>
-              <th className="table-title">Date</th>
-              <th className="table-title">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.projects.map(item => (
-              <tr key={item[0]}>
-                <td key={item[1].title} className="table-data">
-                  {item[1].title}
-                </td>
-                <td key={item[1].time} className="table-data">
-                  {item[1].time}
-                </td>
-                <td key={`${item[0]}-buttons`} className="table-data table-data-buttons">
-                  <button key={`${item[0]}-load`} type="button" className="table-button">
-                    Load
-                  </button>
-                  <button
-                    key={`${item[0]}-delete`}
-                    type="button"
-                    className="table-button"
-                    onClick={() => this.deletePiskel(item[0])}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="table-wrapper">
+          <table className="table-local-saves" cellPadding="10" cellSpacing="20">
+            <thead>
+              <tr>
+                <th className="table-title">Name</th>
+                <th className="table-title">Date</th>
+                <th className="table-title">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.projects.map(item => (
+                <tr key={item[0]}>
+                  <td key={item[1].title} className="table-data">
+                    {item[1].title}
+                  </td>
+                  <td key={item[1].time} className="table-data">
+                    {item[1].time}
+                  </td>
+                  <td key={`${item[0]}-buttons`} className="table-data table-data-buttons">
+                    <button key={`${item[0]}-load`} type="button" className="table-button">
+                      Load
+                    </button>
+                    <button
+                      key={`${item[0]}-delete`}
+                      type="button"
+                      className="table-button"
+                      onClick={() => this.deletePiskel(item[0])}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <button
           id="addLocalPiskel"
           type="button"

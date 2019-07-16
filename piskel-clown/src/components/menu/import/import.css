@@ -88,3 +88,7 @@
   border: 2px ridge gray;
   outline: none;
 }
+.table-wrapper {
+  height: 89%;
+  overflow-y: scroll;
+}
