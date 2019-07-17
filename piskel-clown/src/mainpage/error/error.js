@@ -10,19 +10,22 @@ function makeRandom(from, to) {
 
 function makeAnimate() {
   const width = 100 - (480 * 100) / window.innerWidth;
+  const height = 100 - (375 * 100) / window.innerHeight;
+  const top = (55 * 100) / window.innerHeight;
+  const bottom = window.innerHeight - 370;
   const animation = document.getElementById('error-image-wrapper').animate(
     [
-      { top: '9%', left: '0' }, // 0
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(0, width / 2)}%` }, // 10%
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(0, width / 2)}%` }, // 20%
-      { top: '41%', left: `${makeRandom(width / 2, width)}%` }, // 30%
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(width / 2, width)}%` }, // 40%
-      { top: `${makeRandom(9, 41)}%`, left: `${width}%` }, // 50%
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(width / 2, width)}%` }, // 60%
-      { top: '41%', left: `${makeRandom(width / 2, width)}%` }, // 70%
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(0, width / 2)}%` }, // 80%
-      { top: `${makeRandom(9, 41)}%`, left: `${makeRandom(0, width / 2)}%` }, // 90%
-      { top: '9%', left: '0' } // 100%
+      { top: '55px', left: '0' }, // 0
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(0, width / 2)}%` }, // 10%
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(0, width / 2)}%` }, // 20%
+      { top: `${bottom}px`, left: `${makeRandom(width / 2, width)}%` }, // 30%
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(width / 2, width)}%` }, // 40%
+      { top: '55px', left: `${width}%` }, // 50%
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(width / 2, width)}%` }, // 60%
+      { top: `${bottom}px`, left: `${makeRandom(width / 2, width)}%` }, // 70%
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(0, width / 2)}%` }, // 80%
+      { top: `${makeRandom(top, height)}%`, left: `${makeRandom(0, width / 2)}%` }, // 90%
+      { top: '55px', left: '0' } // 100%
     ],
     {
       duration: 30000,
