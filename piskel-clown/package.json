@@ -6,6 +6,7 @@
   "dependencies": {
     "async": "^3.1.0",
     "browserify-fs": "^1.0.0",
+    "firebase": "^6.3.0",
     "googleapis": "^41.0.0",
     "jquery": "^3.4.1",
     "jquery-ui-sortable-npm": "^1.0.0",

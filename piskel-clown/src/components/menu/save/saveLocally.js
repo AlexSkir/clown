@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
+import firebase from '../../../firebase';
 
 function getDate() {
   const data = new Date();
@@ -67,6 +68,18 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date)
   return globalObj;
 }
 
+function writeUserData(userId, project, frames, gif, time, title) {
+  firebase
+    .database()
+    .ref(`users/${userId}/${project}`)
+    .set({
+      frames,
+      gif,
+      time,
+      title
+    });
+}
+
 function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newValue, date, userID) {
   let globalObj = global;
   const user = localStorage.getItem('userID');
@@ -91,7 +104,6 @@ function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newVa
   }
 
   let storedObj; // object for user ID projects
-  // const newstorage = JSON.parse(localStorage.getItem('authLocalProjects'));
   if (globalObj) {
     const entries = Object.entries(globalObj);
     for (let i = 0; i < entries.length; i += 1) {
@@ -110,6 +122,20 @@ function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newVa
     newValue,
     date
   );
+  // send user projects to firebase Realtime Database
+  const objForDB = Object.entries(authProjects);
+  for (let i = 0; i < objForDB.length; i += 1) {
+    const projectName = objForDB[i][0];
+    const projectItems = objForDB[i][1];
+    writeUserData(
+      userID,
+      projectName,
+      projectItems.frames,
+      projectItems.gif,
+      projectItems.time,
+      projectItems.title
+    );
+  }
   const objToSave = JSON.stringify(authProjects);
   localStorage.setItem(`${userID}`, objToSave); // save local object with user's projects
   globalObj[`${userID}`] = authProjects; // rewrite user's projects in global object with users

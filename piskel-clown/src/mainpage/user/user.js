@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import './user.css';
 import { user } from '../../store/store';
+import firebase from '../../firebase';
 
 let name;
 let img;
@@ -38,6 +39,19 @@ class User extends React.Component {
     if (localStorage.getItem(`${this.user}`)) {
       const obj = JSON.parse(localStorage.getItem(`${this.user}`));
       this.setState({ isEmpty: false, projects: Object.entries(obj) });
+    } else {
+      firebase
+        .database()
+        .ref(`/users/${this.user}`)
+        .once('value')
+        .then(snapshot => {
+          this.localObj = snapshot.val();
+          if (this.localObj) {
+            const projects = JSON.stringify(this.localObj);
+            localStorage.setItem(`${this.user}`, projects);
+            this.setState({ isEmpty: false, projects: Object.entries(this.localObj) });
+          }
+        });
     }
   }
 
@@ -53,6 +67,10 @@ class User extends React.Component {
     }
     for (let i = 0; i < this.state.projects.length; i += 1) {
       if (this.state.projects[i][0] === item) {
+        firebase
+          .database()
+          .ref(`users/${this.user}/${this.state.projects[i][0]}`)
+          .set(null);
         this.state.projects.splice(i, 1);
       }
     }
