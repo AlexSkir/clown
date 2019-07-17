@@ -30,7 +30,9 @@ class SaveOptions extends React.Component {
     super();
     this.state = {
       value: 'New Piskel',
-      isLogin: false
+      isLogin: false,
+      isFull: false,
+      isSaved: false
     };
   }
 
@@ -59,8 +61,29 @@ class SaveOptions extends React.Component {
       localStorage.getItem('localProjects') !== 'undefined'
         ? JSON.parse(localStorage.getItem('localProjects'))
         : undefined;
-
-    const date = getDate();
+    // restrict saving piskels locally more than 20
+    if (storageObj) {
+      if (Object.keys(storageObj).length < 20) {
+        this.setState({ isSaved: true });
+        setTimeout(() => {
+          this.setState({ isSaved: false });
+        }, 5000);
+      } else if (
+        Object.entries(storageObj).some(item => item[0] === localStorage.getItem('project'))
+      ) {
+        this.setState({ isSaved: true });
+        setTimeout(() => {
+          this.setState({ isSaved: false });
+        }, 5000);
+      } else {
+        this.setState({ isFull: 'local' });
+        setTimeout(() => {
+          this.setState({ isFull: false });
+        }, 5000);
+        return;
+      }
+    }
+    const date = getDate().split('  ');
 
     const objToSave = JSON.stringify(
       saveLocally(
@@ -70,7 +93,8 @@ class SaveOptions extends React.Component {
         dataUrl,
         arrayFramesSrc,
         newValue,
-        date
+        date[0],
+        date[1]
       )
     );
     localStorage.setItem('localProjects', objToSave);
@@ -96,8 +120,34 @@ class SaveOptions extends React.Component {
       localStorage.getItem('authLocalProjects') !== 'undefined'
         ? JSON.parse(localStorage.getItem('authLocalProjects'))
         : undefined;
-
-    const date = getDate();
+    const getUser = localStorage.getItem('userID');
+    // restrict saving piskels to Database more than 30
+    const checkStorage =
+      localStorage.getItem(`${getUser}`) !== 'undefined'
+        ? JSON.parse(localStorage.getItem(`${getUser}`))
+        : undefined;
+    if (checkStorage) {
+      if (Object.keys(checkStorage).length < 30) {
+        this.setState({ isSaved: true });
+        setTimeout(() => {
+          this.setState({ isSaved: false });
+        }, 5000);
+      } else if (
+        Object.entries(checkStorage).some(item => item[0] === localStorage.getItem('project'))
+      ) {
+        this.setState({ isSaved: true });
+        setTimeout(() => {
+          this.setState({ isSaved: false });
+        }, 5000);
+      } else {
+        this.setState({ isFull: 'personal' });
+        setTimeout(() => {
+          this.setState({ isFull: false });
+        }, 5000);
+        return;
+      }
+    }
+    const date = getDate().split('  ');
 
     const objToSave = JSON.stringify(
       saveToGalery(
@@ -107,7 +157,8 @@ class SaveOptions extends React.Component {
         dataUrl,
         arrayFramesSrc,
         newValue,
-        date,
+        date[0],
+        date[1],
         userID
       )
     );
@@ -169,6 +220,12 @@ class SaveOptions extends React.Component {
             id="updateSaveButtonLoggedIn"
             onClick={() => this.updateState()}
           />
+          <p className={`${this.state.isFull ? 'storage-warning error' : 'hidden'}`}>
+            {`Your ${this.state.isFull} storage is full, please delete old piskels`}
+          </p>
+          <p className={`${this.state.isSaved ? 'storage-warning success' : 'hidden'}`}>
+            Your animation successfully saved!
+          </p>
         </div>
       </div>
     );

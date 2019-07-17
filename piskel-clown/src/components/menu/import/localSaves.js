@@ -46,7 +46,8 @@ class LocalSaves extends React.Component {
   addPiskel() {
     if (localStorage.getItem('localProjects')) {
       const obj = JSON.parse(localStorage.getItem('localProjects'));
-      this.setState({ projects: Object.entries(obj) });
+      const sorted = Object.entries(obj).sort((a, b) => b[1].time - a[1].time);
+      this.setState({ projects: sorted });
     }
   }
 
@@ -78,8 +79,8 @@ class LocalSaves extends React.Component {
                   <td key={item[1].title} className="table-data">
                     {item[1].title}
                   </td>
-                  <td key={item[1].time} className="table-data">
-                    {item[1].time}
+                  <td key={item[1].date} className="table-data">
+                    {item[1].date}
                   </td>
                   <td key={`${item[0]}-buttons`} className="table-data table-data-buttons">
                     <button key={`${item[0]}-load`} type="button" className="table-button">

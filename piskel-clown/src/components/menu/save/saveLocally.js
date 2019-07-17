@@ -20,10 +20,11 @@ function getDate() {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-  return `${hour}:${minutes}  ${day}/${month}/${data.getFullYear()}`;
+  const time = new Date(`${hour}:${minutes} ${month}/${day}/${data.getFullYear()}`).getTime();
+  return `${hour}:${minutes} ${day}/${month}/${data.getFullYear()}  ${time}`;
 }
 
-function saveLocally(global, storage, projectID, dataUrl, array, newValue, date) {
+function saveLocally(global, storage, projectID, dataUrl, array, newValue, date, time) {
   const piskel = projectID !== undefined ? projectID : localStorage.getItem('project');
   const globalObj = global;
   const idArr = [];
@@ -34,6 +35,7 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date)
           gif: storage[project].gif,
           frames: storage[project].frames,
           title: storage[project].title,
+          date: storage[project].date,
           time: storage[project].time
         };
       }
@@ -44,7 +46,8 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date)
       gif: dataUrl,
       frames: array,
       title: newValue,
-      time: date
+      date,
+      time
     };
   } else {
     for (const project in globalObj) {
@@ -52,7 +55,8 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date)
         globalObj[project].gif = dataUrl;
         globalObj[project].frames = array;
         globalObj[project].title = newValue;
-        globalObj[project].time = date;
+        globalObj[project].date = date;
+        globalObj[project].time = time;
       }
       idArr.push(project);
     }
@@ -61,26 +65,38 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date)
         gif: dataUrl,
         frames: array,
         title: newValue,
-        time: date
+        date,
+        time
       };
     }
   }
   return globalObj;
 }
 
-function writeUserData(userId, project, frames, gif, time, title) {
+function writeUserData(userId, project, frames, gif, date, time, title) {
   firebase
     .database()
     .ref(`users/${userId}/${project}`)
     .set({
       frames,
       gif,
+      date,
       time,
       title
     });
 }
 
-function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newValue, date, userID) {
+function saveToGalery(
+  global,
+  storage,
+  projectID,
+  dataUrl,
+  arrayFramesSrc,
+  newValue,
+  date,
+  time,
+  userID
+) {
   let globalObj = global;
   const user = localStorage.getItem('userID');
   // if storage with users and projects then put it in global object
@@ -120,7 +136,8 @@ function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newVa
     dataUrl,
     arrayFramesSrc,
     newValue,
-    date
+    date,
+    time
   );
   // send user projects to firebase Realtime Database
   const objForDB = Object.entries(authProjects);
@@ -132,6 +149,7 @@ function saveToGalery(global, storage, projectID, dataUrl, arrayFramesSrc, newVa
       projectName,
       projectItems.frames,
       projectItems.gif,
+      projectItems.date,
       projectItems.time,
       projectItems.title
     );

@@ -38,7 +38,8 @@ class User extends React.Component {
     this.mounted = true;
     if (localStorage.getItem(`${this.user}`)) {
       const obj = JSON.parse(localStorage.getItem(`${this.user}`));
-      this.setState({ isEmpty: false, projects: Object.entries(obj) });
+      const sorted = Object.entries(obj).sort((a, b) => b[1].time - a[1].time);
+      this.setState({ isEmpty: false, projects: sorted });
     } else {
       firebase
         .database()
@@ -49,7 +50,8 @@ class User extends React.Component {
           if (this.localObj) {
             const projects = JSON.stringify(this.localObj);
             localStorage.setItem(`${this.user}`, projects);
-            this.setState({ isEmpty: false, projects: Object.entries(this.localObj) });
+            const sorted = Object.entries(this.localObj).sort((a, b) => b[1].time - a[1].time);
+            this.setState({ isEmpty: false, projects: sorted });
           }
         });
     }
@@ -133,7 +135,7 @@ class User extends React.Component {
                   {item[1].title}
                 </span>
                 <span key={item[1].time} className="preview-gif-date">
-                  {item[1].time}
+                  {item[1].date}
                 </span>
                 <button
                   type="button"
