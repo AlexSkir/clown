@@ -276,7 +276,7 @@ class AppRouter extends React.Component {
             />
           </header>
           <div className={`error-section ${this.state.error ? 'blocked' : 'hidden'}`}>
-            <Error />
+            <Error state={this.state.error} />
           </div>
           <div className={`${this.state.error ? 'hidden' : ''}`}>
             <Switch>
