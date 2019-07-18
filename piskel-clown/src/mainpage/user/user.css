@@ -70,3 +70,11 @@
   text-align: center;
   background: white;
 }
+.user-buttons {
+  margin-right: 15px;
+  color: rgb(148, 146, 146)
+}
+.user-buttons:hover {
+  cursor: pointer;
+  color: rgb(15, 139, 139)
+}

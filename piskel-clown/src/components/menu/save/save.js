@@ -46,6 +46,7 @@ class SaveOptions extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
+    this.setState({ isFull: false, isSaved: false });
   }
 
   saveLocallyHandler() {

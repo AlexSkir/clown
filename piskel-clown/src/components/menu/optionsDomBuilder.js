@@ -32,6 +32,12 @@ class Options extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
+    this.setState({
+      fps: 3,
+      hovered: '',
+      active: 'none',
+      mouseEnter: false
+    });
   }
 
   fpsOnChangeHandler() {

@@ -1,8 +1,10 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import './user.css';
 import { user } from '../../store/store';
 import firebase from '../../firebase';
+import { fromDataToCanvas } from '../../components/menu/export/fromImageToCanvas';
 
 let name;
 let img;
@@ -24,6 +26,7 @@ class User extends React.Component {
     this.localObj = {};
     this.mounted = false;
     this.user = '';
+    this.project = '';
   }
 
   componentWillMount() {
@@ -99,6 +102,13 @@ class User extends React.Component {
     }
   }
 
+  isRedirected() {
+    if (this.state.page) {
+      return <Redirect to={`/create-animation/${this.project}`} />;
+    }
+    return <div className="hidden" />;
+  }
+
   render() {
     return (
       <div className="user-page" style={{ height: this.state.height - 110 }}>
@@ -144,7 +154,23 @@ class User extends React.Component {
                   }`}
                   onClick={() => this.deletePiskel(item[0])}
                 >
-                  <i className="fas fa-trash-alt" />
+                  <i className="fas fa-trash-alt user-buttons" />
+                </button>
+                <button
+                  type="button"
+                  className={`piskel-preview-button ${
+                    this.state.active === item[0] ? '' : 'hidden'
+                  }`}
+                  onClick={() => {
+                    this.project = item[0];
+                    localStorage.setItem('project', this.project);
+                    this.setState({ page: `create-animation/${this.project}` });
+                    setTimeout(() => {
+                      fromDataToCanvas(item[1].frames);
+                    }, 300);
+                  }}
+                >
+                  <i className="fas fa-pencil-alt user-buttons" />
                 </button>
                 <div key={item[1].frames} className="hidden">
                   {item[1].frames.map(frame => (
@@ -154,6 +180,7 @@ class User extends React.Component {
               </div>
             ))}
           </div>
+          {this.isRedirected()}
         </div>
         <div className="hidden">
           <button id="userAddPiskel" type="button" onClick={undefined} />
