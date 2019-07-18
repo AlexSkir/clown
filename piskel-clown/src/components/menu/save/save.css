@@ -55,11 +55,11 @@
 }
 .success {
   background: rgba(107, 235, 235, 1);
-  animation: success 2s 1;
+  animation: success 1s 1;
 }
 .error {
   background: rgb(247, 148, 148);
-  animation: error 2s 1;
+  animation: error 1s 1;
 }
 
 @keyframes success {

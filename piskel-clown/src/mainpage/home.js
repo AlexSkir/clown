@@ -214,6 +214,8 @@ class AppRouter extends React.Component {
                           id="galery"
                           className="account-item"
                           onClick={e => {
+                            $('#error').removeClass('error');
+                            $('#success').removeClass('success');
                             if (localStorage.getItem('page')) {
                               if (localStorage.getItem('page').indexOf('create') !== -1) {
                                 // eslint-disable-next-line no-restricted-globals

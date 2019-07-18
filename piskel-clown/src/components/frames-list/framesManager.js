@@ -84,18 +84,19 @@ function dragOff(e) {
   }, 400);
 }
 
-function removeFrame() {
+function removeFrame(exact) {
   // calculating target's ID
   const num = $(this)
     .parent()
     .find('.number')
     .text();
+  const target = typeof exact === 'number' ? exact : num;
   // remove all related elements
-  $(`#frame${num}`).remove();
-  $(`#canvasImage${num}`).remove();
-  $(`#canvas${num}`).remove();
+  $(`#frame${target}`).remove();
+  $(`#canvasImage${target}`).remove();
+  $(`#canvas${target}`).remove();
   updateId();
-  $(`#frame${+num - 1}`).click(); // make previous frame active
+  $(`#frame${+target - 1}`).click(); // make previous frame active
 }
 
 function copyFrame() {

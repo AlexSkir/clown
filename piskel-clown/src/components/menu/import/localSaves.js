@@ -1,20 +1,27 @@
 import React from 'react';
 import $ from 'jquery';
+import { Redirect } from 'react-router-dom';
 import './import.css';
+import { fromDataToCanvas } from '../export/fromImageToCanvas';
+import { preview } from '../../../store/store';
 
 class LocalSaves extends React.Component {
   constructor() {
     super();
     this.state = {
-      projects: []
+      projects: [],
+      page: ''
     };
     this.changedProjects = '';
+    this.mounted = false;
+    this.project = '';
   }
 
   componentWillMount() {
     if (localStorage.getItem('localProjects')) {
       const obj = JSON.parse(localStorage.getItem('localProjects'));
-      this.setState({ projects: Object.entries(obj) });
+      const sorted = Object.entries(obj).sort((a, b) => b[1].time - a[1].time);
+      this.setState({ projects: sorted });
     }
   }
 
@@ -51,6 +58,14 @@ class LocalSaves extends React.Component {
     }
   }
 
+  isRedirected() {
+    if (this.state.page) {
+      this.mounted = false;
+      return <Redirect to={`/create-animation/${this.project}`} />;
+    }
+    return <div className="hidden" />;
+  }
+
   render() {
     return (
       <div className="local-saves-block">
@@ -83,7 +98,21 @@ class LocalSaves extends React.Component {
                     {item[1].date}
                   </td>
                   <td key={`${item[0]}-buttons`} className="table-data table-data-buttons">
-                    <button key={`${item[0]}-load`} type="button" className="table-button">
+                    <button
+                      key={`${item[0]}-load`}
+                      type="button"
+                      className="table-button"
+                      onClick={() => {
+                        this.project = item[0];
+                        localStorage.setItem('project', item[0]);
+                        preview.dispatch({ type: 'piskelID', value: item[0] });
+                        setTimeout(() => {
+                          fromDataToCanvas(item[1].frames);
+                        }, 300);
+                        $('#hideSavesButton').click();
+                        this.setState({ page: `create-animation/${item[0]}` });
+                      }}
+                    >
                       Load
                     </button>
                     <button
@@ -100,6 +129,7 @@ class LocalSaves extends React.Component {
             </tbody>
           </table>
         </div>
+        {this.isRedirected()}
         <button
           id="addLocalPiskel"
           type="button"

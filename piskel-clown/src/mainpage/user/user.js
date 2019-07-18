@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import './user.css';
-import { user } from '../../store/store';
+import { user, preview } from '../../store/store';
 import firebase from '../../firebase';
 import { fromDataToCanvas } from '../../components/menu/export/fromImageToCanvas';
 
@@ -104,6 +104,7 @@ class User extends React.Component {
 
   isRedirected() {
     if (this.state.page) {
+      this.mounted = false;
       return <Redirect to={`/create-animation/${this.project}`} />;
     }
     return <div className="hidden" />;
@@ -164,6 +165,7 @@ class User extends React.Component {
                   onClick={() => {
                     this.project = item[0];
                     localStorage.setItem('project', this.project);
+                    preview.dispatch({ type: 'piskelID', value: item[0] });
                     this.setState({ page: `create-animation/${this.project}` });
                     setTimeout(() => {
                       fromDataToCanvas(item[1].frames);

@@ -13,12 +13,18 @@ class CreateAnimation extends React.Component {
     this.state = {
       showSaves: false
     };
+    this.mounted = false;
   }
 
   componentDidMount() {
+    this.mounted = true;
     $(window).bind('beforeunload', () => {
       return 'are you sure you want to leave?';
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
@@ -39,7 +45,7 @@ class CreateAnimation extends React.Component {
         <section className="options-area" id="options-area">
           <Options />
         </section>
-        <div className={`local-saves-page ${this.state.showSaves ? '' : 'hidden'}`}>
+        <div className={`local-saves-page ${this.mounted && this.state.showSaves ? '' : 'hidden'}`}>
           <div className="local-saves-background" />
           <LocalSaves />
         </div>

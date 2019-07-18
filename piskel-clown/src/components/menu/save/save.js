@@ -34,6 +34,7 @@ class SaveOptions extends React.Component {
       isFull: false,
       isSaved: false
     };
+    this.mounted = false;
   }
 
   componentDidMount() {
@@ -46,7 +47,6 @@ class SaveOptions extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
-    this.setState({ isFull: false, isSaved: false });
   }
 
   saveLocallyHandler() {
@@ -175,12 +175,18 @@ class SaveOptions extends React.Component {
   render() {
     return (
       <div
-        className={`save-settings-block ${optionsBlock === 'save-settings' ? 'flexed' : 'hidden'}`}
+        className={`save-settings-block ${
+          this.mounted && optionsBlock === 'save-settings' ? 'flexed' : 'hidden'
+        }`}
       >
         <div className="sprite-info-block">
           <span className="sprite-info bold">Sprite information</span>
           <span className="label-title">Title:</span>
-          <input className="title-input" id="title-input" defaultValue={this.state.value} />
+          <input
+            className="title-input"
+            id="title-input"
+            defaultValue={this.mounted ? this.state.value : 'New Piskel'}
+          />
           <span className="label-description">Description:</span>
           <textarea rows="1" cols="6" className="description-input" id="description-input" />
         </div>
@@ -199,7 +205,7 @@ class SaveOptions extends React.Component {
           </p>
           <button
             id="save-online"
-            className={`save-online-button ${this.state.isLogin ? '' : 'hidden'}`}
+            className={`save-online-button ${this.mounted && this.state.isLogin ? '' : 'hidden'}`}
             type="button"
             onClick={() => this.saveToGaleryHandler()}
           >
@@ -210,7 +216,7 @@ class SaveOptions extends React.Component {
             onClick={() => {
               $('.abcRioButton.abcRioButtonLightBlue').click();
             }}
-            className={`save-online-button ${this.state.isLogin ? 'hidden' : ''}`}
+            className={`save-online-button ${this.mounted && this.state.isLogin ? 'hidden' : ''}`}
           >
             Sign in to save to your gallery
           </button>
@@ -221,10 +227,18 @@ class SaveOptions extends React.Component {
             id="updateSaveButtonLoggedIn"
             onClick={() => this.updateState()}
           />
-          <p className={`${this.state.isFull ? 'storage-warning error' : 'hidden'}`}>
+          <p
+            id="error"
+            className={`${this.mounted && this.state.isFull ? 'storage-warning error' : 'hidden'}`}
+          >
             {`Your ${this.state.isFull} storage is full, please delete old piskels`}
           </p>
-          <p className={`${this.state.isSaved ? 'storage-warning success' : 'hidden'}`}>
+          <p
+            id="success"
+            className={`${
+              this.mounted && this.state.isSaved ? 'storage-warning success' : 'hidden'
+            }`}
+          >
             Your animation successfully saved!
           </p>
         </div>

@@ -32,34 +32,36 @@ class Options extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
-    this.setState({
-      fps: 3,
-      hovered: '',
-      active: 'none',
-      mouseEnter: false
-    });
   }
 
   fpsOnChangeHandler() {
     store.dispatch({ type: 'fps', value: $('#fps-bar').val() });
-    this.setState({ fps });
+    if (this.mounted) {
+      this.setState({ fps });
+    }
   }
 
   popHintOnMouseOver(e) {
     const hovered = e.target.getAttribute('id');
-    if (this.state.hovered === hovered) {
-      this.setState({ hovered: '' });
-    } else {
-      this.setState({ hovered });
+    if (this.mounted) {
+      if (this.state.hovered === hovered) {
+        this.setState({ hovered: '' });
+      } else {
+        this.setState({ hovered });
+      }
     }
   }
 
   mouseIn() {
-    this.setState({ mouseEnter: true });
+    if (this.mounted) {
+      this.setState({ mouseEnter: true });
+    }
   }
 
   mouseOut() {
-    this.setState({ mouseEnter: false });
+    if (this.mounted) {
+      this.setState({ mouseEnter: false });
+    }
   }
 
   showOptionsOnClick(e) {
@@ -68,12 +70,14 @@ class Options extends React.Component {
       $(e.target)
         .find('i')
         .attr('id');
-    if (this.state.active === clicked) {
-      this.setState({ active: 'none' });
-      options.dispatch({ type: 'optionsBlock', value: 'none' });
-    } else {
-      this.setState({ active: clicked });
-      options.dispatch({ type: 'optionsBlock', value: clicked });
+    if (this.mounted) {
+      if (this.state.active === clicked) {
+        this.setState({ active: 'none' });
+        options.dispatch({ type: 'optionsBlock', value: 'none' });
+      } else {
+        this.setState({ active: clicked });
+        options.dispatch({ type: 'optionsBlock', value: clicked });
+      }
     }
   }
 
@@ -105,7 +109,9 @@ class Options extends React.Component {
           <ImportOptions />
         </div>
         <div
-          className={`settings-buttons ${this.state.active === 'none' ? '' : 'slide'}`}
+          className={`settings-buttons ${
+            this.state.active && this.state.active === 'none' ? '' : 'slide'
+          }`}
           onMouseOver={e => this.popHintOnMouseOver(e)}
           onFocus={() => undefined}
         >

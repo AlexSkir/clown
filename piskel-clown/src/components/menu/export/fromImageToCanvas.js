@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { GIFEncoder } from '../../gifModule/jsgif-master/GIFEncoder';
 import { makeImage } from '../../../screens/preview/preview';
+import { removeFrame } from '../../frames-list/framesManager';
 // import encode64 from '../../gifModule/jsgif-master/b64';
 // import { store, canvas, settings } from '../../../store/store';
 
@@ -67,26 +68,44 @@ function makeFgif() {
 }
 
 function fromDataToCanvas(data) {
-  const image = new Image();
+  const width = $('#drawCanvas').width();
+  while ($('#canvas-block').children().length > 1) {
+    removeFrame($('#canvas-block').children().length);
+  }
+  const firstctx = $(`#canvas1`)
+    .get(0)
+    .getContext('2d');
+  firstctx.clearRect(0, 0, width, width);
+
   for (let i = 0; i < data.length; i += 1) {
-    if (data.length > $('#canvas-block').children().length) {
-      $('.addNewFrame').click();
-    }
-    image.src = data[i];
-    const ctx = $(`#canvas${i + 1}`)
-      .get(0)
-      .getContext('2d');
-    ctx.drawImage(image, 0, 0, $('#drawCanvas').width(), $('#drawCanvas').width());
-    const dataURL = $(`#canvas${i + 1}`)[0].toDataURL('image/png');
-    $(`#frame${i + 1}`)
-      .find('.preview-box')
-      .css({
-        background: `url(${dataURL})`,
-        'background-size': 'contain'
+    if ($('#canvas-block')) {
+      if (data.length > $('#canvas-block').children().length) {
+        $('.addNewFrame').click();
+      }
+      const ctx = $(`#canvas${i + 1}`)
+        .get(0)
+        .getContext('2d');
+      const image = new Image();
+      const promise = new Promise((resolve, reject) => {
+        image.src = data[i];
+        if (image.src) {
+          resolve('Success!');
+        } else {
+          reject(Error('Something went wrong'));
+        }
       });
-    setTimeout(() => {
-      makeImage(i + 1);
-    }, 500);
+      promise.then(() => {
+        ctx.drawImage(image, 0, 0, width, width);
+        const dataURL = $(`#canvas${i + 1}`)[0].toDataURL('image/png');
+        $(`#frame${i + 1}`)
+          .find('.preview-box')
+          .css({
+            background: `url(${dataURL})`,
+            'background-size': 'contain'
+          });
+        makeImage(i + 1);
+      });
+    }
   }
 }
 
