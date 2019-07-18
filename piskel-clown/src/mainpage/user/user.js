@@ -2,9 +2,10 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import './user.css';
-import { user, preview } from '../../store/store';
+import { user, preview, settings } from '../../store/store';
 import firebase from '../../firebase';
 import { fromDataToCanvas } from '../../components/menu/export/fromImageToCanvas';
+import { makeRandomId } from '../about/about';
 
 let name;
 let img;
@@ -105,7 +106,7 @@ class User extends React.Component {
   isRedirected() {
     if (this.state.page) {
       this.mounted = false;
-      return <Redirect to={`/create-animation/${this.project}`} />;
+      return <Redirect to={`/${this.state.page}`} />;
     }
     return <div className="hidden" />;
   }
@@ -145,39 +146,76 @@ class User extends React.Component {
                 <span key={item[1].title} className="preview-gif-title">
                   {item[1].title}
                 </span>
-                <span key={item[1].time} className="preview-gif-date">
+                <span key={item[1].date} className="preview-gif-date">
                   {item[1].date}
                 </span>
-                <button
-                  type="button"
-                  className={`piskel-preview-button ${
-                    this.state.active === item[0] ? '' : 'hidden'
-                  }`}
-                  onClick={() => this.deletePiskel(item[0])}
-                >
-                  <i className="fas fa-trash-alt user-buttons" />
-                </button>
-                <button
-                  type="button"
-                  className={`piskel-preview-button ${
-                    this.state.active === item[0] ? '' : 'hidden'
-                  }`}
-                  onClick={() => {
-                    this.project = item[0];
-                    localStorage.setItem('project', this.project);
-                    preview.dispatch({ type: 'piskelID', value: item[0] });
-                    this.setState({ page: `create-animation/${this.project}` });
-                    setTimeout(() => {
-                      fromDataToCanvas(item[1].frames);
-                    }, 300);
-                  }}
-                >
-                  <i className="fas fa-pencil-alt user-buttons" />
-                </button>
-                <div key={item[1].frames} className="hidden">
-                  {item[1].frames.map(frame => (
-                    <img key={frame} src={frame} alt="img" />
-                  ))}
+                <div key={`${item[0]}-button-block`} className="piskel-preview-button-block">
+                  <button
+                    key={`${item[0]}-delete`}
+                    type="button"
+                    className={`piskel-preview-button ${
+                      this.state.active === item[0] ? '' : 'hidden'
+                    }`}
+                    onClick={() => this.deletePiskel(item[0])}
+                  >
+                    <i key={`${item[0]}-delete-icon`} className="fas fa-trash-alt user-buttons" />
+                  </button>
+                  <button
+                    key={`${item[0]}-edit`}
+                    type="button"
+                    className={`piskel-preview-button ${
+                      this.state.active === item[0] ? '' : 'hidden'
+                    }`}
+                    onClick={() => {
+                      this.project = item[0];
+                      localStorage.setItem('project', this.project);
+                      preview.dispatch({ type: 'piskelID', value: item[0] });
+                      settings.dispatch({ type: 'title', value: item[1].title });
+                      settings.dispatch({ type: 'description', value: item[1].description });
+                      this.setState({ page: `create-animation/${this.project}` });
+                      setTimeout(() => {
+                        fromDataToCanvas(item[1].frames);
+                      }, 300);
+                    }}
+                  >
+                    <i key={`${item[0]}-edit-icon`} className="fas fa-pencil-alt user-buttons" />
+                  </button>
+                  <button
+                    key={`${item[0]}-copy`}
+                    type="button"
+                    className={`piskel-preview-button ${
+                      this.state.active === item[0] ? '' : 'hidden'
+                    }`}
+                    onClick={() => {
+                      this.project = makeRandomId();
+                      localStorage.setItem('project', this.project);
+                      preview.dispatch({ type: 'piskelID', value: this.project });
+                      settings.dispatch({ type: 'title', value: item[1].title });
+                      settings.dispatch({ type: 'description', value: item[1].description });
+                      this.setState({ page: `create-animation/${this.project}` });
+                      setTimeout(() => {
+                        fromDataToCanvas(item[1].frames);
+                      }, 300);
+                    }}
+                  >
+                    <i key={`${item[0]}-copy-icon`} className="fas fa-copy user-buttons" />
+                  </button>
+                  <button
+                    key={`${item[0]}-view`}
+                    type="button"
+                    className={`piskel-preview-button ${
+                      this.state.active === item[0] ? '' : 'hidden'
+                    }`}
+                    onClick={() => {
+                      this.project = item[0];
+                      localStorage.setItem('project', this.project);
+                      preview.dispatch({ type: 'piskelID', value: this.project });
+                      // piskelPage.dispatch({ type: 'piskelGif', value: item[1].gif });
+                      this.setState({ page: `user/projects/${this.user}/${this.project}` });
+                    }}
+                  >
+                    <i key={`${item[0]}-copy-icon`} className="fas fa-eye user-buttons" />
+                  </button>
                 </div>
               </div>
             ))}

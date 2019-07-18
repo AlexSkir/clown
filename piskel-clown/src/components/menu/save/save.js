@@ -25,21 +25,39 @@ preview.subscribe(() => {
   projectID = preview.getState().piskelID;
 });
 
+let storedTitle;
+let storedDescription;
+settings.subscribe(() => {
+  storedTitle = settings.getState().title;
+  storedDescription = settings.getState().description;
+});
+
 class SaveOptions extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: 'New Piskel',
       isLogin: false,
       isFull: false,
-      isSaved: false
+      isSaved: false,
+      title: '',
+      description: ''
     };
     this.mounted = false;
   }
 
+  componentWillMount() {
+    if (storedTitle) {
+      this.setState({ title: storedTitle });
+    } else {
+      this.setState({ title: 'New Piskel' });
+    }
+    if (storedDescription) {
+      this.setState({ description: storedDescription });
+    }
+  }
+
   componentDidMount() {
     this.mounted = true;
-    settings.dispatch({ type: 'title', value: $('#title-input').val() });
     if (name) {
       this.setState({ isLogin: true });
     }
@@ -47,11 +65,17 @@ class SaveOptions extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
+    this.state = {
+      isFull: false,
+      isSaved: false,
+      title: 'New Piskel',
+      description: ''
+    };
   }
 
   saveLocallyHandler() {
     const newValue = $('#title-input').val();
-    this.setState({ value: newValue });
+    this.setState({ title: newValue });
     settings.dispatch({ type: 'title', value: newValue });
     const arrayFramesSrc = [];
     for (let i = 0; i < $('.preview').children().length; i += 1) {
@@ -85,6 +109,8 @@ class SaveOptions extends React.Component {
       }
     }
     const date = getDate().split('  ');
+    const description = $('#description-input').val();
+    const fps = $('#fps-bar').val();
 
     const objToSave = JSON.stringify(
       saveLocally(
@@ -95,7 +121,9 @@ class SaveOptions extends React.Component {
         arrayFramesSrc,
         newValue,
         date[0],
-        date[1]
+        date[1],
+        description,
+        fps
       )
     );
     localStorage.setItem('localProjects', objToSave);
@@ -110,7 +138,7 @@ class SaveOptions extends React.Component {
       return;
     }
     const newValue = $('#title-input').val();
-    this.setState({ value: newValue });
+    this.setState({ title: newValue });
     settings.dispatch({ type: 'title', value: newValue });
     const arrayFramesSrc = [];
     for (let i = 0; i < $('.preview').children().length; i += 1) {
@@ -149,6 +177,8 @@ class SaveOptions extends React.Component {
       }
     }
     const date = getDate().split('  ');
+    const description = $('#description-input').val();
+    const fps = $('#fps-bar').val();
 
     const objToSave = JSON.stringify(
       saveToGalery(
@@ -160,7 +190,9 @@ class SaveOptions extends React.Component {
         newValue,
         date[0],
         date[1],
-        userID
+        userID,
+        description,
+        fps
       )
     );
     localStorage.setItem('authLocalProjects', objToSave);
@@ -169,6 +201,14 @@ class SaveOptions extends React.Component {
   updateState() {
     if (name) {
       this.setState({ isLogin: true });
+    }
+    if (storedTitle) {
+      this.setState({ title: storedTitle });
+    } else {
+      this.setState({ title: 'New Piskel' });
+    }
+    if (storedDescription) {
+      this.setState({ description: storedDescription });
     }
   }
 
@@ -185,10 +225,18 @@ class SaveOptions extends React.Component {
           <input
             className="title-input"
             id="title-input"
-            defaultValue={this.mounted ? this.state.value : 'New Piskel'}
+            value={this.state.title}
+            onChange={() => this.setState({ title: $('#title-input').val() })}
           />
           <span className="label-description">Description:</span>
-          <textarea rows="1" cols="6" className="description-input" id="description-input" />
+          <textarea
+            rows="1"
+            cols="6"
+            className="description-input"
+            id="description-input"
+            value={this.state.description}
+            onChange={() => this.setState({ description: $('#description-input').val() })}
+          />
         </div>
         <div className="save-online-block">
           <span className="save-online bold">Save online</span>

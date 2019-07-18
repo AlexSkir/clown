@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Redirect } from 'react-router-dom';
 import './import.css';
 import { fromDataToCanvas } from '../export/fromImageToCanvas';
-import { preview } from '../../../store/store';
+import { preview, settings } from '../../../store/store';
 
 class LocalSaves extends React.Component {
   constructor() {
@@ -106,10 +106,13 @@ class LocalSaves extends React.Component {
                         this.project = item[0];
                         localStorage.setItem('project', item[0]);
                         preview.dispatch({ type: 'piskelID', value: item[0] });
+                        settings.dispatch({ type: 'title', value: item[1].title });
+                        settings.dispatch({ type: 'description', value: item[1].description });
                         setTimeout(() => {
                           fromDataToCanvas(item[1].frames);
                         }, 300);
                         $('#hideSavesButton').click();
+                        $('#updateSaveButtonLoggedIn').click();
                         this.setState({ page: `create-animation/${item[0]}` });
                       }}
                     >

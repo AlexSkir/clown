@@ -25,6 +25,9 @@
   width: 90%;
   border: 1px solid black;
 }
+.description-input {
+  height: 30px;
+}
 .save-online-button {
   width: 155px;
   margin-top: 10px;

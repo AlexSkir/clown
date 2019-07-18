@@ -1,6 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 import firebase from '../../../firebase';
+// import { store } from '../../../store/store';
+
+// let defaultFps = 3;
+// store.subscribe(() => {
+//   defaultFps = store.getState().fps;
+// });
 
 function getDate() {
   const data = new Date();
@@ -24,7 +30,18 @@ function getDate() {
   return `${hour}:${minutes} ${day}/${month}/${data.getFullYear()}  ${time}`;
 }
 
-function saveLocally(global, storage, projectID, dataUrl, array, newValue, date, time) {
+function saveLocally(
+  global,
+  storage,
+  projectID,
+  dataUrl,
+  array,
+  newValue,
+  date,
+  time,
+  description,
+  fps
+) {
   const piskel = projectID !== undefined ? projectID : localStorage.getItem('project');
   const globalObj = global;
   const idArr = [];
@@ -36,7 +53,9 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date,
           frames: storage[project].frames,
           title: storage[project].title,
           date: storage[project].date,
-          time: storage[project].time
+          time: storage[project].time,
+          description: storage[project].description,
+          fps: storage[project].fps
         };
       }
     }
@@ -47,7 +66,9 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date,
       frames: array,
       title: newValue,
       date,
-      time
+      time,
+      description,
+      fps
     };
   } else {
     for (const project in globalObj) {
@@ -57,6 +78,8 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date,
         globalObj[project].title = newValue;
         globalObj[project].date = date;
         globalObj[project].time = time;
+        globalObj[project].description = description;
+        globalObj[project].fps = fps;
       }
       idArr.push(project);
     }
@@ -66,14 +89,16 @@ function saveLocally(global, storage, projectID, dataUrl, array, newValue, date,
         frames: array,
         title: newValue,
         date,
-        time
+        time,
+        description,
+        fps
       };
     }
   }
   return globalObj;
 }
 
-function writeUserData(userId, project, frames, gif, date, time, title) {
+function writeUserData(userId, project, frames, gif, date, time, title, description, fps) {
   firebase
     .database()
     .ref(`users/${userId}/${project}`)
@@ -82,7 +107,9 @@ function writeUserData(userId, project, frames, gif, date, time, title) {
       gif,
       date,
       time,
-      title
+      title,
+      description,
+      fps
     });
 }
 
@@ -95,7 +122,9 @@ function saveToGalery(
   newValue,
   date,
   time,
-  userID
+  userID,
+  description,
+  fps
 ) {
   let globalObj = global;
   const user = localStorage.getItem('userID');
@@ -137,7 +166,9 @@ function saveToGalery(
     arrayFramesSrc,
     newValue,
     date,
-    time
+    time,
+    description,
+    fps
   );
   // send user projects to firebase Realtime Database
   const objForDB = Object.entries(authProjects);
@@ -151,7 +182,9 @@ function saveToGalery(
       projectItems.gif,
       projectItems.date,
       projectItems.time,
-      projectItems.title
+      projectItems.title,
+      projectItems.description,
+      projectItems.fps
     );
   }
   const objToSave = JSON.stringify(authProjects);

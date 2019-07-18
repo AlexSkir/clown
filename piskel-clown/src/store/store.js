@@ -41,6 +41,10 @@ function settingsState(state = {}, action) {
       return Object.assign({}, state, {
         title: action.value
       });
+    case 'description':
+      return Object.assign({}, state, {
+        description: action.value
+      });
     default:
       return state;
   }
@@ -137,6 +141,29 @@ function paletteState(state = {}, action) {
   }
 }
 
+function piskelPageState(state = {}, action) {
+  switch (action.type) {
+    case 'piskelGif':
+      return Object.assign({}, state, {
+        piskelGif: action.value
+      });
+    case 'piskelTitle':
+      return Object.assign({}, state, {
+        piskelTitle: action.value
+      });
+    case 'piskelDescription':
+      return Object.assign({}, state, {
+        piskelDescription: action.value
+      });
+    case 'piskelDate':
+      return Object.assign({}, state, {
+        piskelDate: action.value
+      });
+    default:
+      return state;
+  }
+}
+
 const preview = createStore(previewState);
 const store = createStore(appState);
 const settings = createStore(settingsState);
@@ -144,5 +171,6 @@ const canvas = createStore(canvasState);
 const user = createStore(userState);
 const options = createStore(optionsState);
 const palette = createStore(paletteState);
+const piskelPage = createStore(piskelPageState);
 
-export { store, settings, canvas, user, options, palette, preview };
+export { store, settings, canvas, user, options, palette, preview, piskelPage };

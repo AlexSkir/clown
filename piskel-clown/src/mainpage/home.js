@@ -7,6 +7,7 @@ import CreateAnimation from './create/create';
 import User from './user/user';
 import { About, makeRandomId } from './about/about';
 import Error from './error/error';
+import Piskel from './project/project';
 import { user, preview } from '../store/store';
 
 class AppRouter extends React.Component {
@@ -284,6 +285,7 @@ class AppRouter extends React.Component {
             <Switch>
               <Route path="/" exact component={About} />
               <Route path={`/user/${this.state.id}`} component={User} />
+              <Route path="/user/projects/*" component={Piskel} />
               <Route path="/create-animation/*" component={CreateAnimation} />
               <Route path="*" component={About} />
             </Switch>
