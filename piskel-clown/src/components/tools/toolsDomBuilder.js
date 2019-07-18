@@ -68,6 +68,7 @@ class Tools extends React.Component {
 
   colorPickerHandleClick(e) {
     if (this.state.tool === 'colorPickerTool') {
+      $('#drawCanvas').hide();
       if ($(e.target).is('.canvas')) {
         const curCanv = document.querySelector(`#canvas${currentCanvas}`);
         const rect = curCanv.getBoundingClientRect();
@@ -85,6 +86,8 @@ class Tools extends React.Component {
           });
         }
       }
+    } else {
+      $('#drawCanvas').show();
     }
   }
 
