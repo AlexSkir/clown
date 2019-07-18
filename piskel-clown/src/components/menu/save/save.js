@@ -91,19 +91,25 @@ class SaveOptions extends React.Component {
       if (Object.keys(storageObj).length < 20) {
         this.setState({ isSaved: true });
         setTimeout(() => {
-          this.setState({ isSaved: false });
+          if (this.mounted) {
+            this.setState({ isSaved: false });
+          }
         }, 5000);
       } else if (
         Object.entries(storageObj).some(item => item[0] === localStorage.getItem('project'))
       ) {
         this.setState({ isSaved: true });
         setTimeout(() => {
-          this.setState({ isSaved: false });
+          if (this.mounted) {
+            this.setState({ isSaved: false });
+          }
         }, 5000);
       } else {
         this.setState({ isFull: 'local' });
         setTimeout(() => {
-          this.setState({ isFull: false });
+          if (this.mounted) {
+            this.setState({ isFull: false });
+          }
         }, 5000);
         return;
       }
@@ -159,19 +165,25 @@ class SaveOptions extends React.Component {
       if (Object.keys(checkStorage).length < 30) {
         this.setState({ isSaved: true });
         setTimeout(() => {
-          this.setState({ isSaved: false });
+          if (this.mounted) {
+            this.setState({ isSaved: false });
+          }
         }, 5000);
       } else if (
         Object.entries(checkStorage).some(item => item[0] === localStorage.getItem('project'))
       ) {
         this.setState({ isSaved: true });
         setTimeout(() => {
-          this.setState({ isSaved: false });
+          if (this.mounted) {
+            this.setState({ isSaved: false });
+          }
         }, 5000);
       } else {
         this.setState({ isFull: 'personal' });
         setTimeout(() => {
-          this.setState({ isFull: false });
+          if (this.mounted) {
+            this.setState({ isFull: false });
+          }
         }, 5000);
         return;
       }
