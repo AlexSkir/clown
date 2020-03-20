@@ -1,0 +1,48 @@
+.preview-wrapper {
+  width: 175px;
+  height: 230px;
+  margin: 5px;
+  border: 2px ridge gray;
+}
+.preview-gif {
+  width: 100%;
+  border-bottom: 2px ridge gray;
+}
+.preview-gif-title {
+  position: relative;
+  display: block;
+  width: inherit;
+  height: 29px;
+  margin-top: -4px;
+  font-size: 20px;
+  text-align: center;
+  background: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.piskel-preview-button {
+  background: none;
+  border: none;
+  outline: none;
+}
+.piskel-preview-button i {
+  color: gray;
+}
+.preview-gif-date {
+  position: relative;
+  display: block;
+  width: inherit;
+  height: 25px;
+  color: black;
+  text-align: center;
+  background: white;
+}
+.piskel-preview-button-block {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: -84px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+}
