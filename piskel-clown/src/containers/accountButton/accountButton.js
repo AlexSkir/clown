@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import store from 'store/store';
 import { signOut } from 'services/googleAuth/authApi';
 import 'containers/accountButton/accountButton.css';
@@ -59,19 +58,19 @@ class AccountButton extends React.Component {
         <i className="fas fa-sort-down" />
         <ul className={`dropdown ${this.state.active === 'list' ? 'active flexed' : 'hidden'}`}>
           <li className={`list top ${this.state.active === 'list' ? 'flexed' : 'hidden'}`}>
-            <Link
-              to={`/user/${this.props.userData.info.id}`}
-              id={`/user/${this.props.userData.info.id}`}
+            <div
               className="account-item"
-              onClick={e => pageNavigator(e, this.props.page, `user/${this.props.userData.info.id}`, this.props.userData.isAuthed)}
+              onClick={e => pageNavigator(
+                e, this.props.page,
+                `user/${this.props.userData.info.id}`,
+                this.props.userData.isAuthed
+              )}
             >
               My Galery
-            </Link>
+            </div>
           </li>
           <li className={`list bottom ${this.state.active === 'list' ? 'flexed' : 'hidden'}`}>
-            <Link
-              to="/"
-              id="logout"
+            <div
               className="account-item"
               onClick={e => {
                 if (window.confirm('Are you sure you want to leave?') === true) {
@@ -83,7 +82,7 @@ class AccountButton extends React.Component {
               }}
             >
               Log out
-            </Link>
+            </div>
           </li>
         </ul>
       </div>

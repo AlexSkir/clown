@@ -58,9 +58,13 @@
   align-items: center;
   text-decoration: none;
   color: gray;
+  cursor: pointer;
 }
 .header .logo-text {
   font-size: 33px;
   font-family: 'Orbitron';
   text-transform: uppercase;
+}
+.logo-text:active {
+  color: #b7b3b3;
 }

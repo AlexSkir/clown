@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import 'components/header/header.css';
 import AccountButton from 'containers/accountButton/accountButton';
 import { pageNavigator } from 'components/functions/navigation';
@@ -10,24 +9,22 @@ export default function Header(props) {
     <header className="header">
       <ul className="header-menu">
         <li className="logo">
-          <Link
-            id="/about"
-            to="/about"
+          <div
             className="logo-text"
             onClick={e => pageNavigator(e, props.page, 'about', props.isAuthed)}>
             Piskel-clone
-            </Link>
+          </div>
         </li>
         <li className="header-buttons">
           <div className="create menu-item flexed">
-            <Link
+            <div
               id="/create"
               to="/create-animation"
               className="create-link"
               onClick={e => pageNavigator(e, props.page, 'create', props.isAuthed)}
             >
               Create Animation
-            </Link>
+            </div>
           </div>
           <div className="signin">
             <AccountButton />

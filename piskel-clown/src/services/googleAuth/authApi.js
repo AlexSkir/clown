@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import store from 'store/store';
+import noImage from 'assets/images/pages/grumpy.jpg';
 
 export function authenticate() {
   return window.gapi.auth2
@@ -56,7 +57,7 @@ export function onSuccessHandler(googleUser) {
   const userData = {
     id: profile.getId(),
     name: profile.getName(),
-    image: profile.getImageUrl()
+    image: profile.getImageUrl() || noImage
   };
   $(document.body).css({ cursor: 'default' });
   return userData;

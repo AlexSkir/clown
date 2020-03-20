@@ -8,6 +8,7 @@ import { pageNavigator } from 'components/functions/navigation';
 import ProjectCard from 'components/projectCards/projectCard';
 import 'containers/pages/user/user.css';
 import store from 'store/store';
+import { makeRandomId } from 'components/functions/random';
 
 class User extends React.Component {
   constructor(props) {
@@ -45,6 +46,16 @@ class User extends React.Component {
       } else {
         // copy piskel
         pageNavigator(null, 'user', 'create', this.props.userData.isAuthed)
+      }
+      if (projectFrames.some(item => (item instanceof Object && !item.id) || !(item instanceof Object))) {
+        const newProjectFrames = [];
+        projectFrames.forEach((item, i) => {
+          newProjectFrames.push({
+            id: makeRandomId(),
+            frameSRC: item,
+          })
+        });
+        projectFrames = newProjectFrames;
       }
       store.dispatch({ type: 'project', value: preview });
       store.dispatch({ type: 'framesArray', value: projectFrames });
@@ -100,19 +111,23 @@ class User extends React.Component {
         </ul>
         <div id="user-piskel-preview-area" className="user-piskel-preview-area">
           <div className="user-preview-piskel-block flexed">
-            {!this.state.projects || Object.entries(this.state.projects).length === 0
-              ? <span>No piskel available in &#39;all&#39; category.</span>
-              : Object.entries(this.state.projects)
-                .sort((a, b) => b[1].time - a[1].time)
-                .map(item => (
-                  <ProjectCard
-                    key={item[0]}
-                    infoObj={item}
-                    onClickHandler={(...args) => this.onClickHandler(...args)}
-                    deletePiskelOnClick={(...args) => this.deletePiskel(...args)}
-                    isAuthed={this.props.userData.isAuthed}
-                  />
-                ))}
+            {
+              !this.props.allProjects[this.props.userData.info.id]
+                || ((this.props.allProjects instanceof Object)
+                  ? Object.entries(this.props.allProjects[this.props.userData.info.id]).length === 0
+                  : false)
+                ? <span>No piskel available in &#39;all&#39; category.</span>
+                : Object.entries(this.props.allProjects[this.props.userData.info.id])
+                  .sort((a, b) => b[1].time - a[1].time)
+                  .map(item => (
+                    <ProjectCard
+                      key={item[0]}
+                      infoObj={item}
+                      onClickHandler={(...args) => this.onClickHandler(...args)}
+                      deletePiskelOnClick={(...args) => this.deletePiskel(...args)}
+                      isAuthed={this.props.userData.isAuthed}
+                    />
+                  ))}
           </div>
         </div>
       </div>
