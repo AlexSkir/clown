@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Menu from './components/menu/menu';
+import { Provider } from 'react-redux';
+import { addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import ru from 'react-intl/locale-data/ru';
+import App from 'app';
+import store from 'store/store';
 import * as serviceWorker from './serviceWorker';
-import Tools from './components/tools/toolsDomBuilder';
-import Canvas from './screens/canvas/canvasDomBuilder';
-import Frames from './components/frames-list/frameDomBuilder';
-import Preview from './screens/preview/previewDomBuilder';
-import Options from './components/menu/options';
+import ConnectedIntlProvider from './ConnectedIntlProvider';
+import 'index.css';
+import 'reset.css';
 
+addLocaleData([...en, ...ru]);
 
-ReactDOM.render(<Menu />, document.getElementById('header'));
-ReactDOM.render(<Tools />, document.getElementById('tool-pannel'));
-ReactDOM.render(<Canvas />, document.getElementById('canvas-area'));
-ReactDOM.render(<Frames />, document.getElementById('frame-area'));
-ReactDOM.render(<Preview />, document.getElementById('preview-area'));
-ReactDOM.render(<Options />, document.getElementById('options-area'));
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedIntlProvider>
+      <App />
+    </ConnectedIntlProvider>
+  </Provider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

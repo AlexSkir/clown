@@ -1,175 +1,141 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
-import './tools.css';
-import { colorPickerOnClick, customedColorOnChange, changeBG } from './color-picker';
-import paintBucketOnClick from './paintBucket';
-import penOnClick from './pen';
-import eraserOnClick from './eraser';
-import store from '../../store/store';
+import 'components/tools/tools.css';
+import toolButtonsClickHandler from 'components/functions/toolsFunctions/buttonsClickHandlers';
+import store from 'store/store';
+import AwesomeButton from 'components/buttons/awesomeButton';
 
-let toolState;
-let currentColorState;
-let prevColorState;
-store.subscribe(() => {
-  toolState = store.getState().currentTool;
-  currentColorState = store.getState().currentColor;
-  prevColorState = store.getState().prevColor;
-});
-
-class Tools extends React.Component {
+export default class ToolsPanel extends React.Component {
   constructor() {
     super();
     this.state = {
-      tool: '',
       active: ''
     };
-  }
-
-  componentWillMount() {
-    $(document).click(e => this.handleClick(e));
-  }
-
-  componentDidMount() {
-    const currentColor = $('#currentColor').css('background-color');
-    const prevColor = $('#prevColor').css('background-color');
-    store.dispatch({ type: 'currentColor', value: currentColor });
-    store.dispatch({ type: 'prevColor', value: prevColor });
+    this.mounted = false;
   }
 
   componentWillUnmount() {
-    $(document).off(this.handleClick);
+    this.mounted = false;
   }
 
-  handleClick(e) {
-    if (this.state.tool === 'colorPickerTool') {
-      if ($(e.target).is('.radiobutton')) {
-        if ($(e.target).css('background-color') !== currentColorState) {
-          store.dispatch({ type: 'prevColor', value: currentColorState });
-          store.dispatch({ type: 'currentColor', value: $(e.target).css('background-color') });
-          changeBG(currentColorState, prevColorState);
-        }
-      }
+  activeToolSetter(tool) {
+    if (this.state.active === tool) {
+      this.setState({ active: null });
+      store.dispatch({ type: 'toolState', value: ['currentTool', ''] });
+      toolButtonsClickHandler(null);
+    } else {
+      this.setState({ active: tool });
+      store.dispatch({ type: 'toolState', value: ['currentTool', tool] });
+      toolButtonsClickHandler(tool);
     }
-  }
-
-  buttonOnHoverIn(e) {
-    const id = $(e.target).attr('id');
-    this.setState({ active: id });
-  }
-
-  buttonOnHoverOut(e) {
-    $(e.target)
-      .children()
-      .removeClass('fas-hovered');
-    this.setState({ active: 'false' });
   }
 
   render() {
     return (
       <div name="Tools">
-        <div className="palette" id="palette-tool-area">
-          <div className="palette-block">
-            <button
-              id="paint-bucket"
-              className="palette-button"
-              type="button"
-              onMouseEnter={e => this.buttonOnHoverIn(e)}
-              onMouseLeave={e => this.buttonOnHoverOut(e)}
-              onClick={() => {
-                paintBucketOnClick();
-                this.setState({ tool: toolState });
-              }}
-            >
-              <i
-                className={`fas fa-fill-drip ${
-                  this.state.active === 'paint-bucket' ? 'fas-hovered' : ''
-                }`}
-              />
-            </button>
-          </div>
-          <div className="palette-block">
-            <button
-              id="color-picker"
-              className="palette-button"
-              type="button"
-              onMouseEnter={e => this.buttonOnHoverIn(e)}
-              onMouseLeave={e => this.buttonOnHoverOut(e)}
-              onClick={() => {
-                colorPickerOnClick();
-                this.setState({ tool: toolState });
-              }}
-            >
-              <i
-                className={`fas fa-eye-dropper ${
-                  this.state.active === 'color-picker' ? 'fas-hovered' : ''
-                }`}
-              />
-            </button>
-          </div>
-          <div className="palette-block">
-            <button
-              id="pen"
-              className="palette-button"
-              type="button"
-              onMouseEnter={e => this.buttonOnHoverIn(e)}
-              onMouseLeave={e => this.buttonOnHoverOut(e)}
-              onClick={() => {
-                penOnClick();
-                this.setState({ tool: toolState });
-              }}
-            >
-              <i
-                className={`fas fa-pencil-alt ${this.state.active === 'pen' ? 'fas-hovered' : ''}`}
-              />
-            </button>
-          </div>
-          <div className="palette-block">
-            <button
-              id="eraser"
-              className="palette-button"
-              type="button"
-              onMouseEnter={e => this.buttonOnHoverIn(e)}
-              onMouseLeave={e => this.buttonOnHoverOut(e)}
-              onClick={() => {
-                eraserOnClick();
-                this.setState({ tool: toolState });
-              }}
-            >
-              <i
-                className={`fas fa-eraser ${this.state.active === 'eraser' ? 'fas-hovered' : ''}`}
-              />
-            </button>
+        <div className="tool-panel" id="tool-panel">
+          <div className="tool-buttons-block">
+            <AwesomeButton
+              buttonId="paintBucketTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('paintBucketTool')}
+              iconClass="fas fa-fill-drip"
+              active={this.state.active}
+              title="Click on the area to paint it in chosen color"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="colorPickerTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('colorPickerTool')}
+              iconClass="fas fa-eye-dropper"
+              active={this.state.active}
+              title="Click on any fragment to pick its color"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="penTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('penTool')}
+              iconClass="fas fa-pencil-alt"
+              active={this.state.active}
+              title="Click and move the mouse to draw"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="eraserTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('eraserTool')}
+              iconClass="fas fa-eraser"
+              active={this.state.active}
+              title="Click on the area to erase it"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="strokeTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('strokeTool')}
+              iconClass="fas fa-slash"
+              active={this.state.active}
+              title="Click and move the mouse to draw a line"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="rectangleTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('rectangleTool')}
+              iconClass="far fa-square"
+              active={this.state.active}
+              title="Click and move the mouse to draw a rectangle"
+              placement="right"
+            />
+            <AwesomeButton
+              buttonId="circleTool"
+              buttonClass="tool-button"
+              onClickHandler={() => this.activeToolSetter('circleTool')}
+              iconClass="far fa-circle"
+              active={this.state.active}
+              title="Click and move the mouse to draw a circle"
+              placement="right"
+            />
           </div>
         </div>
 
-        <div className={`color ${this.state.tool === 'colorPickerTool' ? '' : 'hidden'}`}>
-          <div className="color-block">
-            <div className="radiobutton white" id="currentColor" />
-            <span className="color-name">Current color</span>
-          </div>
-          <div className="color-block">
-            <div className="radiobutton green" id="prevColor" />
-            <span className="color-name">Prev color</span>
-          </div>
-          <div className="color-block">
-            <div className="radiobutton red" />
-            <span className="color-name">Red</span>
-          </div>
-          <div className="color-block">
-            <div className="radiobutton blue" />
-            <span className="color-name">Blue</span>
-          </div>
-          <div className="color-block">
+        <div className="color-panel">
+          <AwesomeButton
+            buttonClass="color-switcher"
+            onClickHandler={() => {
+              const current = this.props.toolState.currentColor;
+              const back = this.props.toolState.backColor;
+              store.dispatch({ type: 'toolState', value: ['currentColor', back] });
+              store.dispatch({ type: 'toolState', value: ['backColor', current] });
+            }}
+            iconClass="fas fa-retweet"
+            title="Switch colors on click"
+            placement="bottom-start"
+            buttonId={null}
+            active={this.state.active}
+          />
+          <div className="color-block-upper">
             <input
               type="color"
               name="colors"
-              id="customed"
-              value="#161030"
-              onChange={() => {
-                customedColorOnChange();
-              }}
+              className="input-color"
+              id="customed1"
+              defaultValue={this.props.toolState.currentColor}
+              onChange={e => store.dispatch({ type: 'toolState', value: ['currentColor', $(e.target).val()] })}
             />
-            <span className="color-name">Custom color</span>
+          </div>
+          <div className="color-block-under">
+            <input
+              type="color"
+              name="colors"
+              className="input-color"
+              id="customed2"
+              defaultValue={this.props.toolState.backColor}
+              onChange={e => store.dispatch({ type: 'toolState', value: ['backColor', $(e.target).val()] })}
+            />
           </div>
         </div>
       </div>
@@ -177,4 +143,6 @@ class Tools extends React.Component {
   }
 }
 
-export default Tools;
+ToolsPanel.propTypes = {
+  toolState: PropTypes.object.isRequired
+};

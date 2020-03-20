@@ -1,0 +1,72 @@
+.layers-box {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 176px;
+  height: 86px;
+  max-height: 136px;
+  background: whitesmoke;
+  border: 3px ridge gray;
+}
+.layer-outlet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 176px;
+  height: 30px;
+}
+.layer-title {
+  padding-left: 5px;
+  font-family: 'Orbitron';
+  color: rgb(15, 139, 139);
+}
+.layer-button.layer-preview .fa-eye {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.layer-buttons-box {
+  display: flex;
+  justify-content: space-around;
+}
+.fa-pen {
+  transform: scale(1.3);
+}
+.fa-times {
+  transform: scale(1.8);
+}
+.layer-button {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 2px ridge gray;
+  cursor: pointer;
+}
+.layer-button-hovered i {
+  color: rgb(15, 139, 139);
+}
+.layer-button.layer-preview {
+  border: none;
+  background: none;
+}
+.layer-button:focus {
+  outline: none;
+}
+.layer-button:active {
+  background: rgb(15, 139, 139);
+}
+.layer-list {    
+  min-height: 25px;
+  max-height: 75px;
+  margin: 0;
+  list-style: none;
+  overflow-y: scroll;
+}
+.layer-item {
+  display: flex;
+  align-items: center;
+  width: 152px;
+  height: 25px;
+  padding-left: 5px;
+  cursor: pointer;
+  border: 1px solid gray;
+}

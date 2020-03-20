@@ -1,0 +1,101 @@
+.save-settings-block {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.sprite-info-block, .save-online-block {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  width: 90%;
+}
+.sprite-info, .save-online {  
+  display: block;
+  width: 100%;
+  font-family: 'Orbitron';
+  color: rgb(15, 139, 139);
+  text-transform: uppercase;
+  border-bottom: 1px solid black;
+}
+.label-description, .label-title {
+  padding-top: 15px;
+}
+.description-input, .title-input {
+  width: 90%;
+  border: 1px solid black;
+}
+.description-input {
+  height: 30px;
+}
+.save-online-button {
+  width: 155px;
+  margin-top: 10px;
+  background: rgba(107, 235, 235, 1);
+  border: 2px ridge gray;
+}
+.save-online-button:active {
+  background: rgb(15, 139, 139);
+}
+.save-online-button:hover {
+  cursor: pointer;
+}
+.save-online-info {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+.storage-warning {
+  position: absolute;
+  top: 390px;
+  left: -2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 50px;
+  text-align: center;
+  border: 2px ridge gray;
+}
+.success {
+  background: rgba(107, 235, 235, 1);
+  animation: success 1s 1;
+}
+.error {
+  background: rgb(247, 148, 148);
+  animation: error 1s 1;
+}
+
+@keyframes success {
+  0% {
+    background: rgba(107, 235, 235, 1);
+  }
+  20% {
+    background: rgba(107, 235, 235, 0);
+  }
+  50% {
+    background: rgba(107, 235, 235, 1);
+  }
+  70% {
+    background: rgba(107, 235, 235, 0);
+  }
+  100% {
+    background: rgba(107, 235, 235, 1);
+  }
+}
+@keyframes error {
+  0% {
+    background: rgb(247, 148, 148, 1);
+  }
+  20% {
+    background: rgba(107, 235, 235, 0);
+  }
+  50% {
+    background: rgb(247, 148, 148, 1);
+  }
+  70% {
+    background: rgba(107, 235, 235, 0);
+  }
+  100% {
+    background: rgb(247, 148, 148, 1);
+  }
+}
