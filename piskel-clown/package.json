@@ -1,6 +1,6 @@
 {
   "name": "piskel-clone",
-  "homepage": "http://AlexSkir.github.io/clown/piskel-clown/build/",
+  "homepage": "http://AlexSkir.github.io/clown/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.2.1",
     "@material-ui/styles": "^4.3.0",
     "firebase": "^6.3.0",
+    "gh-pages": "^2.2.0",
     "jquery": "^3.4.1",
     "jquery-ui-sortable-npm": "^1.0.0",
     "path": "^0.12.7",
@@ -17,7 +18,7 @@
     "react-intl": "^2.9.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.0",
     "redux": "^4.0.1"
   },
   "scripts": {
@@ -25,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

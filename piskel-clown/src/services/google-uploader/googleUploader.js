@@ -3,7 +3,6 @@
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 /* eslint-disable eqeqeq */
-/* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */

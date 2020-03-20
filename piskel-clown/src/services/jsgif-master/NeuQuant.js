@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-/* eslint-disable prettier/prettier */
 /* eslint-disable func-names */
 /* eslint-disable no-bitwise */
 /* eslint-disable prefer-rest-params */
